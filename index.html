@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="None">
+        
+        <link rel="canonical" href="https://mmalcek.github.io/bafi/">
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>bafi</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="js/jquery-1.10.2.min.js" defer></script>
+        <script src="js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/lua.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body class="homepage">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href=".">bafi</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem active">
+                                <a href="." class="nav-link">Home</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="examples/" class="nav-link">Examples</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" class="nav-link disabled">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="examples/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#universal-json-bson-yaml-xml-converter-with-templates" class="nav-link">Universal JSON, BSON, YAML, XML converter with templates</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#key-features" class="nav-link">Key features</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#command-line-arguments" class="nav-link">Command line arguments</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#template-formating" class="nav-link">Template formating</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#lua-custom-functions" class="nav-link">Lua custom functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#built-in-functions" class="nav-link">Built-in functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#relase-builds-download" class="nav-link">Relase builds (download)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<p><a href="https://github.com/mmalcek/bafi/actions/workflows/go.yml"><img alt="Go" src="https://github.com/mmalcek/bafi/actions/workflows/go.yml/badge.svg" /></a>
+<a href="https://github.com/mmalcek/bafi/actions/workflows/"><img alt="CodeQL" src="https://github.com/mmalcek/bafi/actions/workflows/codeql-analysis.yml/badge.svg" /></a></p>
+<h1 id="universal-json-bson-yaml-xml-converter-with-templates">Universal JSON, BSON, YAML, XML converter with templates</h1>
+<h2 id="key-features">Key features</h2>
+<ul>
+<li>Various input formats <strong>(json, bson, yaml, xml)</strong></li>
+<li>Flexible output formatting using text templates</li>
+<li>Support for <a href="https://www.lua.org/pil/contents.html">LUA</a> custom functions which allows very flexible data manipulation</li>
+<li>stdin/stdout support which allows get data from source -&gt; translate -&gt; delivery to destination. This allows easily translate data between different web services like REST to SOAP</li>
+</ul>
+<h2 id="command-line-arguments">Command line arguments</h2>
+<ul>
+<li>"-i input.xml" Input file name. If not defined app tries read stdin</li>
+<li>"-o output.txt" Output file name. If not defined result is send to stdout</li>
+<li>"-t template.tmpl" Template file. Alternatively you can use <em>inline</em> template <ul>
+<li>inline template must start with <strong>?</strong> e.g. -t <strong>"?{{.someValue}}"</strong></li>
+</ul>
+</li>
+<li>"-f json" Alternative input format. <ul>
+<li>Supported formats: <strong>json, bson, yaml, xml (default)</strong></li>
+</ul>
+</li>
+<li>"-v" - Show current verion</li>
+<li>"-?" - list available command line arguments</li>
+</ul>
+<h4 id="examples">Examples</h4>
+<ul>
+<li>Basic</li>
+</ul>
+<pre><code class="language-sh">bafi.exe -i testdata.xml -o output.csv -t template.tmpl
+</code></pre>
+<ul>
+<li>JSON input</li>
+</ul>
+<pre><code class="language-sh">bafi.exe -i testdata.json -f json -o output.csv -t template.tmpl
+</code></pre>
+<ul>
+<li>STDIN</li>
+</ul>
+<pre><code class="language-sh">curl.exe -s &quot;someURL&quot; | bafi.exe -f json -t myTemplate.tmpl -o out.txt 
+</code></pre>
+<p>More info about curl <a href="https://curl.se/">here</a> but you can of course use any tool with stdout</p>
+<ul>
+<li>Inline template</li>
+</ul>
+<pre><code class="language-sh">bafi.exe -i testdata.xml -o output.json -t &quot;?{{toJSON .}}&quot;
+</code></pre>
+<ul>
+<li>Working example with inline template</li>
+</ul>
+<pre><code>curl.exe -s &quot;https://api.predic8.de/shop/products/&quot; | bafi.exe -f json -t &quot;?{{range .products}}\&quot;{{.name}}\&quot;,{{.product_url}}{{print \&quot;\n\&quot;}}{{end}}&quot; 
+</code></pre>
+<h2 id="template-formating">Template formating</h2>
+<ul>
+<li>Basic iterate over lines</li>
+</ul>
+<pre><code>{{range .TOP_LEVEL.DATA_LINE}}{{.val1}}{{end}}
+</code></pre>
+<ul>
+<li>Get XML tag (-VALUE = tag name)</li>
+</ul>
+<pre><code>{{index .Linked_Text &quot;-VALUE&quot;}}
+</code></pre>
+<ul>
+<li>Use functions (count val1 + val2)</li>
+</ul>
+<pre><code>{{add .val1 .val2}} 
+</code></pre>
+<ul>
+<li>If statement </li>
+</ul>
+<pre><code>{{if gt (int $val1) (int $val2)}}Value1{{else}}Value2{{end}} is greater
+</code></pre>
+<p>Check template.tmpl and testdata.xml for more advanced example</p>
+<p>(more detailed info on https://golang.org/pkg/text/template/ )</p>
+<h2 id="lua-custom-functions">Lua custom functions</h2>
+<p>Aside of builtin functions you can write your own custom lua functions defined in ./lua/functions.lua file</p>
+<ul>
+<li>Input is always passed as json array of strings</li>
+<li>Output must be passed as string</li>
+<li>lua table array starts with 1</li>
+<li>Lua <a href="http://www.lua.org/manual/5.1/">documentation</a></li>
+</ul>
+<p>Minimal functions.lua example</p>
+<pre><code class="language-lua">json = require './lua/json'
+
+function sum(incomingData) 
+    dataTable = json.decode(incomingData)
+    return tostring(tonumber(dataTable[1]) + tonumber(dataTable[2]))
+end
+</code></pre>
+<h3 id="call-lua-function-in-template">Call Lua function in template</h3>
+<pre><code>{{lua &quot;sum&quot; .val1 .val2}}
+</code></pre>
+<ul>
+<li>"sum" - Lua function name</li>
+</ul>
+<h3 id="call-built-in-function">Call built-in function</h3>
+<pre><code>{{add .val1 .val2}}
+</code></pre>
+<h2 id="built-in-functions">Built-in functions</h2>
+<ul>
+<li>add -&gt; {{add .Value1 .Value2}}</li>
+<li>add1</li>
+<li>sub</li>
+<li>div</li>
+<li>mod</li>
+<li>mul</li>
+<li>randInt</li>
+<li>add1f - "...f" functions parse float but provide <strong>decimal</strong> operation using https://github.com/shopspring/decimal</li>
+<li>addf</li>
+<li>subf</li>
+<li>divf</li>
+<li>mulf</li>
+<li>round</li>
+<li>max</li>
+<li>min</li>
+<li>maxf</li>
+<li>minf</li>
+<li>dateFormat -&gt; {{dateFormat .Value "oldFormat" "newFormat"}}</li>
+<li>now - {{now "02.01.2006"}} - GO format date (see notes below)</li>
+<li>b64enc</li>
+<li>b64dec</li>
+<li>b32enc</li>
+<li>b32dec</li>
+<li>uuid</li>
+<li>regexMatch</li>
+<li>upper</li>
+<li>lower</li>
+<li>trim</li>
+<li>trimAll</li>
+<li>trimSuffix</li>
+<li>trimPrefix</li>
+<li>atoi</li>
+<li>int64</li>
+<li>int</li>
+<li>float64</li>
+<li>toJSON - convert input object to JSON</li>
+<li>toBSON - convert input object to BSON</li>
+<li>toYAML - convert input object to YAML</li>
+<li>toXML - convert input object to XML</li>
+<li>mapJSON - convert stringified JSON to map so it can be used as object or translated to other formats (e.g. "toXML"). Check template.tmpl for example </li>
+</ul>
+<h3 id="dateformat">dateFormat</h3>
+<p>dateFormat can parse date and time using <a href="https://programming.guide/go/format-parse-string-time-date-example.html">GO time format</a></p>
+<h2 id="relase-builds-download">Relase builds (download)</h2>
+<ul>
+<li>Releases (windows, linux, mac) can be found <a href="https://github.com/mmalcek/bafi/releases">here</a></li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js" defer></script>
+        <script src="search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.2.1
+Build Date UTC : 2021-07-13 11:00:21.110678+00:00
+-->
