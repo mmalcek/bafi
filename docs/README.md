@@ -8,6 +8,8 @@
 - Support for [LUA](https://www.lua.org/pil/contents.html) custom functions which allows very flexible data manipulation
 - stdin/stdout support which allows get data from source -> translate -> delivery to destination. This allows easily translate data between different web services like REST to SOAP
 
+<img src="img/scheme.svg" style="border: 0;" height="150px" />
+
 ## Command line arguments
 - "-i input.xml" Input file name. If not defined app tries read stdin
 - "-o output.txt" Output file name. If not defined result is send to stdout
