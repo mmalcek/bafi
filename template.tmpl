@@ -1,0 +1,31 @@
+------------------------------------------------------------------------------
+Employee,Date,val1,val2,val3,SUM,LuaMultiply,linkedText
+{{- /* {{- ...}} - minus trim whitespace */}}
+{{- range .TOP_LEVEL.DATA_LINE}}
+{{index .Employee "-ID"}},{{dateFormat .Trans_Date "2006-01-02" "02.01.2006"}},{{.val1}},{{.val2}},{{.val3}},{{add .val1 .val2}},{{lua "mul" .val1 .val2}},"{{index .Linked_Text "-VALUE"}}"
+{{- end}}
+------------------------------------------------------------------------------
+{{- /* Use variable and iterate over lines to get SUM */}}
+{{- $TotalV1 := 0 }}
+{{- range .TOP_LEVEL.DATA_LINE}}{{$TotalV1 = lua "sum" $TotalV1 .val1}}{{end}}
+{{- $TotalV3 := 0 }}
+{{- /* addf - will provide decimal count */}}
+{{- range .TOP_LEVEL.DATA_LINE}}{{$TotalV3 = addf $TotalV3 .val3}}{{end}} 
+Total: 
+{{- /* if functions and,or,not,eq(equal),lt(lessThen),gt(greatherThen) */}}
+Val1: {{$TotalV1}} - {{if gt (int $TotalV1) 50}}Over Budget{{else}}Under Buget{{end}}
+Val3: {{$TotalV3}}
+Created at: {{now  "02.01.2006 - 15:04:05"}}
+------------------------------------------------------------------------------
+{{- $new := "{\"employees\": [" }}
+{{- range .TOP_LEVEL.DATA_LINE}}
+{{- $new = print $new "{\"employeeID\":\"" (index .Employee "-ID") "\", \"val1\":" .val1 "}," }}
+{{- end}}
+{{- /* "slice $new 0 (sub (len $new) 1" - remove trailing comma  */}}
+{{- $new = print (slice $new 0 (sub (len $new) 1)) "]}" }}
+JSON formated data:
+{{ $new}}
+------------------------------------------------------------------------------
+JSON Converted to map and marshal to YAML:
+{{toYAML (mapJSON $new)}}
+

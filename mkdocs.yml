@@ -1,0 +1,10 @@
+site_name: bafi
+site_url: https://mmalcek.github.io/bafi
+nav:
+  - Home: README.md
+  - Examples: examples.md
+theme:
+  name: mkdocs
+  highlightjs: true
+  hljs_languages:
+    - lua

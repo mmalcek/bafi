@@ -1,0 +1,9 @@
+dist
+bafi
+site
+*.exe
+*.exe~
+*.csv
+output.json
+
+
