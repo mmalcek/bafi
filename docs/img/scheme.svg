@@ -24,9 +24,9 @@
      inkscape:document-units="mm"
      showgrid="false"
      width="200mm"
-     inkscape:zoom="0.99999999"
-     inkscape:cx="206.5"
-     inkscape:cy="110.5"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="418.96077"
+     inkscape:cy="104.29825"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
      inkscape:window-x="-8"
@@ -51,8 +51,8 @@
          style="opacity:1;fill:#ff6600;stroke:#000000;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
          sodipodi:nodetypes="cccscccccccscssccscsccccccc" />
       <circle
-         cx="-320.39465"
-         cy="87.868935"
+         cx="-316.39465"
+         cy="93.868935"
          r="9.3526354"
          id="circle6"
          transform="scale(-1,1)"
@@ -101,16 +101,16 @@
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
-         x="199.50142"
+         x="205.86539"
          y="240.76756"
          id="text1970-1"><tspan
            sodipodi:role="line"
            id="tspan1968-4"
-           x="199.50142"
+           x="205.86539"
            y="240.76756"
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#c87137">Template</tspan><tspan
            sodipodi:role="line"
-           x="199.50142"
+           x="205.86539"
            y="291.23059"
            id="tspan1972-5" /></text>
       <text
@@ -147,7 +147,7 @@
          id="rect59064-8"
          width="191.84564"
          height="56.788235"
-         x="189.98485"
+         x="197.5193"
          y="201.05153" />
       <rect
          style="fill:none;stroke:#c87137;stroke-width:3.55245;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
@@ -157,21 +157,21 @@
          x="-0.25497431"
          y="201.05153" />
       <path
-         style="fill:#ff6600;stroke:#c87137;stroke-width:3.04634;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="m 127.7814,229.33579 h 50.64602 -0.11485"
+         style="fill:#ff6600;stroke:#c87137;stroke-width:3.138;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 127.7814,229.33579 h 53.73961 -0.12186"
          id="path61924" />
       <path
          style="fill:#c87137;fill-opacity:1;stroke:#c87137;stroke-width:0.78619px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="m 172.58478,235.75992 0.0347,-12.92515 14.24547,6.32359 z"
+         d="m 180.09779,235.67153 0.0347,-12.92515 14.24547,6.32359 z"
          id="path63585"
          sodipodi:nodetypes="cccc" />
       <path
          style="fill:#ff6600;stroke:#c87137;stroke-width:3.2645;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         d="m 129.75285,109.58813 h 58.15953 -0.13188"
+         d="m 128.75285,104.12407 h 58.15953 -0.13188"
          id="path61924-3" />
       <path
          style="fill:#c87137;fill-opacity:1;stroke:#c87137;stroke-width:0.78619px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="m 183.19474,116.01226 0.0347,-12.92515 14.24547,6.32359 z"
+         d="m 182.99024,110.72563 0.0347,-12.925149 14.24547,6.323589 z"
          id="path63585-5"
          sodipodi:nodetypes="cccc" />
       <path
@@ -192,6 +192,17 @@
          d="m 302.10453,178.29028 -12.92515,-0.0453 6.32359,-18.58002 z"
          id="path63585-50"
          sodipodi:nodetypes="cccc" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:26.7762px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.669406"
+         x="265.07074"
+         y="125.48572"
+         id="text68412"><tspan
+           sodipodi:role="line"
+           id="tspan68410"
+           x="265.07074"
+           y="125.48572"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Consolas;-inkscape-font-specification:'Consolas Bold';fill:#ff6600;stroke-width:0.669406">BaFi</tspan></text>
     </g>
   </g>
 </svg>
