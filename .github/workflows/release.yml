@@ -1,0 +1,59 @@
+name: releaseBuild
+
+on: release
+
+jobs:
+  update-mkdocs:
+    name: Deploy mkdocs documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - run: pip install mkdocs
+      - run: mkdocs gh-deploy --force
+  release-windows-amd64:
+    name: release windows/amd64
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: compile and release
+        uses: mmalcek/go-release.action@v1.0.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PROJECT_NAME: bafi
+          GOARCH: amd64
+          GOOS: windows
+          EXTRA_FILES: "docs/README.md docs/examples.md LICENSE testdata.xml template.tmpl lua/json.lua lua/functions.lua"
+  release-linux-amd64:
+    name: release linux/amd64
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: compile and release
+        uses: mmalcek/go-release.action@v1.0.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PROJECT_NAME: bafi
+          GOARCH: amd64
+          GOOS: linux
+          EXTRA_FILES: "docs/README.md docs/examples.md LICENSE testdata.xml template.tmpl lua/json.lua lua/functions.lua"
+  release-darwin-amd64:
+    name: release darwin/amd64
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: compile and release
+        uses: mmalcek/go-release.action@v1.0.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PROJECT_NAME: bafi
+          GOARCH: amd64
+          GOOS: darwin
+          EXTRA_FILES: "docs/README.md docs/examples.md LICENSE testdata.xml template.tmpl lua/json.lua lua/functions.lua"

@@ -1,16 +1,12 @@
 [![Go](https://github.com/mmalcek/bafi/actions/workflows/go.yml/badge.svg)](https://github.com/mmalcek/bafi/actions/workflows/go.yml)
 [![CodeQL](https://github.com/mmalcek/bafi/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/mmalcek/bafi/actions/workflows/)
-# XML (or other formats) to TEXT using GO templates
-Transform XML to text file using GO "text/template"
+# Universal JSON, BSON, YAML, XML converter with templates
 
 ## Key features
 - Various input formats **(json, bson, yaml, xml)**
 - Flexible output formatting using text templates
 - Support for [LUA](https://www.lua.org/pil/contents.html) custom functions which allows very flexible data manipulation
 - stdin/stdout support which allows get data from source -> translate -> delivery to destination. This allows easily translate data between different web services like REST to SOAP
-
-
-
 
 ## Command line arguments
 - "-i input.xml" Input file name. If not defined app tries read stdin
