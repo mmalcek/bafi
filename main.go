@@ -7,9 +7,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"os"
 	"strings"
 	"text/template"
+	"time"
 
 	"github.com/clbanning/mxj/v2"
 	lua "github.com/yuin/gopher-lua"
@@ -25,6 +27,7 @@ var (
 )
 
 func init() {
+	rand.Seed(time.Now().UTC().UnixNano())
 	if _, err := os.Stat("./lua/functions.lua"); !os.IsNotExist(err) {
 		luaData = lua.NewState()
 		err := luaData.DoFile("./lua/functions.lua")

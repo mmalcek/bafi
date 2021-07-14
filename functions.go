@@ -33,7 +33,7 @@ func templateFunctions() template.FuncMap {
 		"div":     func(a, b interface{}) int64 { return toInt64(a) / toInt64(b) },
 		"mod":     func(a, b interface{}) int64 { return toInt64(a) % toInt64(b) },
 		"mul":     mul,
-		"randInt": func(min, max int) int { return rand.Intn(max-min) + min }, // TODO make really random number
+		"randInt": func(min, max int) int { return rand.Intn(max-min) + min },
 		"add1f": func(i interface{}) float64 {
 			return execDecimalOp(i, []interface{}{1}, func(d1, d2 decimal.Decimal) decimal.Decimal { return d1.Add(d2) })
 		},
