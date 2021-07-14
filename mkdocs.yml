@@ -1,10 +1,14 @@
-site_name: bafi
+site_name: BaFi
 site_url: https://mmalcek.github.io/bafi
 nav:
-  - Home: README.md
+  - Application: README.md
   - Examples: examples.md
 theme:
   name: mkdocs
   highlightjs: true
   hljs_languages:
     - lua
+  navigation_depth: 4
+  nav_style: light
+  plugins:
+    - search

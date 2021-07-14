@@ -103,7 +103,7 @@ func TestToInt64(t *testing.T) {
 }
 
 func TestRegexMatch(t *testing.T) {
-	if !regexMatch(`a.b`, "aaxbb") {
+	if !regexMatch("a.b", "aaxbb") {
 		t.Errorf("regexMatch unexpected result: %v", regexMatch(`^a.b$`, "aaxbb"))
 	}
 }

@@ -24,9 +24,9 @@
      inkscape:document-units="mm"
      showgrid="false"
      width="200mm"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="418.96077"
-     inkscape:cy="104.29825"
+     inkscape:zoom="1"
+     inkscape:cx="396.49999"
+     inkscape:cy="138.5"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
      inkscape:window-x="-8"
@@ -60,17 +60,17 @@
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
-         x="12.257332"
-         y="117.61293"
+         x="11.903778"
+         y="120.26458"
          id="text1970"><tspan
            sodipodi:role="line"
            id="tspan1968"
-           x="12.257332"
-           y="117.61293"
+           x="11.903778"
+           y="120.26458"
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#c87137">Input</tspan><tspan
            sodipodi:role="line"
-           x="12.257332"
-           y="168.07597"
+           x="11.903778"
+           y="170.72763"
            id="tspan1972" /></text>
       <text
          xml:space="preserve"
@@ -86,17 +86,17 @@
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
-         x="412.69412"
-         y="118.08453"
+         x="414.44412"
+         y="120.83453"
          id="text1970-6"><tspan
            sodipodi:role="line"
            id="tspan1968-8"
-           x="412.69412"
-           y="118.08453"
+           x="414.44412"
+           y="120.83453"
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#c87137">Output</tspan><tspan
            sodipodi:role="line"
-           x="412.69412"
-           y="168.54756"
+           x="414.44412"
+           y="171.29758"
            id="tspan1972-8" /></text>
       <text
          xml:space="preserve"
@@ -116,17 +116,17 @@
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
-         x="13.178787"
-         y="240.414"
+         x="11.678787"
+         y="241.4765"
          id="text1970-3"><tspan
            sodipodi:role="line"
            id="tspan1968-6"
-           x="13.178787"
-           y="240.414"
+           x="11.678787"
+           y="241.4765"
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#c87137">Lua</tspan><tspan
            sodipodi:role="line"
-           x="13.178787"
-           y="290.87701"
+           x="11.678787"
+           y="291.93954"
            id="tspan1972-9" /></text>
       <rect
          style="opacity:1;fill:none;stroke:#c87137;stroke-width:3.55245;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"

@@ -4,6 +4,6 @@ site
 *.exe
 *.exe~
 *.csv
-output.json
+output.*
 
 
