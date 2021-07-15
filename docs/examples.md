@@ -52,7 +52,7 @@ curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTempl
         <table>
             <tr><th>Name</th><th>Surname</th></tr>
             {{- range .customers}}
-            <tr><td>{{.firstname}}</td><td>{{.firstname}}</td></tr>
+            <tr><td>{{.firstname}}</td><td>{{.lastname}}</td></tr>
             {{- end }}
         </table>
     </body>
