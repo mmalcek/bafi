@@ -75,6 +75,7 @@ func main() {
 			log.Fatal("readFile: ", err.Error())
 		}
 	}
+	data = cleanBOM(data)
 	var mapData map[string]interface{}
 	switch strings.ToLower(*inputFormat) {
 	case "json":
@@ -130,4 +131,14 @@ func main() {
 	if luaReady {
 		luaData.Close()
 	}
+}
+
+func cleanBOM(b []byte) []byte {
+	if len(b) >= 3 &&
+		b[0] == 0xef &&
+		b[1] == 0xbb &&
+		b[2] == 0xbf {
+		return b[3:]
+	}
+	return b
 }
