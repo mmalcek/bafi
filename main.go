@@ -75,7 +75,7 @@ func main() {
 			log.Fatal("readFile: ", err.Error())
 		}
 	}
-	data = cleanBOM(data)
+	data = cleanBOM(data) // Remove UTF-8 Byte Order Mark if present
 	var mapData map[string]interface{}
 	switch strings.ToLower(*inputFormat) {
 	case "json":

@@ -1,4 +1,5 @@
-# Universal JSON, BSON, YAML, XML converter with templates
+# BaFi
+**Universal JSON, BSON, YAML, XML converter to ANY format using templates**
 
 **Github repository**
 - [https://github.com/mmalcek/bafi](https://github.com/mmalcek/bafi)
@@ -6,14 +7,11 @@
 **Releases (Windows, MAC, Linux)**
 - [https://github.com/mmalcek/bafi/releases](https://github.com/mmalcek/bafi/releases)
 
-[![Go](https://github.com/mmalcek/bafi/actions/workflows/go.yml/badge.svg)](https://github.com/mmalcek/bafi/actions/workflows/go.yml)
-[![CodeQL](https://github.com/mmalcek/bafi/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/mmalcek/bafi/actions/workflows/)
-
 ## Key features
 - Various input formats **(json, bson, yaml, xml)**
 - Flexible output formatting using text templates
 - Support for [LUA](https://www.lua.org/pil/contents.html) custom functions which allows very flexible data manipulation
-- stdin/stdout support which allows get data from source -> translate -> delivery to destination. This allows easily translate data between different web services like REST to SOAP
+- stdin/stdout support which allows get data from source -> translate -> delivery to destination. This allows easily translate data between different web services like **REST to SOAP, SOAP to REST, REST to CSV, ...**
 
 <img src="img/scheme.svg" style="border: 0;" height="150px" />
 
@@ -32,17 +30,23 @@ Example: ([more examples](examples/#command-line))
 bafi.exe -i testdata.xml -t template.tmpl -o output.txt
 ```
 ## Templates
-Bafi uses [text/template](https://pkg.go.dev/text/template) here is quick summary how to use. Example is based on *testdata.xml* included in project
-
-note: This is just basic description of how template works. You can find more details in links below
+Bafi uses [text/template](https://pkg.go.dev/text/template). Here is a quick summary how to use. Examples are based on *testdata.xml* included in project
 
 ### Comments
 ```
 {{/* a comment */}}
 {{- /* a comment with white space trimmed from preceding and following text */ -}}
 ```
+
+### Trim new line
+New line before or after text can be trimmed by adding dash
+```
+{{- .TOP_LEVEL}}, {{.TOP_LEVEL -}}
+```
 ### Accessing data
-- Data are accessible by *pipline* which is represented by dot 
+Data are accessible by *pipline* which is represented by dot
+
+- Simplest template 
 ```
 {{.}}
 ```
@@ -54,28 +58,40 @@ note: This is just basic description of how template works. You can find more de
 ```
 {{index .TOP_LEVEL "-description"}}
 ```
+- Convert TOP_LEVEL node to JSON
+```
+{{toJSON .TOP_LEVEL}}
+```
+
 ### Variables
 You can store selected data to [template variable](https://pkg.go.dev/text/template#hdr-Variables)
 ```
 {{$myVar := .TOP_LEVEL}}
 ```
 ### Actions
-Template allows to use [actions](https://pkg.go.dev/text/template#hdr-Actions)
+Template allows to use [actions](https://pkg.go.dev/text/template#hdr-Actions), for example
 
-- Iterate over lines
+Iterate over lines
 ```
 {{range .TOP_LEVEL.DATA_LINE}}{{.val1}}{{end}}
 ```
-- If statement 
+If statement 
 ```
 {{if gt (int $val1) (int $val2)}}Value1{{else}}Value2{{end}} is greater
 ```
 
 ### Functions
-In go template all data manipulation is done by using functions for example code below will count val1+val2
+In go template all data manipulation is done by using functions for example 
+
+count val1+val2
 ```
 {{add $val1 $val2}}
 ```
+count (val1+val2)/val3
+```
+{{div (add $val1 $val2) $val3}}
+```
+
 There are 3 categories of functions
 #### Native functions
 text/template integrates [native functions](https://pkg.go.dev/text/template#hdr-Functions) to work with data
@@ -132,7 +148,7 @@ Call Lua function in template ("sum" - Lua function name)
 {{lua "sum" .val1 .val2}}
 ```
 
-- Input is always passed as json array of strings
+- Input is always passed as stringified JSON and should be decoded (json.decode(incomingData))
 - Output must be passed as string
 - lua table array starts with 1
 - Lua [documentation](http://www.lua.org/manual/5.1/)
