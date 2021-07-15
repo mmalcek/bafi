@@ -8,7 +8,7 @@
         
         <link rel="canonical" href="https://mmalcek.github.io/bafi/examples/">
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Examples - bafi</title>
+        <title>Examples - BaFi</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
@@ -22,9 +22,9 @@
     </head>
 
     <body>
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+        <div class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" href="..">bafi</a>
+                <a class="navbar-brand" href="..">BaFi</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
@@ -35,7 +35,7 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li class="navitem">
-                                <a href=".." class="nav-link">Home</a>
+                                <a href=".." class="nav-link">Application</a>
                             </li>
                             <li class="navitem active">
                                 <a href="./" class="nav-link">Examples</a>
@@ -78,8 +78,44 @@
             
             <li class="nav-item" data-level="1"><a href="#examples" class="nav-link">Examples</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#basic-usage" class="nav-link">Basic usage</a>
+            <li class="nav-item" data-level="2"><a href="#command-line" class="nav-link">Command line</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-level="3"><a href="#basic" class="nav-link">Basic</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="3"><a href="#inline-template" class="nav-link">Inline template</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="3"><a href="#stdinrest" class="nav-link">Stdin/REST</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#template" class="nav-link">Template</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="3"><a href="#xml-to-csv" class="nav-link">XML to CSV</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="3"><a href="#rest-to-html" class="nav-link">REST to HTML</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="3"><a href="#rest-to-custom-xml" class="nav-link">REST to custom XML</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="3"><a href="#xml-to-custom-json" class="nav-link">XML to custom JSON</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="3"><a href="#input-autoformat-to" class="nav-link">Input autoformat to???</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
               </ul>
@@ -90,10 +126,120 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="examples">Examples</h1>
-<h2 id="basic-usage">Basic usage</h2>
+<h2 id="command-line">Command line</h2>
+<h3 id="basic">Basic</h3>
+<p>Get data from <em>testdata.xml</em> -&gt; process using <em>template.tmpl</em> -&gt; save output as <em>output.txt</em></p>
+<pre><code class="language-sh">bafi.exe -i testdata.xml -t template.tmpl -o output.txt
+</code></pre>
+<h3 id="inline-template">Inline template</h3>
+<p>Get data from <em>testdata.xml</em> -&gt; process using inline template -&gt; save output as <em>output.json</em></p>
+<pre><code class="language-sh">bafi.exe -i testdata.xml -o output.json -t &quot;?{{toJSON .}}&quot;
+</code></pre>
+<p>note: BaFi inline template must start with <strong>?</strong> e.g. <strong>"?{{toJSON .}}"</strong>
+<a href="https://pkg.go.dev/text/template#hdr-Examples">How to format inline templates</a></p>
+<h3 id="stdinrest">Stdin/REST</h3>
+<p>Get data from REST api -&gt; convert to XML -&gt; output to Stdout. </p>
+<pre><code class="language-sh">curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toXML .}}&quot;
+</code></pre>
+<p>More info about curl <a href="https://curl.se/">here</a> but you can of course use any tool with stdout</p>
+<h2 id="template">Template</h2>
+<p>Examples are based on testdata.tmpl included in project</p>
+<h3 id="xml-to-csv">XML to CSV</h3>
 <ul>
-<li>TODO - Add examples</li>
-</ul></div>
+<li>command</li>
+</ul>
+<pre><code>bafi.exe -i testdata.xml -t myTemplate.tmpl -o output.csv
+</code></pre>
+<ul>
+<li>myTemplate.tmpl</li>
+</ul>
+<pre><code>Employee,Date,val1,val2,val3,SUM,LuaMultiply,linkedText
+{{- range .TOP_LEVEL.DATA_LINE}}
+{{index .Employee &quot;-ID&quot;}},
+{{- dateFormat .Trans_Date &quot;2006-01-02&quot; &quot;02.01.2006&quot;}},
+{{- .val1}},{{.val2}},{{.val3}},
+{{- add .val1 .val2}},
+{{- lua &quot;mul&quot; .val1 .val2}},&quot;{{index .Linked_Text &quot;-VALUE&quot;}}&quot;
+{{- end}}
+</code></pre>
+<h3 id="rest-to-html">REST to HTML</h3>
+<ul>
+<li>command</li>
+</ul>
+<pre><code>curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.html
+</code></pre>
+<ul>
+<li>myTemplate.tmpl</li>
+</ul>
+<pre><code>&lt;html&gt;
+    &lt;body&gt;
+        &lt;table&gt;
+            &lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Surname&lt;/th&gt;&lt;/tr&gt;
+            {{- range .customers}}
+            &lt;tr&gt;&lt;td&gt;{{.firstname}}&lt;/td&gt;&lt;td&gt;{{.firstname}}&lt;/td&gt;&lt;/tr&gt;
+            {{- end }}
+        &lt;/table&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+
+&lt;style&gt;
+table, th, td { border: 1px solid black; width: 400px; }
+&lt;/style&gt;
+</code></pre>
+<h3 id="rest-to-custom-xml">REST to custom XML</h3>
+<ul>
+<li>command </li>
+</ul>
+<pre><code>curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.xml
+</code></pre>
+<ul>
+<li>myTemplate.tmpl</li>
+</ul>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;MY_DATA&gt;
+    {{- range .customers}}
+    &lt;CUSTOMMER&gt;
+        &lt;NAME&gt;{{.firstname}}&lt;/NAME&gt;
+        &lt;SURNAME&gt;{{.lastname}}&lt;/SURNAME&gt;
+    &lt;/CUSTOMMER&gt;
+    {{- end }}
+&lt;/MY_DATA&gt;
+</code></pre>
+<h3 id="xml-to-custom-json">XML to custom JSON</h3>
+<ul>
+<li>command </li>
+</ul>
+<pre><code>bafi.exe -i testdata.xml -t myTemplate.tmpl -o output.json
+</code></pre>
+<ul>
+<li>myTemplate.tmpl</li>
+</ul>
+<pre><code>{{- $new := &quot;{\&quot;employees\&quot;: [&quot; }}
+{{- range .TOP_LEVEL.DATA_LINE}}
+{{- $new = print $new &quot;{\&quot;employeeID\&quot;:\&quot;&quot; (index .Employee &quot;-ID&quot;) &quot;\&quot;, \&quot;val1\&quot;:&quot; .val1 &quot;},&quot; }}
+{{- end}}
+{{- /* &quot;slice $new 0 (sub (len $new) 1&quot; - remove trailing comma  */}}
+{{- $new = print (slice $new 0 (sub (len $new) 1)) &quot;]}&quot; }}
+{{ $new}}
+</code></pre>
+<p>JSON in $new variable can be mapped to struct and autoformatted to other formats like:</p>
+<ul>
+<li>Transform $new to YAML</li>
+</ul>
+<pre><code>{{toYAML (mapJSON $new) -}}
+</code></pre>
+<ul>
+<li>Transform $new to XML</li>
+</ul>
+<pre><code>{{toXML (mapJSON $new) -}}
+</code></pre>
+<h3 id="input-autoformat-to">Input autoformat to???</h3>
+<p>Input data can be easily fomated to oher formats by functions <strong>toXML,toJSON,toBSON,toYAML</strong>. In this case its not necesarry add template file because it's as easy as </p>
+<pre><code>curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toXML .}}&quot; -o output.xml
+curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toJSON .}}&quot; -o output.json
+curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toBSON .}}&quot; -o output.bson
+curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toYAML .}}&quot; -o output.yml
+</code></pre></div>
             </div>
         </div>
 

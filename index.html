@@ -8,7 +8,7 @@
         
         <link rel="canonical" href="https://mmalcek.github.io/bafi/">
         <link rel="shortcut icon" href="img/favicon.ico">
-        <title>bafi</title>
+        <title>BaFi</title>
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/font-awesome.min.css" rel="stylesheet">
         <link href="css/base.css" rel="stylesheet">
@@ -22,9 +22,9 @@
     </head>
 
     <body class="homepage">
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+        <div class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" href=".">bafi</a>
+                <a class="navbar-brand" href=".">BaFi</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
@@ -35,7 +35,7 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li class="navitem active">
-                                <a href="." class="nav-link">Home</a>
+                                <a href="." class="nav-link">Application</a>
                             </li>
                             <li class="navitem">
                                 <a href="examples/" class="nav-link">Examples</a>
@@ -76,7 +76,7 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#universal-json-bson-yaml-xml-converter-with-templates" class="nav-link">Universal JSON, BSON, YAML, XML converter with templates</a>
+            <li class="nav-item" data-level="1"><a href="#bafi" class="nav-link">BaFi</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-level="2"><a href="#key-features" class="nav-link">Key features</a>
               <ul class="nav flex-column">
@@ -86,20 +86,44 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#template-formating" class="nav-link">Template formating</a>
+            <li class="nav-item" data-level="2"><a href="#templates" class="nav-link">Templates</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="3"><a href="#comments" class="nav-link">Comments</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#lua-custom-functions" class="nav-link">Lua custom functions</a>
+            <li class="nav-item" data-level="3"><a href="#trim-new-line" class="nav-link">Trim new line</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#built-in-functions" class="nav-link">Built-in functions</a>
+            <li class="nav-item" data-level="3"><a href="#accessing-data" class="nav-link">Accessing data</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#relase-builds-download" class="nav-link">Relase builds (download)</a>
+            <li class="nav-item" data-level="3"><a href="#variables" class="nav-link">Variables</a>
               <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="3"><a href="#actions" class="nav-link">Actions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="3"><a href="#functions" class="nav-link">Functions</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="4"><a href="#native-functions" class="nav-link">Native functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="4"><a href="#additional-functions" class="nav-link">Additional functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="4"><a href="#lua-custom-functions" class="nav-link">Lua custom functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
               </ul>
             </li>
               </ul>
@@ -109,16 +133,20 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<p><a href="https://github.com/mmalcek/bafi/actions/workflows/go.yml"><img alt="Go" src="https://github.com/mmalcek/bafi/actions/workflows/go.yml/badge.svg" /></a>
-<a href="https://github.com/mmalcek/bafi/actions/workflows/"><img alt="CodeQL" src="https://github.com/mmalcek/bafi/actions/workflows/codeql-analysis.yml/badge.svg" /></a></p>
-<h1 id="universal-json-bson-yaml-xml-converter-with-templates">Universal JSON, BSON, YAML, XML converter with templates</h1>
+<h1 id="bafi">BaFi</h1>
+<p><strong>Universal JSON, BSON, YAML, XML converter to ANY format using templates</strong></p>
+<p><strong>Github repository</strong>
+- <a href="https://github.com/mmalcek/bafi">https://github.com/mmalcek/bafi</a></p>
+<p><strong>Releases (Windows, MAC, Linux)</strong>
+- <a href="https://github.com/mmalcek/bafi/releases">https://github.com/mmalcek/bafi/releases</a></p>
 <h2 id="key-features">Key features</h2>
 <ul>
 <li>Various input formats <strong>(json, bson, yaml, xml)</strong></li>
 <li>Flexible output formatting using text templates</li>
 <li>Support for <a href="https://www.lua.org/pil/contents.html">LUA</a> custom functions which allows very flexible data manipulation</li>
-<li>stdin/stdout support which allows get data from source -&gt; translate -&gt; delivery to destination. This allows easily translate data between different web services like REST to SOAP</li>
+<li>stdin/stdout support which allows get data from source -&gt; translate -&gt; delivery to destination. This allows easily translate data between different web services like <strong>REST to SOAP, SOAP to REST, REST to CSV, ...</strong></li>
 </ul>
+<p><img src="img/scheme.svg" style="border: 0;" height="150px" /></p>
 <h2 id="command-line-arguments">Command line arguments</h2>
 <ul>
 <li>"-i input.xml" Input file name. If not defined app tries read stdin</li>
@@ -134,60 +162,115 @@
 <li>"-v" - Show current verion</li>
 <li>"-?" - list available command line arguments</li>
 </ul>
-<h4 id="examples">Examples</h4>
+<p>Example: (<a href="examples/#command-line">more examples</a>)</p>
+<pre><code>bafi.exe -i testdata.xml -t template.tmpl -o output.txt
+</code></pre>
+<h2 id="templates">Templates</h2>
+<p>Bafi uses <a href="https://pkg.go.dev/text/template">text/template</a>. Here is a quick summary how to use. Examples are based on <em>testdata.xml</em> included in project</p>
+<h3 id="comments">Comments</h3>
+<pre><code>{{/* a comment */}}
+{{- /* a comment with white space trimmed from preceding and following text */ -}}
+</code></pre>
+<h3 id="trim-new-line">Trim new line</h3>
+<p>New line before or after text can be trimmed by adding dash</p>
+<pre><code>{{- .TOP_LEVEL}}, {{.TOP_LEVEL -}}
+</code></pre>
+<h3 id="accessing-data">Accessing data</h3>
+<p>Data are accessible by <em>pipline</em> which is represented by dot</p>
 <ul>
-<li>Basic</li>
+<li>Simplest template </li>
 </ul>
-<pre><code class="language-sh">bafi.exe -i testdata.xml -o output.csv -t template.tmpl
+<pre><code>{{.}}
 </code></pre>
 <ul>
-<li>JSON input</li>
+<li>Get data form inner node </li>
 </ul>
-<pre><code class="language-sh">bafi.exe -i testdata.json -f json -o output.csv -t template.tmpl
+<pre><code>{{.TOP_LEVEL}}
 </code></pre>
 <ul>
-<li>STDIN</li>
+<li>Get data from XML tag. XML tags are autoprefixed by dash and accessible as index</li>
 </ul>
-<pre><code class="language-sh">curl.exe -s &quot;someURL&quot; | bafi.exe -f json -t myTemplate.tmpl -o out.txt 
-</code></pre>
-<p>More info about curl <a href="https://curl.se/">here</a> but you can of course use any tool with stdout</p>
-<ul>
-<li>Inline template</li>
-</ul>
-<pre><code class="language-sh">bafi.exe -i testdata.xml -o output.json -t &quot;?{{toJSON .}}&quot;
+<pre><code>{{index .TOP_LEVEL &quot;-description&quot;}}
 </code></pre>
 <ul>
-<li>Working example with inline template</li>
+<li>Convert TOP_LEVEL node to JSON</li>
 </ul>
-<pre><code>curl.exe -s &quot;https://api.predic8.de/shop/products/&quot; | bafi.exe -f json -t &quot;?{{range .products}}\&quot;{{.name}}\&quot;,{{.product_url}}{{print \&quot;\n\&quot;}}{{end}}&quot; 
+<pre><code>{{toJSON .TOP_LEVEL}}
 </code></pre>
-<h2 id="template-formating">Template formating</h2>
-<ul>
-<li>Basic iterate over lines</li>
-</ul>
+<h3 id="variables">Variables</h3>
+<p>You can store selected data to <a href="https://pkg.go.dev/text/template#hdr-Variables">template variable</a></p>
+<pre><code>{{$myVar := .TOP_LEVEL}}
+</code></pre>
+<h3 id="actions">Actions</h3>
+<p>Template allows to use <a href="https://pkg.go.dev/text/template#hdr-Actions">actions</a>, for example</p>
+<p>Iterate over lines</p>
 <pre><code>{{range .TOP_LEVEL.DATA_LINE}}{{.val1}}{{end}}
 </code></pre>
-<ul>
-<li>Get XML tag (-VALUE = tag name)</li>
-</ul>
-<pre><code>{{index .Linked_Text &quot;-VALUE&quot;}}
-</code></pre>
-<ul>
-<li>Use functions (count val1 + val2)</li>
-</ul>
-<pre><code>{{add .val1 .val2}} 
-</code></pre>
-<ul>
-<li>If statement </li>
-</ul>
+<p>If statement </p>
 <pre><code>{{if gt (int $val1) (int $val2)}}Value1{{else}}Value2{{end}} is greater
 </code></pre>
-<p>Check template.tmpl and testdata.xml for more advanced example</p>
-<p>(more detailed info on https://golang.org/pkg/text/template/ )</p>
-<h2 id="lua-custom-functions">Lua custom functions</h2>
-<p>Aside of builtin functions you can write your own custom lua functions defined in ./lua/functions.lua file</p>
+<h3 id="functions">Functions</h3>
+<p>In go template all data manipulation is done by using functions for example </p>
+<p>count val1+val2</p>
+<pre><code>{{add $val1 $val2}}
+</code></pre>
+<p>count (val1+val2)/val3</p>
+<pre><code>{{div (add $val1 $val2) $val3}}
+</code></pre>
+<p>There are 3 categories of functions</p>
+<h4 id="native-functions">Native functions</h4>
+<p>text/template integrates <a href="https://pkg.go.dev/text/template#hdr-Functions">native functions</a> to work with data</p>
+<h4 id="additional-functions">Additional functions</h4>
+<p>Asside of integated functions bafi contains additional common functions</p>
 <ul>
-<li>Input is always passed as json array of strings</li>
+<li><strong>add</strong> - {{add .Value1 .Value2}}</li>
+<li><strong>add1</strong> - {{add1 .Value1}} = Value1+1</li>
+<li><strong>sub</strong> - substract</li>
+<li><strong>div</strong> - divide</li>
+<li><strong>mod</strong> - modulo</li>
+<li><strong>mul</strong> - multiply</li>
+<li><strong>randInt</strong></li>
+<li><strong>add1f</strong> - "...f" functions parse float but provide <strong>decimal</strong> operations using <a href="https://github.com/shopspring/decimal">shopspring decimal</a></li>
+<li><strong>addf</strong></li>
+<li><strong>subf</strong></li>
+<li><strong>divf</strong></li>
+<li><strong>mulf</strong></li>
+<li><strong>round</strong> - {{round .Value1 2}} - will round to 2 decimals</li>
+<li><strong>max</strong> - {{round .Value1 .Value2 .Value3 ...}} get Max value from range</li>
+<li><strong>min</strong> - get Min value from range</li>
+<li><strong>maxf</strong></li>
+<li><strong>minf</strong></li>
+<li><strong>dateFormat</strong> -&gt; {{dateFormat .Value "oldFormat" "newFormat"}} - <a href="https://programming.guide/go/format-parse-string-time-date-example.html">GO time format</a></li>
+<li><strong>now</strong> - {{now "02.01.2006"}} - GO format date (see notes below)</li>
+<li><strong>b64enc</strong> - encode to base64</li>
+<li><strong>b64dec</strong> - decode from base64</li>
+<li><strong>b32enc</strong> - oncode to base32</li>
+<li><strong>b32dec</strong> - decode from base32</li>
+<li><strong>uuid</strong> - generate UUID</li>
+<li><strong>regexMatch</strong> - {{regexMatch pattern .Value1}} more about go <a href="https://gobyexample.com/regular-expressions">regex</a></li>
+<li><strong>upper</strong> - to uppercase</li>
+<li><strong>lower</strong> - to lowercase</li>
+<li><strong>trim</strong></li>
+<li><strong>trimAll</strong></li>
+<li><strong>trimSuffix</strong></li>
+<li><strong>trimPrefix</strong></li>
+<li><strong>atoi</strong></li>
+<li><strong>int64</strong></li>
+<li><strong>int</strong></li>
+<li><strong>float64</strong></li>
+<li><strong>toJSON</strong> - convert input object to JSON</li>
+<li><strong>toBSON</strong> - convert input object to BSON</li>
+<li><strong>toYAML</strong> - convert input object to YAML</li>
+<li><strong>toXML</strong> - convert input object to XML</li>
+<li><strong>mapJSON</strong> - convert stringified JSON to map so it can be used as object or translated to other formats (e.g. "toXML"). Check template.tmpl for example</li>
+</ul>
+<h4 id="lua-custom-functions">Lua custom functions</h4>
+<p>You can write your own custom lua functions defined in ./lua/functions.lua file</p>
+<p>Call Lua function in template ("sum" - Lua function name)</p>
+<pre><code>{{lua &quot;sum&quot; .val1 .val2}}
+</code></pre>
+<ul>
+<li>Input is always passed as stringified JSON and should be decoded (json.decode(incomingData))</li>
 <li>Output must be passed as string</li>
 <li>lua table array starts with 1</li>
 <li>Lua <a href="http://www.lua.org/manual/5.1/">documentation</a></li>
@@ -200,64 +283,7 @@ function sum(incomingData)
     return tostring(tonumber(dataTable[1]) + tonumber(dataTable[2]))
 end
 </code></pre>
-<h3 id="call-lua-function-in-template">Call Lua function in template</h3>
-<pre><code>{{lua &quot;sum&quot; .val1 .val2}}
-</code></pre>
-<ul>
-<li>"sum" - Lua function name</li>
-</ul>
-<h3 id="call-built-in-function">Call built-in function</h3>
-<pre><code>{{add .val1 .val2}}
-</code></pre>
-<h2 id="built-in-functions">Built-in functions</h2>
-<ul>
-<li>add -&gt; {{add .Value1 .Value2}}</li>
-<li>add1</li>
-<li>sub</li>
-<li>div</li>
-<li>mod</li>
-<li>mul</li>
-<li>randInt</li>
-<li>add1f - "...f" functions parse float but provide <strong>decimal</strong> operation using https://github.com/shopspring/decimal</li>
-<li>addf</li>
-<li>subf</li>
-<li>divf</li>
-<li>mulf</li>
-<li>round</li>
-<li>max</li>
-<li>min</li>
-<li>maxf</li>
-<li>minf</li>
-<li>dateFormat -&gt; {{dateFormat .Value "oldFormat" "newFormat"}}</li>
-<li>now - {{now "02.01.2006"}} - GO format date (see notes below)</li>
-<li>b64enc</li>
-<li>b64dec</li>
-<li>b32enc</li>
-<li>b32dec</li>
-<li>uuid</li>
-<li>regexMatch</li>
-<li>upper</li>
-<li>lower</li>
-<li>trim</li>
-<li>trimAll</li>
-<li>trimSuffix</li>
-<li>trimPrefix</li>
-<li>atoi</li>
-<li>int64</li>
-<li>int</li>
-<li>float64</li>
-<li>toJSON - convert input object to JSON</li>
-<li>toBSON - convert input object to BSON</li>
-<li>toYAML - convert input object to YAML</li>
-<li>toXML - convert input object to XML</li>
-<li>mapJSON - convert stringified JSON to map so it can be used as object or translated to other formats (e.g. "toXML"). Check template.tmpl for example </li>
-</ul>
-<h3 id="dateformat">dateFormat</h3>
-<p>dateFormat can parse date and time using <a href="https://programming.guide/go/format-parse-string-time-date-example.html">GO time format</a></p>
-<h2 id="relase-builds-download">Relase builds (download)</h2>
-<ul>
-<li>Releases (windows, linux, mac) can be found <a href="https://github.com/mmalcek/bafi/releases">here</a></li>
-</ul></div>
+<p>Check <a href="/examples">examples</a> and <strong>template.tmpl</strong> and <strong>testdata.xml</strong> for advanced examples</p></div>
             </div>
         </div>
 
@@ -338,5 +364,5 @@ end
 
 <!--
 MkDocs version : 1.2.1
-Build Date UTC : 2021-07-13 11:00:21.110678+00:00
+Build Date UTC : 2021-07-15 10:47:41.254460+00:00
 -->
