@@ -58,15 +58,10 @@ func main() {
 	var data []byte
 	var err error
 	if *inputFile == "" {
-		if fi, err := os.Stdin.Stat(); err != nil {
-			log.Fatal("getStdin: ", err.Error())
-		} else {
-			if fi.Mode()&os.ModeNamedPipe == 0 {
-				log.Fatal("stdin: Error-noPipe")
-			}
+		if err = checkStdin(); err != nil {
+			log.Fatal(err.Error())
 		}
-		data, err = ioutil.ReadAll(os.Stdin)
-		if err != nil {
+		if data, err = ioutil.ReadAll(os.Stdin); err != nil {
 			log.Fatal("readStdin: ", err.Error())
 		}
 	} else {
@@ -141,4 +136,15 @@ func cleanBOM(b []byte) []byte {
 		return b[3:]
 	}
 	return b
+}
+
+func checkStdin() error {
+	if fi, err := os.Stdin.Stat(); err != nil {
+		return fmt.Errorf("getStdin: %s", err.Error())
+	} else {
+		if fi.Mode()&os.ModeNamedPipe == 0 {
+			return fmt.Errorf("stdin: Error-noPipe")
+		}
+	}
+	return nil
 }

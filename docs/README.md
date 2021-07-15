@@ -126,14 +126,14 @@ Asside of integated functions bafi contains additional common functions
 - **regexMatch** - {{regexMatch pattern .Value1}} more about go [regex](https://gobyexample.com/regular-expressions)
 - **upper** - to uppercase
 - **lower** - to lowercase
-- **trim**
-- **trimAll**
-- **trimSuffix**
-- **trimPrefix**
-- **atoi**
-- **int64**
-- **int**
-- **float64**
+- **trim** - remove leading and trailing whitespace
+- **trimPrefix** - {{trimPrefix "!Hello World!" "!"}} - returns "Hello World!"
+- **trimSuffix** - {{trimSuffix "!Hello World!" "!"}} - returns "!HelloWorld"
+- **trimAll** - {{trimAll "!Hello World!" "!"}} - returns "Hello World"
+- **atoi** - {{atoi "42"}} - string to int
+- **int** - {{int "42"}} - cast to int
+- **int64** - {{int64 "42"}} - cast to int64
+- **float64** - {{float64 "3.14159"}} - cast to float64
 - **toJSON** - convert input object to JSON
 - **toBSON** - convert input object to BSON
 - **toYAML** - convert input object to YAML
