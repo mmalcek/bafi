@@ -90,35 +90,35 @@ func mapJSON(input string) map[string]interface{} {
 }
 
 func toJSON(data map[string]interface{}) string {
-	if out, err := json.Marshal(data); err != nil {
+	out, err := json.Marshal(data)
+	if err != nil {
 		return fmt.Sprintf("err: %s", err.Error())
-	} else {
-		return string(out)
 	}
+	return string(out)
 }
 
 func toBSON(data map[string]interface{}) string {
-	if out, err := bson.Marshal(data); err != nil {
+	out, err := bson.Marshal(data)
+	if err != nil {
 		return fmt.Sprintf("err: %s", err.Error())
-	} else {
-		return string(out)
 	}
+	return string(out)
 }
 
 func toYAML(data map[string]interface{}) string {
-	if out, err := yaml.Marshal(data); err != nil {
+	out, err := yaml.Marshal(data)
+	if err != nil {
 		return fmt.Sprintf("err: %s", err.Error())
-	} else {
-		return string(out)
 	}
+	return string(out)
 }
 
 func toXML(data map[string]interface{}) string {
-	if out, err := mxj.AnyXml(data); err != nil {
+	out, err := mxj.AnyXml(data)
+	if err != nil {
 		return fmt.Sprintf("err: %s", err.Error())
-	} else {
-		return string(out)
 	}
+	return string(out)
 }
 
 func luaF(i ...interface{}) string {
@@ -136,9 +136,8 @@ func luaF(i ...interface{}) string {
 	if str, ok := luaData.Get(-1).(lua.LString); ok {
 		luaData.Pop(1)
 		return str.String()
-	} else {
-		return "luaError: getResult"
 	}
+	return "luaError: getResult"
 }
 
 func dateFormat(date string, inputFormat string, outputFormat string) string {
