@@ -19,7 +19,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-const version = "1.0.1"
+const version = "1.0.2"
 
 var (
 	luaData  *lua.LState
@@ -97,20 +97,18 @@ func getInputData(inputFile *string) ([]byte, error) {
 	var data []byte
 	var err error
 	if *inputFile == "" {
-		if fi, err := os.Stdin.Stat(); err != nil {
-			return nil, fmt.Errorf("getStdin: %s", err.Error())
-		} else {
-			if fi.Mode()&os.ModeNamedPipe == 0 {
-				return nil, fmt.Errorf("stdin: Error-noPipe")
-			}
-		}
-		data, err = ioutil.ReadAll(os.Stdin)
+		fi, err := os.Stdin.Stat()
 		if err != nil {
+			return nil, fmt.Errorf("getStdin: %s", err.Error())
+		}
+		if fi.Mode()&os.ModeNamedPipe == 0 {
+			return nil, fmt.Errorf("stdin: Error-noPipe")
+		}
+		if data, err = ioutil.ReadAll(os.Stdin); err != nil {
 			return nil, fmt.Errorf("readStdin: %s", err.Error())
 		}
 	} else {
-		data, err = ioutil.ReadFile(*inputFile)
-		if err != nil {
+		if data, err = ioutil.ReadFile(*inputFile); err != nil {
 			return nil, fmt.Errorf("readFile: %s", err.Error())
 		}
 	}
