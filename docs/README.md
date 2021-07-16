@@ -15,6 +15,10 @@
 
 <img src="img/scheme.svg" style="border: 0;" height="150px" />
 
+[![Go](https://github.com/mmalcek/bafi/actions/workflows/go.yml/badge.svg)](https://github.com/mmalcek/bafi/actions/workflows/go.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mmalcek/bafi)](https://goreportcard.com/report/github.com/mmalcek/bafi)
+[![CodeQL](https://github.com/mmalcek/bafi/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/mmalcek/bafi/actions/workflows/codeql-analysis.yml)
+
 ## Command line arguments
 - "-i input.xml" Input file name. If not defined app tries read stdin
 - "-o output.txt" Output file name. If not defined result is send to stdout
