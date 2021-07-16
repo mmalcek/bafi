@@ -54,52 +54,17 @@ func main() {
 	if *textTemplate == "" {
 		log.Fatal("template file must be defined: -t template.tmpl")
 	}
-
-	var data []byte
-	var err error
-	if *inputFile == "" {
-		if err = checkStdin(); err != nil {
-			log.Fatal(err.Error())
-		}
-		if data, err = ioutil.ReadAll(os.Stdin); err != nil {
-			log.Fatal("readStdin: ", err.Error())
-		}
-	} else {
-		data, err = ioutil.ReadFile(*inputFile)
-		if err != nil {
-			log.Fatal("readFile: ", err.Error())
-		}
+	data, err := getInputData(inputFile)
+	if err != nil {
+		log.Fatal(err.Error())
 	}
-	data = cleanBOM(data) // Remove UTF-8 Byte Order Mark if present
-	var mapData map[string]interface{}
-	switch strings.ToLower(*inputFormat) {
-	case "json":
-		if err := json.Unmarshal(data, &mapData); err != nil {
-			log.Fatal("mapJSON: ", err.Error())
-		}
-	case "bson":
-		if err := bson.Unmarshal(data, &mapData); err != nil {
-			log.Fatal("mapBSON: ", err.Error())
-		}
-	case "yaml":
-		if err := yaml.Unmarshal(data, &mapData); err != nil {
-			log.Fatal("mapYAML: ", err.Error())
-		}
-	default:
-		mapData, err = mxj.NewMapXml(data)
-		if err != nil {
-			log.Fatal("mapXML: ", err.Error())
-		}
+	mapData, err := mapInputData(data, inputFormat)
+	if err != nil {
+		log.Fatal(err.Error())
 	}
-	textTemplateVar := *textTemplate
-	var templateFile []byte
-	if textTemplateVar[:1] == "?" {
-		templateFile = []byte(textTemplateVar[1:])
-	} else {
-		templateFile, err = ioutil.ReadFile(*textTemplate)
-		if err != nil {
-			log.Fatal("readFile: ", err.Error())
-		}
+	templateFile, err := readTemplate(*textTemplate)
+	if err != nil {
+		log.Fatal(err.Error())
 	}
 	template, err := template.New("new").Funcs(templateFunctions()).Parse(string(templateFile))
 	if err != nil {
@@ -128,6 +93,70 @@ func main() {
 	}
 }
 
+func getInputData(inputFile *string) ([]byte, error) {
+	var data []byte
+	var err error
+	if *inputFile == "" {
+		if fi, err := os.Stdin.Stat(); err != nil {
+			return nil, fmt.Errorf("getStdin: %s", err.Error())
+		} else {
+			if fi.Mode()&os.ModeNamedPipe == 0 {
+				return nil, fmt.Errorf("stdin: Error-noPipe")
+			}
+		}
+		data, err = ioutil.ReadAll(os.Stdin)
+		if err != nil {
+			return nil, fmt.Errorf("readStdin: %s", err.Error())
+		}
+	} else {
+		data, err = ioutil.ReadFile(*inputFile)
+		if err != nil {
+			return nil, fmt.Errorf("readFile: %s", err.Error())
+		}
+	}
+	return cleanBOM(data), nil
+}
+
+func mapInputData(data []byte, inputFormat *string) (map[string]interface{}, error) {
+	var err error
+	var mapData map[string]interface{}
+	switch strings.ToLower(*inputFormat) {
+	case "json":
+		if err := json.Unmarshal(data, &mapData); err != nil {
+			return nil, fmt.Errorf("mapJSON: %s", err.Error())
+		}
+	case "bson":
+		if err := bson.Unmarshal(data, &mapData); err != nil {
+			return nil, fmt.Errorf("mapBSON: %s", err.Error())
+		}
+	case "yaml":
+		if err := yaml.Unmarshal(data, &mapData); err != nil {
+			return nil, fmt.Errorf("mapYAML: %s", err.Error())
+		}
+	default:
+		mapData, err = mxj.NewMapXml(data)
+		if err != nil {
+			return nil, fmt.Errorf("mapXML: %s", err.Error())
+		}
+	}
+	return mapData, nil
+}
+
+func readTemplate(textTemplate string) ([]byte, error) {
+	var templateFile []byte
+	var err error
+	if textTemplate[:1] == "?" {
+		templateFile = []byte(textTemplate[1:])
+	} else {
+		templateFile, err = ioutil.ReadFile(textTemplate)
+		if err != nil {
+			return nil, fmt.Errorf("readFile: %s", err.Error())
+		}
+	}
+	return templateFile, nil
+}
+
+// cleanBOM Remove UTF-8 Byte Order Mark if present
 func cleanBOM(b []byte) []byte {
 	if len(b) >= 3 &&
 		b[0] == 0xef &&
@@ -136,15 +165,4 @@ func cleanBOM(b []byte) []byte {
 		return b[3:]
 	}
 	return b
-}
-
-func checkStdin() error {
-	if fi, err := os.Stdin.Stat(); err != nil {
-		return fmt.Errorf("getStdin: %s", err.Error())
-	} else {
-		if fi.Mode()&os.ModeNamedPipe == 0 {
-			return fmt.Errorf("stdin: Error-noPipe")
-		}
-	}
-	return nil
 }
