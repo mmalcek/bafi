@@ -93,6 +93,7 @@ func main() {
 	}
 }
 
+// getInputData get the data from stdin/pipe or from file
 func getInputData(inputFile *string) ([]byte, error) {
 	var data []byte
 	var err error
@@ -115,6 +116,7 @@ func getInputData(inputFile *string) ([]byte, error) {
 	return cleanBOM(data), nil
 }
 
+// mapInputData map input data to map[string]interface{}
 func mapInputData(data []byte, inputFormat *string) (map[string]interface{}, error) {
 	var err error
 	var mapData map[string]interface{}
@@ -140,6 +142,7 @@ func mapInputData(data []byte, inputFormat *string) (map[string]interface{}, err
 	return mapData, nil
 }
 
+// readTemplate get template from file or from input
 func readTemplate(textTemplate string) ([]byte, error) {
 	var templateFile []byte
 	var err error
@@ -154,7 +157,7 @@ func readTemplate(textTemplate string) ([]byte, error) {
 	return templateFile, nil
 }
 
-// cleanBOM Remove UTF-8 Byte Order Mark if present
+// cleanBOM remove UTF-8 Byte Order Mark if present
 func cleanBOM(b []byte) []byte {
 	if len(b) >= 3 &&
 		b[0] == 0xef &&

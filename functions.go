@@ -24,6 +24,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
+// templateFunctions extends template functions
 func templateFunctions() template.FuncMap {
 	return template.FuncMap{
 		"lua":     luaF,
@@ -81,6 +82,7 @@ func templateFunctions() template.FuncMap {
 	}
 }
 
+// mapJSON string JSON to map[string]interface{} so it can be used in pipline -> template
 func mapJSON(input string) map[string]interface{} {
 	var mapData map[string]interface{}
 	if err := json.Unmarshal([]byte(input), &mapData); err != nil {
@@ -89,6 +91,7 @@ func mapJSON(input string) map[string]interface{} {
 	return mapData
 }
 
+// toJSON convert to JSON
 func toJSON(data map[string]interface{}) string {
 	out, err := json.Marshal(data)
 	if err != nil {
@@ -97,6 +100,7 @@ func toJSON(data map[string]interface{}) string {
 	return string(out)
 }
 
+// toBSON convert to BSON
 func toBSON(data map[string]interface{}) string {
 	out, err := bson.Marshal(data)
 	if err != nil {
@@ -105,6 +109,7 @@ func toBSON(data map[string]interface{}) string {
 	return string(out)
 }
 
+// toYAML convert to YAML
 func toYAML(data map[string]interface{}) string {
 	out, err := yaml.Marshal(data)
 	if err != nil {
@@ -113,6 +118,7 @@ func toYAML(data map[string]interface{}) string {
 	return string(out)
 }
 
+// toXML convert to XML
 func toXML(data map[string]interface{}) string {
 	out, err := mxj.AnyXml(data)
 	if err != nil {
@@ -121,6 +127,8 @@ func toXML(data map[string]interface{}) string {
 	return string(out)
 }
 
+// luaF Call LUA function {{lua "functionName" input1 input2 input3 ...}
+// 1. Functions must be placed in ./lua/functions, 2. Inputs are passed as stringified json 3. Output of lua function must be string
 func luaF(i ...interface{}) string {
 	if !luaReady {
 		return "error: ./lua/functions.lua file missing)"
@@ -140,6 +148,7 @@ func luaF(i ...interface{}) string {
 	return "luaError: getResult"
 }
 
+// dateFormat convert date format {{dateFormat "string", "inputPattern", "outputPattern"}} e.g. {{dateFormat "15.03.2021", "02.01.2006", "01022006"}}
 func dateFormat(date string, inputFormat string, outputFormat string) string {
 	timeParsed, err := time.Parse(inputFormat, date)
 	if err != nil {
@@ -148,10 +157,12 @@ func dateFormat(date string, inputFormat string, outputFormat string) string {
 	return timeParsed.Format(outputFormat)
 }
 
+// now return current date/time in specified format
 func now(format string) string {
 	return time.Now().Format(format)
 }
 
+// add count
 func add(i ...interface{}) int64 {
 	var a int64 = 0
 	for _, b := range i {
@@ -160,6 +171,7 @@ func add(i ...interface{}) int64 {
 	return a
 }
 
+// mul multiply
 func mul(a interface{}, v ...interface{}) int64 {
 	val := toInt64(a)
 	for _, b := range v {
@@ -168,6 +180,7 @@ func mul(a interface{}, v ...interface{}) int64 {
 	return val
 }
 
+// max return highest from numbers {{max .v1 .v2 .v3}}
 func max(a interface{}, i ...interface{}) int64 {
 	aa := toInt64(a)
 	for _, b := range i {
@@ -179,6 +192,7 @@ func max(a interface{}, i ...interface{}) int64 {
 	return aa
 }
 
+// maxf return highest from float numbers {{maxf .v1 .v2 .v3}}
 func maxf(a interface{}, i ...interface{}) float64 {
 	aa := toFloat64(a)
 	for _, b := range i {
@@ -188,6 +202,7 @@ func maxf(a interface{}, i ...interface{}) float64 {
 	return aa
 }
 
+// min return lowest from numbers {{min .v1 .v2 .v3}}
 func min(a interface{}, i ...interface{}) int64 {
 	aa := toInt64(a)
 	for _, b := range i {
@@ -199,6 +214,7 @@ func min(a interface{}, i ...interface{}) int64 {
 	return aa
 }
 
+// minf return lowest from float numbers {{minf .v1 .v2 .v3}}
 func minf(a interface{}, i ...interface{}) float64 {
 	aa := toFloat64(a)
 	for _, b := range i {
@@ -208,6 +224,7 @@ func minf(a interface{}, i ...interface{}) float64 {
 	return aa
 }
 
+// round float {{round .val 2}} -> 2 decimals
 func round(a interface{}, p int, rOpt ...float64) float64 {
 	roundOn := .5
 	if len(rOpt) > 0 {
@@ -228,10 +245,12 @@ func round(a interface{}, p int, rOpt ...float64) float64 {
 	return round / pow
 }
 
+// base64encode encode to base64
 func base64encode(v string) string {
 	return base64.StdEncoding.EncodeToString([]byte(v))
 }
 
+// base64decode decode from base64
 func base64decode(v string) string {
 	data, err := base64.StdEncoding.DecodeString(v)
 	if err != nil {
@@ -240,10 +259,12 @@ func base64decode(v string) string {
 	return string(data)
 }
 
+// base32encode encode to base32
 func base32encode(v string) string {
 	return base32.StdEncoding.EncodeToString([]byte(v))
 }
 
+// base32decode decode from base32
 func base32decode(v string) string {
 	data, err := base32.StdEncoding.DecodeString(v)
 	if err != nil {
@@ -252,6 +273,7 @@ func base32decode(v string) string {
 	return string(data)
 }
 
+// regexMatch check regex e.g. {{regexMatch "a.b", "aaxbb"}}
 func regexMatch(regex string, s string) bool {
 	match, _ := regexp.MatchString(regex, s)
 	return match
@@ -262,6 +284,7 @@ func toFloat64(v interface{}) float64 {
 	return cast.ToFloat64(v)
 }
 
+// toInt convert to int
 func toInt(v interface{}) int {
 	return cast.ToInt(v)
 }
@@ -271,6 +294,7 @@ func toInt64(v interface{}) int64 {
 	return cast.ToInt64(v)
 }
 
+// execDecimalOp convert float to decimal
 func execDecimalOp(a interface{}, b []interface{}, f func(d1, d2 decimal.Decimal) decimal.Decimal) float64 {
 	prt := decimal.NewFromFloat(toFloat64(a))
 	for _, x := range b {
