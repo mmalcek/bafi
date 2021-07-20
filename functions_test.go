@@ -1,12 +1,38 @@
 package main
 
 import (
+	"bytes"
+	"fmt"
 	"regexp"
 	"testing"
+	"text/template"
 	"time"
 
 	"github.com/shopspring/decimal"
 )
+
+func runt(tpl, expect string) error {
+	return runtv(tpl, expect, map[string]string{})
+}
+
+func runtv(tpl, expect string, vars interface{}) error {
+	t := template.Must(template.New("test").Funcs(templateFunctions()).Parse(tpl))
+	var b bytes.Buffer
+	err := t.Execute(&b, vars)
+	if err != nil {
+		return err
+	}
+	if expect != b.String() {
+		return fmt.Errorf("Expected '%s', got '%s'", expect, b.String())
+	}
+	return nil
+}
+
+func TestTemplateFunctions(t *testing.T) {
+	if err := runt(`{{ add "1" 2 }}`, "3"); err != nil {
+		t.Errorf("templateError: %v", err.Error())
+	}
+}
 
 func TestAdd(t *testing.T) {
 	result := add("6", 4)
@@ -241,11 +267,39 @@ func TestLuaF(t *testing.T) {
 	}
 }
 
-// TODO toXXX tests
-/*
 func TestToJSON(t *testing.T) {
+	testData := make(map[string]interface{})
+	testData["Hello"] = "World"
+	result := toJSON(testData)
+	if result != `{"Hello":"World"}` {
+		t.Errorf("result: %v", result)
+	}
+
+	testData["Hello"] = "World" // TODO break the function
+	result = toJSON(testData)
+	if result != `{"Hello":"World"}` {
+		t.Errorf("result: %v", result)
+	}
 }
-*/
+
+func TestToYAML(t *testing.T) {
+	testData := make(map[string]interface{})
+	testData["Hello"] = "World"
+	result := toYAML(testData)
+	if result != `Hello: World
+` {
+		t.Errorf("result: %v", result)
+	}
+}
+
+func TestToXML(t *testing.T) {
+	testData := make(map[string]interface{})
+	testData["Hello"] = "World"
+	result := toXML(testData)
+	if result != `<doc><Hello>World</Hello></doc>` {
+		t.Errorf("result: %v", result)
+	}
+}
 
 func TestExecDecimalOp(t *testing.T) {
 	testMulf := func(a interface{}, v ...interface{}) float64 {
@@ -261,3 +315,6 @@ func TestExecDecimalOp(t *testing.T) {
 		t.Errorf("result: %v", testDivf(6.2154, "4.35"))
 	}
 }
+
+// go test -coverprofile cover.out
+// go tool cover -html='cover.out'
