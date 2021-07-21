@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"regexp"
+	"strings"
 	"testing"
 	"text/template"
 	"time"
@@ -120,6 +121,12 @@ func TestRound(t *testing.T) {
 	if round("6.32487", 2) != 6.32 {
 		t.Errorf("result: %v", round("6.32487", 2))
 	}
+	if round("6.35", 1, 0.6) != 6.3 {
+		t.Errorf("result: %v", round("6.35", 1, 0.6))
+	}
+	if round("6.35", 1, 0.4) != 6.4 {
+		t.Errorf("result: %v", round("6.35", 1, 0.4))
+	}
 }
 
 func TestMax(t *testing.T) {
@@ -150,6 +157,9 @@ func TestDateFormat(t *testing.T) {
 	if dateFormat("15.03.2021", "02.01.2006", "01022006") != "03152021" {
 		t.Errorf("result: %s", dateFormat("15.03.2021", "02.01.2006", "01022006"))
 	}
+	if dateFormat("Hello", "World", "01022006") != "Hello" {
+		t.Errorf("result: %s", dateFormat("Hello", "World", "01022006"))
+	}
 }
 
 func TestNow(t *testing.T) {
@@ -168,6 +178,9 @@ func TestBase64decode(t *testing.T) {
 	if base64decode("SGVsbG8gV29ybGQh") != "Hello World!" {
 		t.Errorf("result: %v", base64decode("SGVsbG8gV29ybGQh"))
 	}
+	if base64decode("Hello") != "illegal base64 data at input byte 4" {
+		t.Errorf("result: %v", base64decode("Hello"))
+	}
 }
 
 func TestBase32encode(t *testing.T) {
@@ -179,6 +192,9 @@ func TestBase32encode(t *testing.T) {
 func TestBase32decode(t *testing.T) {
 	if base32decode("JBSWY3DPEBLW64TMMQQQ====") != "Hello World!" {
 		t.Errorf("result: %v", base32decode("JBSWY3DPEBLW64TMMQQQ===="))
+	}
+	if base32decode("Hello") != "illegal base32 data at input byte 1" {
+		t.Errorf("result: %v", base32decode("Hello"))
 	}
 }
 
@@ -265,6 +281,14 @@ func TestLuaF(t *testing.T) {
 	if luaF("sum", "5", "5") != "10" {
 		t.Errorf("result: %s", luaF("sum", "5", "5"))
 	}
+	if !strings.Contains(luaF("Unknown", "5", "5"), `attempt to call a non-function object`) {
+		t.Errorf("result: %s", luaF("Unknown", "5", "5"))
+	}
+	testData := make(map[string]interface{})
+	testData["Hello"] = make(chan int)
+	if !strings.Contains(luaF("sum", testData), "luaInputError: json: unsupported type: chan int") {
+		t.Errorf("result: %v", luaF("sum", testData))
+	}
 }
 
 func TestToJSON(t *testing.T) {
@@ -274,10 +298,23 @@ func TestToJSON(t *testing.T) {
 	if result != `{"Hello":"World"}` {
 		t.Errorf("result: %v", result)
 	}
-
-	testData["Hello"] = "World" // TODO break the function
+	testData["Hello"] = make(chan int)
 	result = toJSON(testData)
-	if result != `{"Hello":"World"}` {
+	if result != "err: json: unsupported type: chan int" {
+		t.Errorf("result: %v", result)
+	}
+}
+
+func TestToBSON(t *testing.T) {
+	testData := make(map[string]interface{})
+	testData["h"] = "w"
+	result := toBSON(testData)
+	if result != string([]byte{14, 0, 0, 0, 2, 104, 0, 2, 0, 0, 0, 119, 0, 0}) {
+		t.Errorf("result: %v", []byte(result))
+	}
+	testData["Hello"] = make(chan int)
+	result = toBSON(testData)
+	if result != "err: no encoder found for chan int" {
 		t.Errorf("result: %v", result)
 	}
 }
@@ -298,6 +335,14 @@ func TestToXML(t *testing.T) {
 	result := toXML(testData)
 	if result != `<doc><Hello>World</Hello></doc>` {
 		t.Errorf("result: %v", result)
+	}
+}
+
+func TestMapJSON(t *testing.T) {
+	testData := "{\"Hello\":\"World\"}"
+	result := mapJSON(testData)
+	if result["Hello"] != "World" {
+		t.Errorf("result: %v", result["Hello"])
 	}
 }
 
