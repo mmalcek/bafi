@@ -1,13 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"strings"
 	"testing"
 )
 
 func TestCleanBOM(t *testing.T) {
-	fmt.Println("TestCleanBOM")
 	input := "\xef\xbb\xbf" + "Hello"
 	result := string(cleanBOM([]byte(input)))
 	if result != "Hello" {
@@ -21,7 +19,6 @@ func TestCleanBOM(t *testing.T) {
 }
 
 func TestReadTemplate(t *testing.T) {
-	fmt.Println("TestReadTemplate")
 	// Test inline template
 	result, err := readTemplate("?{{toXML .}}")
 	if string(result) != "{{toXML .}}" {
@@ -46,7 +43,6 @@ func TestReadTemplate(t *testing.T) {
 }
 
 func TestMapInputData(t *testing.T) {
-	fmt.Println("TestMapInputData")
 	// Test map json
 	input := []byte(`{"name": "John","age": 30}`)
 	format := "json"
@@ -125,7 +121,7 @@ func TestWriteOutputData(t *testing.T) {
 	if !strings.Contains(err.Error(), `new:1: unexpected "content"`) {
 		t.Errorf("result: %v", err.Error())
 	}
-	templateFile = []byte(`{{.Hello}}`)
+	templateFile = []byte(`Output test: Hello {{.Hello}} {{print "\r\n"}}`)
 	if err := writeOutputData(testData, &outputFile, templateFile); err != nil {
 		t.Errorf("result: %v", err.Error())
 	}
@@ -171,8 +167,7 @@ func TestProcessTemplate(t *testing.T) {
 	if !strings.Contains(err.Error(), `mapJSON: invalid character`) {
 		t.Errorf("result: %v", err.Error())
 	}
-	templateFile = `?{{index .TOP_LEVEL "-description"}}
-	`
+	templateFile = `?Output template test: description = {{index .TOP_LEVEL "-description"}} {{print "\r\n"}}`
 	inputformat = ""
 	err = processTemplate(&inputFile, &inputformat, &templateFile, &outputFile)
 	if err != nil {
