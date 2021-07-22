@@ -336,7 +336,7 @@ func mapJSON(input string) map[string]interface{} {
 // luaF Call LUA function {{lua "functionName" input1 input2 input3 ...}
 // 1. Functions must be placed in ./lua/functions, 2. Inputs are passed as stringified json 3. Output of lua function must be string
 func luaF(i ...interface{}) string {
-	if !luaReady {
+	if luaData == nil {
 		return "error: ./lua/functions.lua file missing)"
 	}
 	strData, err := json.Marshal(i[1:])

@@ -22,19 +22,16 @@ import (
 const version = "1.0.3"
 
 var (
-	luaData  *lua.LState
-	luaReady = false
+	luaData *lua.LState
 )
 
 func init() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	if _, err := os.Stat("./lua/functions.lua"); !os.IsNotExist(err) {
 		luaData = lua.NewState()
-		err := luaData.DoFile("./lua/functions.lua")
-		if err != nil {
+		if err := luaData.DoFile("./lua/functions.lua"); err != nil {
 			log.Fatal("loadLuaFunctions", err.Error())
 		}
-		luaReady = true
 	}
 }
 
@@ -46,21 +43,13 @@ func main() {
 	getVersion := flag.Bool("v", false, "template")
 	flag.Parse()
 
-	if *getVersion {
-		fmt.Printf("Version: %s\r\n", version)
+	if output := checkFlags(getVersion, textTemplate); output != "" {
+		fmt.Print(output)
 		os.Exit(0)
-	}
-
-	if *textTemplate == "" {
-		log.Fatal("template file must be defined: -t template.tmpl")
 	}
 
 	if err := processTemplate(inputFile, inputFormat, textTemplate, outputFile); err != nil {
 		log.Fatal(err.Error())
-	}
-
-	if luaReady {
-		luaData.Close()
 	}
 }
 
@@ -80,32 +69,8 @@ func processTemplate(inputFile *string, inputFormat *string, textTemplate *strin
 	if err := writeOutputData(mapData, outputFile, templateFile); err != nil {
 		return err
 	}
-	return nil
-}
-
-func writeOutputData(mapData map[string]interface{}, outputFile *string, templateFile []byte) error {
-	var err error
-	template, err := template.New("new").Funcs(templateFunctions()).Parse(string(templateFile))
-	if err != nil {
-		return fmt.Errorf("parseTemplate: %s", err.Error())
-	}
-	if *outputFile == "" {
-		output := new(bytes.Buffer)
-		err = template.Execute(output, mapData)
-		if err != nil {
-			return fmt.Errorf("writeStdout: %s", err.Error())
-		}
-		fmt.Print(output)
-	} else {
-		output, err := os.Create(*outputFile)
-		if err != nil {
-			return fmt.Errorf("createOutputFile: %s", err.Error())
-		}
-		defer output.Close()
-		err = template.Execute(output, mapData)
-		if err != nil {
-			return fmt.Errorf("writeOutputFile: %s", err.Error())
-		}
+	if luaData != nil {
+		luaData.Close()
 	}
 	return nil
 }
@@ -172,6 +137,43 @@ func readTemplate(textTemplate string) ([]byte, error) {
 		}
 	}
 	return templateFile, nil
+}
+
+// writeOutputData process template and write output
+func writeOutputData(mapData map[string]interface{}, outputFile *string, templateFile []byte) error {
+	var err error
+	template, err := template.New("new").Funcs(templateFunctions()).Parse(string(templateFile))
+	if err != nil {
+		return fmt.Errorf("parseTemplate: %s", err.Error())
+	}
+	if *outputFile == "" {
+		output := new(bytes.Buffer)
+		if err = template.Execute(output, mapData); err != nil {
+			return fmt.Errorf("writeStdout: %s", err.Error())
+		}
+		fmt.Print(output)
+	} else {
+		output, err := os.Create(*outputFile)
+		if err != nil {
+			return fmt.Errorf("createOutputFile: %s", err.Error())
+		}
+		defer output.Close()
+		if err = template.Execute(output, mapData); err != nil {
+			return fmt.Errorf("writeOutputFile: %s", err.Error())
+		}
+	}
+	return nil
+}
+
+func checkFlags(getVersion *bool, textTemplate *string) string {
+	if *getVersion {
+		return fmt.Sprintf("Version: %s\r\n", version)
+	}
+
+	if *textTemplate == "" {
+		return "template file must be defined: -t template.tmpl"
+	}
+	return ""
 }
 
 // cleanBOM remove UTF-8 Byte Order Mark if present

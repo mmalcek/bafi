@@ -5,40 +5,56 @@ import (
 	"testing"
 )
 
-func TestCleanBOM(t *testing.T) {
-	input := "\xef\xbb\xbf" + "Hello"
-	result := string(cleanBOM([]byte(input)))
-	if result != "Hello" {
-		t.Errorf("result: %v", result)
+func TestProcessTemplate(t *testing.T) {
+	inputFile := ""
+	inputformat := ""
+	outputFile := ""
+	templateFile := `?{{define content}}`
+	err := processTemplate(&inputFile, &inputformat, &templateFile, &outputFile)
+	if !strings.Contains(err.Error(), "stdin: Error-noPipe") {
+		t.Errorf("result: %v", err.Error())
 	}
-	input = "Hello"
-	result = string(cleanBOM([]byte(input)))
-	if result != "Hello" {
-		t.Errorf("result: %v", result)
+	inputFile = "testdata.xml"
+	templateFile = "hello.tmpl"
+	err = processTemplate(&inputFile, &inputformat, &templateFile, &outputFile)
+	if !strings.Contains(err.Error(), `readFile: open hello.tmpl:`) {
+		t.Errorf("result: %v", err.Error())
 	}
+	inputFile = "testdata.xml"
+	templateFile = "?{{define content}}"
+	err = processTemplate(&inputFile, &inputformat, &templateFile, &outputFile)
+	if !strings.Contains(err.Error(), `unexpected "content" in define`) {
+		t.Errorf("result: %v", err.Error())
+	}
+	inputformat = "json"
+	err = processTemplate(&inputFile, &inputformat, &templateFile, &outputFile)
+	if !strings.Contains(err.Error(), `mapJSON: invalid character`) {
+		t.Errorf("result: %v", err.Error())
+	}
+	templateFile = `?Output template test: description = {{index .TOP_LEVEL "-description"}} {{print "\r\n"}}`
+	inputformat = ""
+	err = processTemplate(&inputFile, &inputformat, &templateFile, &outputFile)
+	if err != nil {
+		t.Errorf("result: %v", err.Error())
+	}
+
 }
 
-func TestReadTemplate(t *testing.T) {
-	// Test inline template
-	result, err := readTemplate("?{{toXML .}}")
-	if string(result) != "{{toXML .}}" {
-		t.Errorf("result: %v", string(result))
+func TestGetInputData(t *testing.T) {
+	inputFile := "testdata.xml"
+	data, _ := getInputData(&inputFile)
+	if !strings.Contains(string(data), `<?xml version="1.0" encoding="utf-8"?>`) {
+		t.Errorf("result: %v", string(data))
 	}
-	if err != nil {
-		t.Errorf("err: %v", err)
+	inputFile = "Hello.xml"
+	_, err := getInputData(&inputFile)
+	if !strings.Contains(err.Error(), `readFile: open Hello.xml:`) {
+		t.Errorf("result: %v", err.Error())
 	}
-	// Test template file
-	result, err = readTemplate("template.tmpl")
-	if !strings.Contains(string(result), "CSV formatted data:") {
-		t.Errorf("result: %v", string(result))
-	}
-	if err != nil {
-		t.Errorf("err: %v", err)
-	}
-	// Test nonExisting file
-	_, err = readTemplate("hello.tmpl")
-	if !strings.Contains(err.Error(), "readFile: open hello.tmpl:") {
-		t.Errorf("err: %v", err)
+	inputFile = ""
+	_, err = getInputData(&inputFile)
+	if !strings.Contains(err.Error(), `stdin: Error-noPipe`) {
+		t.Errorf("result: %v", err.Error())
 	}
 }
 
@@ -91,24 +107,29 @@ func TestMapInputData(t *testing.T) {
 	if !strings.Contains(err.Error(), "xml.Decoder.Token() - XML syntax error on line 1") {
 		t.Errorf("result: %v", err.Error())
 	}
-
 }
 
-func TestGetInputData(t *testing.T) {
-	inputFile := "testdata.xml"
-	data, _ := getInputData(&inputFile)
-	if !strings.Contains(string(data), `<?xml version="1.0" encoding="utf-8"?>`) {
-		t.Errorf("result: %v", string(data))
+func TestReadTemplate(t *testing.T) {
+	// Test inline template
+	result, err := readTemplate("?{{toXML .}}")
+	if string(result) != "{{toXML .}}" {
+		t.Errorf("result: %v", string(result))
 	}
-	inputFile = "Hello.xml"
-	_, err := getInputData(&inputFile)
-	if !strings.Contains(err.Error(), `readFile: open Hello.xml:`) {
-		t.Errorf("result: %v", err.Error())
+	if err != nil {
+		t.Errorf("err: %v", err)
 	}
-	inputFile = ""
-	_, err = getInputData(&inputFile)
-	if !strings.Contains(err.Error(), `stdin: Error-noPipe`) {
-		t.Errorf("result: %v", err.Error())
+	// Test template file
+	result, err = readTemplate("template.tmpl")
+	if !strings.Contains(string(result), "CSV formatted data:") {
+		t.Errorf("result: %v", string(result))
+	}
+	if err != nil {
+		t.Errorf("err: %v", err)
+	}
+	// Test nonExisting file
+	_, err = readTemplate("hello.tmpl")
+	if !strings.Contains(err.Error(), "readFile: open hello.tmpl:") {
+		t.Errorf("err: %v", err)
 	}
 }
 
@@ -141,37 +162,32 @@ func TestWriteOutputData(t *testing.T) {
 	}
 }
 
-func TestProcessTemplate(t *testing.T) {
-	inputFile := ""
-	inputformat := ""
-	outputFile := ""
-	templateFile := `?{{define content}}`
-	err := processTemplate(&inputFile, &inputformat, &templateFile, &outputFile)
-	if !strings.Contains(err.Error(), "stdin: Error-noPipe") {
-		t.Errorf("result: %v", err.Error())
+func TestCheckFlags(t *testing.T) {
+	getVersion := false
+	textTemplate := ""
+	if checkFlags(&getVersion, &textTemplate) == "" {
+		t.Errorf("result: %v", checkFlags(&getVersion, &textTemplate))
 	}
-	inputFile = "testdata.xml"
-	templateFile = "hello.tmpl"
-	err = processTemplate(&inputFile, &inputformat, &templateFile, &outputFile)
-	if !strings.Contains(err.Error(), `readFile: open hello.tmpl:`) {
-		t.Errorf("result: %v", err.Error())
+	getVersion = true
+	if checkFlags(&getVersion, &textTemplate) == "" {
+		t.Errorf("result: %v", checkFlags(&getVersion, &textTemplate))
 	}
-	inputFile = "testdata.xml"
-	templateFile = "?{{define content}}"
-	err = processTemplate(&inputFile, &inputformat, &templateFile, &outputFile)
-	if !strings.Contains(err.Error(), `unexpected "content" in define`) {
-		t.Errorf("result: %v", err.Error())
+	getVersion = false
+	textTemplate = "template.tmpl"
+	if checkFlags(&getVersion, &textTemplate) != "" {
+		t.Errorf("result: %v", checkFlags(&getVersion, &textTemplate))
 	}
-	inputformat = "json"
-	err = processTemplate(&inputFile, &inputformat, &templateFile, &outputFile)
-	if !strings.Contains(err.Error(), `mapJSON: invalid character`) {
-		t.Errorf("result: %v", err.Error())
-	}
-	templateFile = `?Output template test: description = {{index .TOP_LEVEL "-description"}} {{print "\r\n"}}`
-	inputformat = ""
-	err = processTemplate(&inputFile, &inputformat, &templateFile, &outputFile)
-	if err != nil {
-		t.Errorf("result: %v", err.Error())
-	}
+}
 
+func TestCleanBOM(t *testing.T) {
+	input := "\xef\xbb\xbf" + "Hello"
+	result := string(cleanBOM([]byte(input)))
+	if result != "Hello" {
+		t.Errorf("result: %v", result)
+	}
+	input = "Hello"
+	result = string(cleanBOM([]byte(input)))
+	if result != "Hello" {
+		t.Errorf("result: %v", result)
+	}
 }
