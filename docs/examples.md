@@ -23,7 +23,7 @@ More info about curl [here](https://curl.se/) but you can of course use any tool
 ### Append output file
 Redirect stdout to file and append ( > = replace, >> = apppend )
 ```
-bafi.exe -i testdata.xml -t template.tmpl >> out.txt
+bafi.exe -i testdata.xml -t template.tmpl >> output.txt
 ```
 
 ## Template

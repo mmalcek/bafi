@@ -40,7 +40,7 @@ func TestReadTemplate(t *testing.T) {
 	}
 	// Test nonExisting file
 	_, err = readTemplate("hello.tmpl")
-	if !strings.Contains(err.Error(), "The system cannot find the file specified.") {
+	if !strings.Contains(err.Error(), "readFile: open hello.tmpl:") {
 		t.Errorf("err: %v", err)
 	}
 }
@@ -106,7 +106,7 @@ func TestGetInputData(t *testing.T) {
 	}
 	inputFile = "Hello.xml"
 	_, err := getInputData(&inputFile)
-	if !strings.Contains(err.Error(), `Hello.xml: The system cannot find the file specified.`) {
+	if !strings.Contains(err.Error(), `readFile: open Hello.xml:`) {
 		t.Errorf("result: %v", err.Error())
 	}
 	inputFile = ""
@@ -129,7 +129,7 @@ func TestWriteOutputData(t *testing.T) {
 	if err := writeOutputData(testData, &outputFile, templateFile); err != nil {
 		t.Errorf("result: %v", err.Error())
 	}
-	outputFile = "out.txt"
+	outputFile = "output.txt"
 	if err := writeOutputData(testData, &outputFile, templateFile); err != nil {
 		t.Errorf("result: %v", err.Error())
 	}
@@ -138,9 +138,9 @@ func TestWriteOutputData(t *testing.T) {
 	if !strings.Contains(err.Error(), "can't print {{.Hello}} of type chan int") {
 		t.Errorf("result: %v", err.Error())
 	}
-	outputFile = "out*hello.txt"
+	outputFile = "out*he\\llo.txt"
 	err = writeOutputData(testData, &outputFile, templateFile)
-	if !strings.Contains(err.Error(), "open out*hello.txt: The filename, directory name, or") {
+	if !strings.Contains(err.Error(), "createOutputFile:") {
 		t.Errorf("result: %v", err.Error())
 	}
 }
@@ -157,7 +157,7 @@ func TestProcessTemplate(t *testing.T) {
 	inputFile = "testdata.xml"
 	templateFile = "hello.tmpl"
 	err = processTemplate(&inputFile, &inputformat, &templateFile, &outputFile)
-	if !strings.Contains(err.Error(), `hello.tmpl: The system cannot find the file`) {
+	if !strings.Contains(err.Error(), `readFile: open hello.tmpl:`) {
 		t.Errorf("result: %v", err.Error())
 	}
 	inputFile = "testdata.xml"
