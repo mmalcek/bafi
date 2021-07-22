@@ -6,7 +6,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"log"
 	"math"
 	"math/rand"
 	"regexp"
@@ -327,7 +326,9 @@ func toXML(data map[string]interface{}) string {
 func mapJSON(input string) map[string]interface{} {
 	var mapData map[string]interface{}
 	if err := json.Unmarshal([]byte(input), &mapData); err != nil {
-		log.Fatalf("errorMapJSON: %s\n", err.Error())
+		testData := make(map[string]interface{})
+		testData["error"] = err.Error()
+		return testData
 	}
 	return mapData
 }

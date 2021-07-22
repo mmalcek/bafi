@@ -344,6 +344,11 @@ func TestMapJSON(t *testing.T) {
 	if result["Hello"] != "World" {
 		t.Errorf("result: %v", result["Hello"])
 	}
+	testData = "{\"Hello\" World\"}"
+	result = mapJSON(testData)
+	if !strings.Contains(result["error"].(string), `invalid character 'W'`) {
+		t.Errorf("result: %v", result)
+	}
 }
 
 func TestExecDecimalOp(t *testing.T) {

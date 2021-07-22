@@ -19,7 +19,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-const version = "1.0.2"
+const version = "1.0.3"
 
 var (
 	luaData  *lua.LState
@@ -54,43 +54,60 @@ func main() {
 	if *textTemplate == "" {
 		log.Fatal("template file must be defined: -t template.tmpl")
 	}
+
+	if err := processTemplate(inputFile, inputFormat, textTemplate, outputFile); err != nil {
+		log.Fatal(err.Error())
+	}
+
+	if luaReady {
+		luaData.Close()
+	}
+}
+
+func processTemplate(inputFile *string, inputFormat *string, textTemplate *string, outputFile *string) error {
 	data, err := getInputData(inputFile)
 	if err != nil {
-		log.Fatal(err.Error())
+		return err
 	}
 	mapData, err := mapInputData(data, inputFormat)
 	if err != nil {
-		log.Fatal(err.Error())
+		return err
 	}
 	templateFile, err := readTemplate(*textTemplate)
 	if err != nil {
-		log.Fatal(err.Error())
+		return err
 	}
+	if err := writeOutputData(mapData, outputFile, templateFile); err != nil {
+		return err
+	}
+	return nil
+}
+
+func writeOutputData(mapData map[string]interface{}, outputFile *string, templateFile []byte) error {
+	var err error
 	template, err := template.New("new").Funcs(templateFunctions()).Parse(string(templateFile))
 	if err != nil {
-		log.Fatal("parseTemplate: ", err.Error())
+		return fmt.Errorf("parseTemplate: %s", err.Error())
 	}
 	if *outputFile == "" {
 		output := new(bytes.Buffer)
 		err = template.Execute(output, mapData)
 		if err != nil {
-			log.Fatal("writeStdout: ", err.Error())
+			return fmt.Errorf("writeStdout: %s", err.Error())
 		}
 		fmt.Print(output)
 	} else {
 		output, err := os.Create(*outputFile)
 		if err != nil {
-			log.Fatal("createOutputFile: ", err.Error())
+			return fmt.Errorf("createOutputFile: %s", err.Error())
 		}
 		defer output.Close()
 		err = template.Execute(output, mapData)
 		if err != nil {
-			log.Fatal("writeOutputFile: ", err.Error())
+			return fmt.Errorf("writeOutputFile: %s", err.Error())
 		}
 	}
-	if luaReady {
-		luaData.Close()
-	}
+	return nil
 }
 
 // getInputData get the data from stdin/pipe or from file
