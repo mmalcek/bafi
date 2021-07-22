@@ -138,7 +138,7 @@ func TestWriteOutputData(t *testing.T) {
 	if !strings.Contains(err.Error(), "can't print {{.Hello}} of type chan int") {
 		t.Errorf("result: %v", err.Error())
 	}
-	outputFile = "out*he\\llo.txt"
+	outputFile = "out*he\\ll//o/./txt"
 	err = writeOutputData(testData, &outputFile, templateFile)
 	if !strings.Contains(err.Error(), "createOutputFile:") {
 		t.Errorf("result: %v", err.Error())
