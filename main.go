@@ -19,11 +19,19 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-const version = "1.0.3"
+const version = "1.0.2"
 
 var (
 	luaData *lua.LState
 )
+
+type tParams struct {
+	inputFile    *string
+	outputFile   *string
+	textTemplate *string
+	inputFormat  *string
+	getVersion   *bool
+}
 
 func init() {
 	rand.Seed(time.Now().UTC().UnixNano())
@@ -36,37 +44,42 @@ func init() {
 }
 
 func main() {
-	inputFile := flag.String("i", "", "input file, if not defined read from stdin (pipe mode)")
-	outputFile := flag.String("o", "", "output file, if not defined stdout is used")
-	textTemplate := flag.String("t", "", "template, file or inline. Inline should start with ? e.g. -t \"?{{.MyValue}}\" ")
-	inputFormat := flag.String("f", "", "input format (json,xml), default xml")
-	getVersion := flag.Bool("v", false, "template")
+	params := tParams{
+		inputFile:    flag.String("i", "", "input file, if not defined read from stdin (pipe mode)"),
+		outputFile:   flag.String("o", "", "output file, if not defined write to stdout (pipe mode)"),
+		textTemplate: flag.String("t", "", "template, file or inline. Inline should start with ? e.g. -t \"?{{.MyValue}}\" "),
+		inputFormat:  flag.String("f", "", "input format, json, bson, yaml, xml(default)"),
+		getVersion:   flag.Bool("v", false, "print version and exit"),
+	}
 	flag.Parse()
 
-	if output := checkFlags(getVersion, textTemplate); output != "" {
-		fmt.Print(output)
-		os.Exit(0)
-	}
-
-	if err := processTemplate(inputFile, inputFormat, textTemplate, outputFile); err != nil {
+	if err := processTemplate(params); err != nil {
 		log.Fatal(err.Error())
 	}
 }
 
-func processTemplate(inputFile *string, inputFormat *string, textTemplate *string, outputFile *string) error {
-	data, err := getInputData(inputFile)
+func processTemplate(params tParams) error {
+	if *params.getVersion {
+		fmt.Printf("Version: %s\r\n", version)
+		return nil
+	}
+	if *params.textTemplate == "" {
+		fmt.Println("template file must be defined: -t template.tmpl")
+		return nil
+	}
+	data, err := getInputData(params.inputFile)
 	if err != nil {
 		return err
 	}
-	mapData, err := mapInputData(data, inputFormat)
+	mapData, err := mapInputData(data, params.inputFormat)
 	if err != nil {
 		return err
 	}
-	templateFile, err := readTemplate(*textTemplate)
+	templateFile, err := readTemplate(*params.textTemplate)
 	if err != nil {
 		return err
 	}
-	if err := writeOutputData(mapData, outputFile, templateFile); err != nil {
+	if err := writeOutputData(mapData, params.outputFile, templateFile); err != nil {
 		return err
 	}
 	if luaData != nil {
@@ -163,17 +176,6 @@ func writeOutputData(mapData map[string]interface{}, outputFile *string, templat
 		}
 	}
 	return nil
-}
-
-func checkFlags(getVersion *bool, textTemplate *string) string {
-	if *getVersion {
-		return fmt.Sprintf("Version: %s\r\n", version)
-	}
-
-	if *textTemplate == "" {
-		return "template file must be defined: -t template.tmpl"
-	}
-	return ""
 }
 
 // cleanBOM remove UTF-8 Byte Order Mark if present

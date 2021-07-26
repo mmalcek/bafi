@@ -7,37 +7,55 @@ import (
 
 func TestProcessTemplate(t *testing.T) {
 	inputFile := ""
-	inputformat := ""
+	inputFormat := ""
 	outputFile := ""
-	templateFile := `?{{define content}}`
-	err := processTemplate(&inputFile, &inputformat, &templateFile, &outputFile)
+	textTemplate := `?{{define content}}`
+	getVersion := false
+	params := tParams{
+		inputFile:    &inputFile,
+		inputFormat:  &inputFormat,
+		outputFile:   &outputFile,
+		textTemplate: &textTemplate,
+		getVersion:   &getVersion,
+	}
+	err := processTemplate(params)
 	if !strings.Contains(err.Error(), "stdin: Error-noPipe") {
 		t.Errorf("result: %v", err.Error())
 	}
 	inputFile = "testdata.xml"
-	templateFile = "hello.tmpl"
-	err = processTemplate(&inputFile, &inputformat, &templateFile, &outputFile)
+	textTemplate = "hello.tmpl"
+	err = processTemplate(params)
 	if !strings.Contains(err.Error(), `readFile: open hello.tmpl:`) {
 		t.Errorf("result: %v", err.Error())
 	}
 	inputFile = "testdata.xml"
-	templateFile = "?{{define content}}"
-	err = processTemplate(&inputFile, &inputformat, &templateFile, &outputFile)
+	textTemplate = "?{{define content}}"
+	err = processTemplate(params)
 	if !strings.Contains(err.Error(), `unexpected "content" in define`) {
 		t.Errorf("result: %v", err.Error())
 	}
-	inputformat = "json"
-	err = processTemplate(&inputFile, &inputformat, &templateFile, &outputFile)
+	inputFormat = "json"
+	err = processTemplate(params)
 	if !strings.Contains(err.Error(), `mapJSON: invalid character`) {
 		t.Errorf("result: %v", err.Error())
 	}
-	templateFile = `?Output template test: description = {{index .TOP_LEVEL "-description"}} {{print "\r\n"}}`
-	inputformat = ""
-	err = processTemplate(&inputFile, &inputformat, &templateFile, &outputFile)
+	textTemplate = `?Output template test: description = {{index .TOP_LEVEL "-description"}} {{print "\r\n"}}`
+	inputFormat = ""
+	err = processTemplate(params)
 	if err != nil {
 		t.Errorf("result: %v", err.Error())
 	}
-
+	getVersion = true
+	err = processTemplate(params)
+	if err != nil {
+		t.Errorf("result: %v", err.Error())
+	}
+	textTemplate = ""
+	getVersion = false
+	err = processTemplate(params)
+	if err != nil {
+		t.Errorf("result: %v", err.Error())
+	}
 }
 
 func TestGetInputData(t *testing.T) {
@@ -162,6 +180,7 @@ func TestWriteOutputData(t *testing.T) {
 	}
 }
 
+/*
 func TestCheckFlags(t *testing.T) {
 	getVersion := false
 	textTemplate := ""
@@ -178,7 +197,7 @@ func TestCheckFlags(t *testing.T) {
 		t.Errorf("result: %v", checkFlags(&getVersion, &textTemplate))
 	}
 }
-
+*/
 func TestCleanBOM(t *testing.T) {
 	input := "\xef\xbb\xbf" + "Hello"
 	result := string(cleanBOM([]byte(input)))
