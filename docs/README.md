@@ -17,6 +17,7 @@
 
 [![Go](https://github.com/mmalcek/bafi/actions/workflows/go.yml/badge.svg)](https://github.com/mmalcek/bafi/actions/workflows/go.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mmalcek/bafi)](https://goreportcard.com/report/github.com/mmalcek/bafi)
+[![GoCover](http://gocover.io/_badge/github.com/mmalcek/bafi)](http://gocover.io/github.com/mmalcek/bafi)
 [![CodeQL](https://github.com/mmalcek/bafi/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/mmalcek/bafi/actions/workflows/codeql-analysis.yml)
 
 ## Command line arguments
