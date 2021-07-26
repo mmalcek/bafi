@@ -147,6 +147,10 @@
 <li>stdin/stdout support which allows get data from source -&gt; translate -&gt; delivery to destination. This allows easily translate data between different web services like <strong>REST to SOAP, SOAP to REST, REST to CSV, ...</strong></li>
 </ul>
 <p><img src="img/scheme.svg" style="border: 0;" height="150px" /></p>
+<p><a href="https://github.com/mmalcek/bafi/actions/workflows/go.yml"><img alt="Go" src="https://github.com/mmalcek/bafi/actions/workflows/go.yml/badge.svg" /></a>
+<a href="https://goreportcard.com/report/github.com/mmalcek/bafi"><img alt="Go Report Card" src="https://goreportcard.com/badge/github.com/mmalcek/bafi" /></a>
+<a href="http://gocover.io/github.com/mmalcek/bafi"><img alt="GoCover" src="http://gocover.io/_badge/github.com/mmalcek/bafi" /></a>
+<a href="https://github.com/mmalcek/bafi/actions/workflows/codeql-analysis.yml"><img alt="CodeQL" src="https://github.com/mmalcek/bafi/actions/workflows/codeql-analysis.yml/badge.svg" /></a></p>
 <h2 id="command-line-arguments">Command line arguments</h2>
 <ul>
 <li>"-i input.xml" Input file name. If not defined app tries read stdin</li>
@@ -250,14 +254,14 @@
 <li><strong>regexMatch</strong> - {{regexMatch pattern .Value1}} more about go <a href="https://gobyexample.com/regular-expressions">regex</a></li>
 <li><strong>upper</strong> - to uppercase</li>
 <li><strong>lower</strong> - to lowercase</li>
-<li><strong>trim</strong></li>
-<li><strong>trimAll</strong></li>
-<li><strong>trimSuffix</strong></li>
-<li><strong>trimPrefix</strong></li>
-<li><strong>atoi</strong></li>
-<li><strong>int64</strong></li>
-<li><strong>int</strong></li>
-<li><strong>float64</strong></li>
+<li><strong>trim</strong> - remove leading and trailing whitespace</li>
+<li><strong>trimPrefix</strong> - {{trimPrefix "!Hello World!" "!"}} - returns "Hello World!"</li>
+<li><strong>trimSuffix</strong> - {{trimSuffix "!Hello World!" "!"}} - returns "!HelloWorld"</li>
+<li><strong>trimAll</strong> - {{trimAll "!Hello World!" "!"}} - returns "Hello World"</li>
+<li><strong>atoi</strong> - {{atoi "42"}} - string to int</li>
+<li><strong>int</strong> - {{int "42"}} - cast to int</li>
+<li><strong>int64</strong> - {{int64 "42"}} - cast to int64</li>
+<li><strong>float64</strong> - {{float64 "3.14159"}} - cast to float64</li>
 <li><strong>toJSON</strong> - convert input object to JSON</li>
 <li><strong>toBSON</strong> - convert input object to BSON</li>
 <li><strong>toYAML</strong> - convert input object to YAML</li>
@@ -363,6 +367,6 @@ end
 </html>
 
 <!--
-MkDocs version : 1.2.1
-Build Date UTC : 2021-07-15 13:42:08.964095+00:00
+MkDocs version : 1.2.2
+Build Date UTC : 2021-07-26 13:00:02.930384+00:00
 -->

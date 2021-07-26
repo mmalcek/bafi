@@ -92,6 +92,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="3"><a href="#append-output-file" class="nav-link">Append output file</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
             <li class="nav-item" data-level="2"><a href="#template" class="nav-link">Template</a>
@@ -142,6 +146,10 @@
 <pre><code class="language-sh">curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 </code></pre>
 <p>More info about curl <a href="https://curl.se/">here</a> but you can of course use any tool with stdout</p>
+<h3 id="append-output-file">Append output file</h3>
+<p>Redirect stdout to file and append ( &gt; = replace, &gt;&gt; = apppend )</p>
+<pre><code>bafi.exe -i testdata.xml -t template.tmpl &gt;&gt; output.txt
+</code></pre>
 <h2 id="template">Template</h2>
 <p>Examples are based on testdata.tmpl included in project</p>
 <h3 id="xml-to-csv">XML to CSV</h3>
