@@ -233,7 +233,7 @@
 <li><strong>div</strong> - divide</li>
 <li><strong>mod</strong> - modulo</li>
 <li><strong>mul</strong> - multiply</li>
-<li><strong>randInt</strong></li>
+<li><strong>randInt</strong> - return random integer {{randInt .Min .Max}}</li>
 <li><strong>add1f</strong> - "...f" functions parse float but provide <strong>decimal</strong> operations using <a href="https://github.com/shopspring/decimal">shopspring decimal</a></li>
 <li><strong>addf</strong></li>
 <li><strong>subf</strong></li>
@@ -252,20 +252,31 @@
 <li><strong>b32dec</strong> - decode from base32</li>
 <li><strong>uuid</strong> - generate UUID</li>
 <li><strong>regexMatch</strong> - {{regexMatch pattern .Value1}} more about go <a href="https://gobyexample.com/regular-expressions">regex</a></li>
+<li><strong>contains</strong> - check if string contains substring e.g. {{contains "aaxbb" "xb"}}</li>
 <li><strong>upper</strong> - to uppercase</li>
 <li><strong>lower</strong> - to lowercase</li>
+<li><strong>addSubstring</strong> - {{addSubstring $myString, "XX", $position}} add substring to $position in string (if $position is 1,2,3 = Adding from right, if -1,-2,-3 = Adding from left)</li>
 <li><strong>trim</strong> - remove leading and trailing whitespace</li>
 <li><strong>trimPrefix</strong> - {{trimPrefix "!Hello World!" "!"}} - returns "Hello World!"</li>
 <li><strong>trimSuffix</strong> - {{trimSuffix "!Hello World!" "!"}} - returns "!HelloWorld"</li>
 <li><strong>trimAll</strong> - {{trimAll "!Hello World!" "!"}} - returns "Hello World"</li>
 <li><strong>atoi</strong> - {{atoi "42"}} - string to int</li>
-<li><strong>int</strong> - {{int "42"}} - cast to int</li>
-<li><strong>int64</strong> - {{int64 "42"}} - cast to int64</li>
-<li><strong>float64</strong> - {{float64 "3.14159"}} - cast to float64</li>
+<li><strong>toInt</strong> - {{int "42"}} - cast to int</li>
+<li><strong>toInt64</strong> - {{int64 "42"}} - cast to int64</li>
+<li><strong>toFloat64</strong> - {{float64 "3.14159"}} - cast to float64</li>
+<li><strong>toDecimal</strong> - {{toDecimal "3.14159"}} - cast to decimal (if error return 0)</li>
+<li><strong>toDecimalString</strong> - {{toDecimalString "3.14159"}} - cast to decimal string (if error return "error message")</li>
 <li><strong>toJSON</strong> - convert input object to JSON</li>
 <li><strong>toBSON</strong> - convert input object to BSON</li>
 <li><strong>toYAML</strong> - convert input object to YAML</li>
 <li><strong>toXML</strong> - convert input object to XML</li>
+<li><strong>isBool</strong> - {{isBool .Value1}} - check if value is bool</li>
+<li><strong>isInt</strong> - {{isInt .Value1}} - check if value is int</li>
+<li><strong>isFloat64</strong> - {{isFloat64 .Value1}} - check if value is float64</li>
+<li><strong>isString</strong> - {{isString .Value1}} - check if value is string</li>
+<li><strong>isMap</strong> - {{isMap .Value1}} - check if value is map</li>
+<li><strong>isArray</strong> - {{isArray .Value1}} - check if value is array</li>
+<li><strong>mustArray</strong> - {{mustArray .Value1}} - convert to array. Usefull with XML where single node is not treated as array</li>
 <li><strong>mapJSON</strong> - convert stringified JSON to map so it can be used as object or translated to other formats (e.g. "toXML"). Check template.tmpl for example</li>
 </ul>
 <h4 id="lua-custom-functions">Lua custom functions</h4>
@@ -368,5 +379,5 @@ end
 
 <!--
 MkDocs version : 1.2.2
-Build Date UTC : 2021-07-26 13:00:02.930384+00:00
+Build Date UTC : 2021-08-02 15:03:30.366713+00:00
 -->
