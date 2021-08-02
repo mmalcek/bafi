@@ -5,6 +5,6 @@ site
 *.exe~
 *.csv
 output.*
-
-
+temp.txt
 cover.out
+

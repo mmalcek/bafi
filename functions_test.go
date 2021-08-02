@@ -204,6 +204,15 @@ func TestRegexMatch(t *testing.T) {
 	}
 }
 
+func TestContains(t *testing.T) {
+	if contains("aaxbb", "a.b") {
+		t.Errorf("result: %v", contains("aaxbb", "a.b"))
+	}
+	if !contains("aaxbb", "ax") {
+		t.Errorf("result: %v", contains("aaxbb", "a.b"))
+	}
+}
+
 func TestUUID(t *testing.T) {
 	testUUID := newUUID()
 	r := regexp.MustCompile("^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-4[a-fA-F0-9]{3}-[8|9|aA|bB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$")
@@ -221,6 +230,21 @@ func TestUpper(t *testing.T) {
 func TestLower(t *testing.T) {
 	if lower("World") != "world" {
 		t.Errorf("result: %v", lower("World"))
+	}
+}
+
+func TestAddSubstring(t *testing.T) {
+	if addSubstring("Hello!!!", " World", "3") != "Hello World!!!" {
+		t.Errorf("result: %v", addSubstring("Hello!!!", " World", "3"))
+	}
+	if addSubstring("Hello!!!", " World", "-5") != "Hello World!!!" {
+		t.Errorf("result: %v", addSubstring("Hello!!!", " World", "-5"))
+	}
+	if addSubstring("Hello!!!", " World", "0") != "Hello!!!" {
+		t.Errorf("result: %v", addSubstring("Hello!!!", " World", "0"))
+	}
+	if addSubstring("Hello!!!", " World", "15") != "err:substringOutOfRange" {
+		t.Errorf("result: %v", addSubstring("Hello!!!", " World", "15"))
 	}
 }
 
@@ -272,8 +296,28 @@ func TestToInt64(t *testing.T) {
 }
 
 func TestToFloat64(t *testing.T) {
-	if toFloat64("3.14159265") != 3.14159265 {
-		t.Errorf("result: %v", toFloat64("3.14159265"))
+	if toFloat64("1234567.151234") != 1234567.151234 {
+		t.Errorf("result: %v", toFloat64("1234567.151234"))
+	}
+}
+
+func TestToDecimal(t *testing.T) {
+	x, _ := decimal.NewFromString("1234567.151234")
+	if !x.Equal(toDecimal("1234567.151234")) {
+		t.Errorf("result: %v", toDecimal("1234567.151234"))
+	}
+	x, _ = decimal.NewFromString("0")
+	if !x.Equal(toDecimal("1234567.151234a")) {
+		t.Errorf("result: %v", toDecimal("1234567.151234a"))
+	}
+}
+
+func TestToDecimalString(t *testing.T) {
+	if toDecimalString("1234567.151234a") != "err: can't convert 1234567.151234a to decimal" {
+		t.Errorf("result: %v", toDecimalString("1234567.151234a"))
+	}
+	if toDecimalString("1234567.151234") != "1234567.151234" {
+		t.Errorf("result: %v", toDecimalString("1234567.151234"))
 	}
 }
 
@@ -338,6 +382,72 @@ func TestToXML(t *testing.T) {
 	}
 }
 
+func TestIsBool(t *testing.T) {
+	if !isBool(true) {
+		t.Errorf("result: %v", true)
+	}
+	if isBool("false") {
+		t.Errorf("result: %v", false)
+	}
+}
+
+func TestIsInt(t *testing.T) {
+	if !isInt(42) {
+		t.Errorf("result: %v", true)
+	}
+	if isInt("42") {
+		t.Errorf("result: %v", false)
+	}
+}
+
+func TestIsFloat64(t *testing.T) {
+	if !isFloat64(42.0) {
+		t.Errorf("result: %v", true)
+	}
+	if isFloat64("42.0") {
+		t.Errorf("result: %v", false)
+	}
+}
+
+func TestIsString(t *testing.T) {
+	if !isString("Hello") {
+		t.Errorf("result: %v", true)
+	}
+	if isString(42) {
+		t.Errorf("result: %v", false)
+	}
+}
+
+func TestIsMap(t *testing.T) {
+	if !isMap(map[string]interface{}{"Hello": "World"}) {
+		t.Errorf("result: %v", true)
+	}
+	if isMap(42) {
+		t.Errorf("result: %v", false)
+	}
+}
+
+func TestIsArray(t *testing.T) {
+	if !isArray([]interface{}{"Hello", "World"}) {
+		t.Errorf("result: %v", true)
+	}
+	if isArray(42) {
+		t.Errorf("result: %v", false)
+	}
+}
+
+func TestMustArray(t *testing.T) {
+	if !isArray(mustArray(nil)) {
+		t.Errorf("result: %v", true)
+	}
+	if !isArray(mustArray([]interface{}{"Hello", "World"})) {
+		t.Errorf("result: %v", true)
+	}
+	if !isArray(mustArray("Hello")) {
+		t.Errorf("result: %v", false)
+	}
+}
+
 func TestMapJSON(t *testing.T) {
 	testData := "{\"Hello\":\"World\"}"
 	result := mapJSON(testData)
@@ -364,6 +474,42 @@ func TestExecDecimalOp(t *testing.T) {
 	if testDivf(6.2154, "4.35") != 1.4288275862068966 {
 		t.Errorf("result: %v", testDivf(6.2154, "4.35"))
 	}
+}
+
+func TestConvertDecimal(t *testing.T) {
+	result, err := convertDecimal(decimal.RequireFromString("457842.123845"))
+	if err != nil {
+		t.Errorf("result: %v", err)
+	}
+	if result.String() != "457842.123845" {
+		t.Errorf("result: %v", result)
+	}
+	result, err = convertDecimal("457842.123845a")
+	if err.Error() != "can't convert 457842.123845a to decimal" {
+		t.Errorf("result: %v", err)
+	}
+	result, err = convertDecimal("457842.123845")
+	if err != nil {
+		t.Errorf("result: %v", err)
+	}
+	if result.String() != "457842.123845" {
+		t.Errorf("result: %v", result)
+	}
+	result, err = convertDecimal(42)
+	if err != nil {
+		t.Errorf("result: %v", err)
+	}
+	if result.String() != "42" {
+		t.Errorf("result: %v", result)
+	}
+	result, err = convertDecimal(457842.123845)
+	if err != nil {
+		t.Errorf("result: %v", err)
+	}
+	if result.String() != "457842.123845" {
+		t.Errorf("result: %v", result)
+	}
+
 }
 
 // go test -coverprofile cover.out

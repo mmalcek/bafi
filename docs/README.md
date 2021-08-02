@@ -110,7 +110,7 @@ Asside of integated functions bafi contains additional common functions
 - **div** - divide
 - **mod** - modulo
 - **mul** - multiply
-- **randInt**
+- **randInt** - return random integer {{randInt .Min .Max}}
 - **add1f** - "...f" functions parse float but provide **decimal** operations using [shopspring decimal](https://github.com/shopspring/decimal)
 - **addf**
 - **subf**
@@ -129,20 +129,31 @@ Asside of integated functions bafi contains additional common functions
 - **b32dec** - decode from base32
 - **uuid** - generate UUID
 - **regexMatch** - {{regexMatch pattern .Value1}} more about go [regex](https://gobyexample.com/regular-expressions)
+- **contains** - check if string contains substring e.g. {{contains "aaxbb" "xb"}}
 - **upper** - to uppercase
 - **lower** - to lowercase
+- **addSubstring** - {{addSubstring $myString, "XX", $position}} add substring to $position in string (if $position is 1,2,3 = Adding from right, if -1,-2,-3 = Adding from left)
 - **trim** - remove leading and trailing whitespace
 - **trimPrefix** - {{trimPrefix "!Hello World!" "!"}} - returns "Hello World!"
 - **trimSuffix** - {{trimSuffix "!Hello World!" "!"}} - returns "!HelloWorld"
 - **trimAll** - {{trimAll "!Hello World!" "!"}} - returns "Hello World"
 - **atoi** - {{atoi "42"}} - string to int
-- **int** - {{int "42"}} - cast to int
-- **int64** - {{int64 "42"}} - cast to int64
-- **float64** - {{float64 "3.14159"}} - cast to float64
+- **toInt** - {{int "42"}} - cast to int
+- **toInt64** - {{int64 "42"}} - cast to int64
+- **toFloat64** - {{float64 "3.14159"}} - cast to float64
+- **toDecimal** - {{toDecimal "3.14159"}} - cast to decimal (if error return 0)
+- **toDecimalString** - {{toDecimalString "3.14159"}} - cast to decimal string (if error return "error message")
 - **toJSON** - convert input object to JSON
 - **toBSON** - convert input object to BSON
 - **toYAML** - convert input object to YAML
 - **toXML** - convert input object to XML
+- **isBool** - {{isBool .Value1}} - check if value is bool
+- **isInt** - {{isInt .Value1}} - check if value is int
+- **isFloat64** - {{isFloat64 .Value1}} - check if value is float64
+- **isString** - {{isString .Value1}} - check if value is string
+- **isMap** - {{isMap .Value1}} - check if value is map
+- **isArray** - {{isArray .Value1}} - check if value is array
+- **mustArray** - {{mustArray .Value1}} - convert to array. Usefull with XML where single node is not treated as array
 - **mapJSON** - convert stringified JSON to map so it can be used as object or translated to other formats (e.g. "toXML"). Check template.tmpl for example
 
 #### Lua custom functions

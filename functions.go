@@ -26,47 +26,58 @@ import (
 // templateFunctions extends template functions
 func templateFunctions() template.FuncMap {
 	return template.FuncMap{
-		"add":        add,
-		"add1":       add1,
-		"sub":        sub,
-		"div":        div,
-		"mod":        mod,
-		"mul":        mul,
-		"addf":       addf,
-		"add1f":      add1f,
-		"subf":       subf,
-		"divf":       divf,
-		"mulf":       mulf,
-		"randInt":    randInt,
-		"round":      round,
-		"max":        max,
-		"min":        min,
-		"maxf":       maxf,
-		"minf":       minf,
-		"dateFormat": dateFormat,
-		"now":        now,
-		"b64enc":     base64encode,
-		"b64dec":     base64decode,
-		"b32enc":     base32encode,
-		"b32dec":     base32decode,
-		"uuid":       newUUID,
-		"regexMatch": regexMatch,
-		"upper":      upper,
-		"lower":      lower,
-		"trim":       trim,
-		"trimAll":    trimAll,
-		"trimSuffix": trimSuffix,
-		"trimPrefix": trimPrefix,
-		"atoi":       atoi,
-		"int":        toInt,
-		"int64":      toInt64,
-		"float64":    toFloat64,
-		"toJSON":     toJSON,
-		"toBSON":     toBSON,
-		"toYAML":     toYAML,
-		"toXML":      toXML,
-		"mapJSON":    mapJSON,
-		"lua":        luaF,
+		"add":             add,
+		"add1":            add1,
+		"sub":             sub,
+		"div":             div,
+		"mod":             mod,
+		"mul":             mul,
+		"addf":            addf,
+		"add1f":           add1f,
+		"subf":            subf,
+		"divf":            divf,
+		"mulf":            mulf,
+		"randInt":         randInt,
+		"round":           round,
+		"max":             max,
+		"min":             min,
+		"maxf":            maxf,
+		"minf":            minf,
+		"dateFormat":      dateFormat,
+		"now":             now,
+		"b64enc":          base64encode,
+		"b64dec":          base64decode,
+		"b32enc":          base32encode,
+		"b32dec":          base32decode,
+		"uuid":            newUUID,
+		"regexMatch":      regexMatch,
+		"contains":        contains,
+		"upper":           upper,
+		"lower":           lower,
+		"addSubstring":    addSubstring,
+		"trim":            trim,
+		"trimAll":         trimAll,
+		"trimSuffix":      trimSuffix,
+		"trimPrefix":      trimPrefix,
+		"atoi":            atoi,
+		"toInt":           toInt,
+		"toInt64":         toInt64,
+		"toFloat64":       toFloat64,
+		"toDecimal":       toDecimal,
+		"toDecimalString": toDecimalString,
+		"toJSON":          toJSON,
+		"toBSON":          toBSON,
+		"toYAML":          toYAML,
+		"toXML":           toXML,
+		"isBool":          isBool,
+		"isInt":           isInt,
+		"isFloat64":       isFloat64,
+		"isString":        isString,
+		"isMap":           isMap,
+		"isArray":         isArray,
+		"mustArray":       mustArray,
+		"mapJSON":         mapJSON,
+		"lua":             luaF,
 	}
 }
 
@@ -245,6 +256,11 @@ func regexMatch(regex string, s string) bool {
 	return match
 }
 
+// contains check if string contains substring e.g. {{contains "aaxbb" "xb"}}
+func contains(str string, substr string) bool {
+	return strings.Contains(str, substr)
+}
+
 // upper string to uppercase
 func upper(s string) string {
 	return strings.ToUpper(s)
@@ -255,6 +271,24 @@ func lower(s string) string {
 	return strings.ToLower(s)
 }
 
+// addSubstring add substring to string {{addSubstring "abcd", "efg", 2}} -> "abefgcd"
+func addSubstring(s string, ss string, pos interface{}) string {
+	if toInt(pos) >= len(s) || -toInt(pos) >= len(s) {
+		return "err:substringOutOfRange"
+	}
+	switch x := toInt(pos); {
+	case x == 0:
+		return s
+	case x > 0:
+		return fmt.Sprintf("%s%s%s", s[:len(s)-x], ss, s[len(s)-x:])
+	case x < 0:
+		return fmt.Sprintf("%s%s%s", s[:-x], ss, s[-x:])
+	default:
+		return "inputError"
+	}
+}
+
+// trim remove leading and trailing white space
 func trim(s string) string {
 	return strings.TrimSpace(s)
 }
@@ -284,6 +318,24 @@ func toInt64(v interface{}) int64 {
 // toFloat64 converts 64-bit floats
 func toFloat64(v interface{}) float64 {
 	return cast.ToFloat64(v)
+}
+
+// toDecimal input to decimal
+func toDecimal(i interface{}) decimal.Decimal {
+	value, err := convertDecimal(i)
+	if err != nil {
+		return decimal.Zero
+	}
+	return value
+}
+
+// toDecimalString input to decimal string
+func toDecimalString(i interface{}) string {
+	value, err := convertDecimal(i)
+	if err != nil {
+		return fmt.Sprintf("err: %s", err.Error())
+	}
+	return value.String()
 }
 
 // toJSON convert to JSON
@@ -320,6 +372,53 @@ func toXML(data map[string]interface{}) string {
 		return fmt.Sprintf("err: %s", err.Error())
 	}
 	return string(out)
+}
+
+// isBool check if value is bool
+func isBool(i interface{}) bool {
+	_, ok := i.(bool)
+	return ok
+}
+
+// isInt check if value is int
+func isInt(i interface{}) bool {
+	_, ok := i.(int)
+	return ok
+}
+
+// isFloat64 check if value is float64
+func isFloat64(i interface{}) bool {
+	_, ok := i.(float64)
+	return ok
+}
+
+// isString check if value is string
+func isString(v interface{}) bool {
+	_, ok := v.(string)
+	return ok
+}
+
+// isMap check if value is map
+func isMap(v interface{}) bool {
+	_, ok := v.(map[string]interface{})
+	return ok
+}
+
+// isArray check if value is array
+func isArray(v interface{}) bool {
+	_, ok := v.([]interface{})
+	return ok
+}
+
+// mustArray - convert to array. Usefull with XML where single record is not treated as array
+func mustArray(v interface{}) []interface{} { // convert to []interface{}
+	if v == nil {
+		return nil
+	}
+	if a, ok := v.([]interface{}); ok {
+		return a
+	}
+	return []interface{}{v}
 }
 
 // mapJSON string JSON to map[string]interface{} so it can be used in pipline -> template
@@ -363,4 +462,26 @@ func execDecimalOp(a interface{}, b []interface{}, f func(d1, d2 decimal.Decimal
 	}
 	rslt, _ := prt.Float64()
 	return rslt
+}
+
+// convertDecimal converts a number to a decimal.Decimal
+func convertDecimal(i interface{}) (decimal.Decimal, error) {
+	switch v := i.(type) {
+	case decimal.Decimal:
+		return v, nil
+	case float64:
+		return decimal.NewFromFloat(v), nil
+	case int:
+		return decimal.NewFromFloat(float64(v)), nil
+	case int64:
+		return decimal.NewFromFloat(float64(v)), nil
+	case string:
+		value, err := decimal.NewFromString(v)
+		if err != nil {
+			return decimal.Zero, err
+		}
+		return value, nil
+	default:
+		return decimal.Zero, fmt.Errorf("unsupported type: %T", i)
+	}
 }

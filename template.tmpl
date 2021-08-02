@@ -2,7 +2,7 @@
 CSV formatted data:
 Employee,Date,val1,val2,val3,SUM,LuaMultiply,linkedText
 {{- /* {{- ...}} - minus trim whitespace */}}
-{{- range .TOP_LEVEL.DATA_LINE}}
+{{- range (mustArray .TOP_LEVEL.DATA_LINE)}} {{- /* mustArray - force .DATA_LINE to array even if there is just one record (nil if not exists) */}}
 {{index .Employee "-ID"}},{{dateFormat .Trans_Date "2006-01-02" "02.01.2006"}},{{.val1}},{{.val2}},{{.val3}},{{add .val1 .val2}},{{lua "mul" .val1 .val2}},"{{index .Linked_Text "-VALUE"}}"
 {{- end}}
 ------------------------------------------------------------------------------
@@ -15,7 +15,7 @@ Count totals:
 {{- range .TOP_LEVEL.DATA_LINE}}{{$TotalV3 = addf $TotalV3 .val3}}{{end}} 
 Total: 
 {{- /* if functions and,or,not,eq(equal),lt(lessThen),gt(greatherThen) */}}
-Val1: {{$TotalV1}} - {{if gt (int $TotalV1) 50}}Over Budget{{else}}Under Buget{{end}}
+Val1: {{$TotalV1}} - {{if gt (toInt $TotalV1) 50}}Over Budget{{else}}Under Buget{{end}}
 Val3: {{$TotalV3}}
 Created at: {{now  "02.01.2006 - 15:04:05"}}
 ------------------------------------------------------------------------------
