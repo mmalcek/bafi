@@ -40,6 +40,9 @@
                             <li class="navitem active">
                                 <a href="./" class="nav-link">Examples</a>
                             </li>
+                            <li class="navitem">
+                                <a href="../about/" class="nav-link">About</a>
+                            </li>
                         </ul>
 
                     <ul class="nav navbar-nav ml-auto">
@@ -54,7 +57,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" class="nav-link disabled">
+                                <a rel="next" href="../about/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -104,11 +107,15 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="3"><a href="#rest-to-html" class="nav-link">REST to HTML</a>
+            <li class="nav-item" data-level="3"><a href="#json-to-csv" class="nav-link">JSON to CSV</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="3"><a href="#rest-to-custom-xml" class="nav-link">REST to custom XML</a>
+            <li class="nav-item" data-level="3"><a href="#json-to-html" class="nav-link">JSON to HTML</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="3"><a href="#json-to-custom-xml" class="nav-link">JSON to custom XML</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -116,7 +123,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="3"><a href="#input-autoformat-to" class="nav-link">Input autoformat to???</a>
+            <li class="nav-item" data-level="3"><a href="#input-autoformat-to-xxx" class="nav-link">Input autoformat to XXX</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -170,7 +177,21 @@
 {{- lua &quot;mul&quot; .val1 .val2}},&quot;{{index .Linked_Text &quot;-VALUE&quot;}}&quot;
 {{- end}}
 </code></pre>
-<h3 id="rest-to-html">REST to HTML</h3>
+<h3 id="json-to-csv">JSON to CSV</h3>
+<ul>
+<li>command</li>
+</ul>
+<pre><code>curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.html
+</code></pre>
+<ul>
+<li>myTemplate.tmpl</li>
+</ul>
+<pre><code>name,surname
+{{- range .customers}}
+&quot;{{.firstname}}&quot;,&quot;{{.lastname}}&quot;
+{{- end}}
+</code></pre>
+<h3 id="json-to-html">JSON to HTML</h3>
 <ul>
 <li>command</li>
 </ul>
@@ -194,7 +215,7 @@
 table, th, td { border: 1px solid black; width: 400px; }
 &lt;/style&gt;
 </code></pre>
-<h3 id="rest-to-custom-xml">REST to custom XML</h3>
+<h3 id="json-to-custom-xml">JSON to custom XML</h3>
 <ul>
 <li>command </li>
 </ul>
@@ -241,7 +262,7 @@ table, th, td { border: 1px solid black; width: 400px; }
 </ul>
 <pre><code>{{toXML (mapJSON $new) -}}
 </code></pre>
-<h3 id="input-autoformat-to">Input autoformat to???</h3>
+<h3 id="input-autoformat-to-xxx">Input autoformat to XXX</h3>
 <p>Input data can be easily fomated to oher formats by functions <strong>toXML,toJSON,toBSON,toYAML</strong>. In this case its not necesarry add template file because it's as easy as </p>
 <pre><code>curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toXML .}}&quot; -o output.xml
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toJSON .}}&quot; -o output.json
