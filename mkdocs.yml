@@ -3,6 +3,7 @@ site_url: https://mmalcek.github.io/bafi
 nav:
   - Application: README.md
   - Examples: examples.md
+  - About: about.md
 theme:
   name: mkdocs
   highlightjs: true

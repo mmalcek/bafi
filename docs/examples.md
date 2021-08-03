@@ -46,7 +46,20 @@ Employee,Date,val1,val2,val3,SUM,LuaMultiply,linkedText
 {{- end}}
 ```
 
-### REST to HTML
+### JSON to CSV
+- command
+```
+curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.html
+```
+- myTemplate.tmpl
+```
+name,surname
+{{- range .customers}}
+"{{.firstname}}","{{.lastname}}"
+{{- end}}
+```
+
+### JSON to HTML
 - command
 ```
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.html
@@ -68,7 +81,7 @@ curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTempl
 table, th, td { border: 1px solid black; width: 400px; }
 </style>
 ```
-### REST to custom XML
+### JSON to custom XML
 - command 
 ```
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.xml
@@ -112,7 +125,7 @@ JSON in $new variable can be mapped to struct and autoformatted to other formats
 ```
 {{toXML (mapJSON $new) -}}
 ```
-### Input autoformat to???
+### Input autoformat to XXX
 Input data can be easily fomated to oher formats by functions **toXML,toJSON,toBSON,toYAML**. In this case its not necesarry add template file because it's as easy as 
 ```
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t "?{{toXML .}}" -o output.xml
