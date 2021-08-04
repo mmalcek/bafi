@@ -123,6 +123,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="3"><a href="#mongodump-to-csv" class="nav-link">mongoDump to CSV</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-level="3"><a href="#input-autoformat-to-xxx" class="nav-link">Input autoformat to XXX</a>
               <ul class="nav flex-column">
               </ul>
@@ -261,6 +265,20 @@ table, th, td { border: 1px solid black; width: 400px; }
 <li>Transform $new to XML</li>
 </ul>
 <pre><code>{{toXML (mapJSON $new) -}}
+</code></pre>
+<h3 id="mongodump-to-csv">mongoDump to CSV</h3>
+<ul>
+<li>command</li>
+</ul>
+<pre><code>bafi.exe -i users.bson -f bson -t myTemplate.tmpl -o output.html
+</code></pre>
+<ul>
+<li>myTemplate.tmpl</li>
+</ul>
+<pre><code>name,surname
+{{- range .}}
+&quot;{{.firstname}}&quot;,&quot;{{.lastname}}&quot;
+{{- end}}
 </code></pre>
 <h3 id="input-autoformat-to-xxx">Input autoformat to XXX</h3>
 <p>Input data can be easily fomated to oher formats by functions <strong>toXML,toJSON,toBSON,toYAML</strong>. In this case its not necesarry add template file because it's as easy as </p>
