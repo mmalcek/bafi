@@ -125,6 +125,19 @@ JSON in $new variable can be mapped to struct and autoformatted to other formats
 ```
 {{toXML (mapJSON $new) -}}
 ```
+### mongoDump to CSV
+- command
+```
+bafi.exe -i users.bson -f bson -t myTemplate.tmpl -o output.html
+```
+- myTemplate.tmpl
+```
+name,surname
+{{- range .}}
+"{{.firstname}}","{{.lastname}}"
+{{- end}}
+```
+
 ### Input autoformat to XXX
 Input data can be easily fomated to oher formats by functions **toXML,toJSON,toBSON,toYAML**. In this case its not necesarry add template file because it's as easy as 
 ```

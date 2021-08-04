@@ -1,9 +1,12 @@
 package main
 
 import (
+	"encoding/base64"
 	"strings"
 	"testing"
 )
+
+const bsonDump = `JgAAAAdfaWQAYQAVOXB0lMEH42tuAm5hbWUABgAAAEhlbGxvAAAmAAAAB19pZABhCmAZAkO5o4cVWbsCbmFtZQAGAAAAV29ybGQAAA==`
 
 func TestProcessTemplate(t *testing.T) {
 	inputFile := ""
@@ -82,24 +85,42 @@ func TestMapInputData(t *testing.T) {
 	format := "json"
 	result, _ := mapInputData(input, &format)
 	if result["name"] != "John" || result["age"] != float64(30) {
-		t.Errorf("result: %v", result)
+		t.Errorf("resultJSON: %v", result)
+	}
+	input = []byte(`[{"name": "John","age": 30}, {"name": "Hanz","age": 28}]`)
+	result, _ = mapInputData(input, &format)
+	if result["0"].(map[string]interface{})["name"] != "John" {
+		t.Errorf("resultJSONarray: %v", result["0"].(map[string]interface{})["name"])
+	}
+	input = []byte(`[{"name": "John","age": 30}, {"name": Hanz","age": 28}]`)
+	_, err := mapInputData(input, &format)
+	if !strings.Contains(err.Error(), "invalid character 'H'") {
+		t.Errorf("resultJSONerr: %v", err.Error())
 	}
 	input = []byte(`{"name" John","age": 30}`)
-	_, err := mapInputData(input, &format)
+	_, err = mapInputData(input, &format)
 	if !strings.Contains(err.Error(), "invalid character 'J'") {
-		t.Errorf("result: %v", err.Error())
+		t.Errorf("resultJSONerr: %v", err.Error())
 	}
 	// Test map bson
 	input = []byte{14, 0, 0, 0, 2, 104, 0, 2, 0, 0, 0, 119, 0, 0}
 	format = "bson"
 	result, _ = mapInputData(input, &format)
 	if result["h"] != "w" {
-		t.Errorf("result: %v", result)
+		t.Errorf("resultBSON: %v", result)
+	}
+	input, err = base64.StdEncoding.DecodeString(bsonDump)
+	if err != nil {
+		t.Errorf("base64BSONdump: %v", err.Error())
+	}
+	result, _ = mapInputData(input, &format)
+	if result["0"].(map[string]interface{})["name"] != `Hello` {
+		t.Errorf("resultBSONdump: %v", result["0"].(map[string]interface{})["name"])
 	}
 	input = []byte{14, 0, 0, 1, 2, 104, 0, 2, 0, 0, 0, 119, 0, 0}
 	_, err = mapInputData(input, &format)
-	if !strings.Contains(err.Error(), "mapBSON: invalid document length") {
-		t.Errorf("result: %v", err.Error())
+	if !strings.Contains(err.Error(), "EOF") {
+		t.Errorf("resultBSONerr: %v", err.Error())
 	}
 	// Test map yaml
 	input = []byte(`name: John`)
@@ -180,24 +201,6 @@ func TestWriteOutputData(t *testing.T) {
 	}
 }
 
-/*
-func TestCheckFlags(t *testing.T) {
-	getVersion := false
-	textTemplate := ""
-	if checkFlags(&getVersion, &textTemplate) == "" {
-		t.Errorf("result: %v", checkFlags(&getVersion, &textTemplate))
-	}
-	getVersion = true
-	if checkFlags(&getVersion, &textTemplate) == "" {
-		t.Errorf("result: %v", checkFlags(&getVersion, &textTemplate))
-	}
-	getVersion = false
-	textTemplate = "template.tmpl"
-	if checkFlags(&getVersion, &textTemplate) != "" {
-		t.Errorf("result: %v", checkFlags(&getVersion, &textTemplate))
-	}
-}
-*/
 func TestCleanBOM(t *testing.T) {
 	input := "\xef\xbb\xbf" + "Hello"
 	result := string(cleanBOM([]byte(input)))

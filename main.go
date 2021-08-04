@@ -9,6 +9,7 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"strconv"
 	"strings"
 	"text/template"
 	"time"
@@ -19,7 +20,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-const version = "1.0.3"
+const version = "1.0.4"
 
 var (
 	luaData *lua.LState
@@ -118,10 +119,40 @@ func mapInputData(data []byte, inputFormat *string) (map[string]interface{}, err
 	switch strings.ToLower(*inputFormat) {
 	case "json":
 		if err := json.Unmarshal(data, &mapData); err != nil {
+			if strings.Contains(err.Error(), "cannot unmarshal array") {
+				x := make([]map[string]interface{}, 0)
+				if err := json.Unmarshal(data, &x); err != nil {
+					return nil, fmt.Errorf("jsonArray: %s", err.Error())
+				}
+				mapData = make(map[string]interface{})
+				for i := range x {
+					mapData[strconv.Itoa(i)] = x[i]
+				}
+				return mapData, nil
+			}
 			return nil, fmt.Errorf("mapJSON: %s", err.Error())
 		}
 	case "bson":
 		if err := bson.Unmarshal(data, &mapData); err != nil {
+			// If error try parse as mongoDump
+			if strings.Contains(err.Error(), "invalid document length") {
+				var rawData bson.Raw
+				mapData = make(map[string]interface{})
+				i := 0
+				for len(data) > 0 {
+					var x map[string]interface{}
+					if err := bson.Unmarshal(data, &rawData); err != nil {
+						return nil, fmt.Errorf("mapBSONArray1: %s", err.Error())
+					}
+					if err := bson.Unmarshal(rawData, &x); err != nil {
+						return nil, fmt.Errorf("mapBSONArray2: %s", err.Error())
+					}
+					mapData[strconv.Itoa(i)] = x
+					data = data[len(rawData):]
+					i++
+				}
+				return mapData, nil
+			}
 			return nil, fmt.Errorf("mapBSON: %s", err.Error())
 		}
 	case "yaml":
