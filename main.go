@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/csv"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -158,6 +159,25 @@ func mapInputData(data []byte, inputFormat *string) (map[string]interface{}, err
 	case "yaml":
 		if err := yaml.Unmarshal(data, &mapData); err != nil {
 			return nil, fmt.Errorf("mapYAML: %s", err.Error())
+		}
+	case "csv":
+		r := csv.NewReader(strings.NewReader(string(data)))
+		r.Comma = ','
+		lines, err := r.ReadAll()
+		if err != nil {
+			return nil, fmt.Errorf("mapCSV: %s", err.Error())
+		}
+		mapData = make(map[string]interface{})
+		headers := make([]string, len(lines[0]))
+		for i, header := range lines[0] {
+			headers[i] = header
+		}
+		for i, line := range lines[1:] {
+			x := make(map[string]interface{})
+			for j, value := range line {
+				x[headers[j]] = value
+			}
+			mapData[strconv.Itoa(i)] = x
 		}
 	default:
 		mapData, err = mxj.NewMapXml(data)

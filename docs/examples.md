@@ -125,6 +125,26 @@ JSON in $new variable can be mapped to struct and autoformatted to other formats
 ```
 {{toXML (mapJSON $new) -}}
 ```
+
+### CSV to text
+- command
+```
+bafi.exe -i users.csv -f csv -t myTemplate.tmpl -o output.txt
+```
+users.csv
+```
+name,surname
+John,"Jack Doe"
+```
+- myTemplate.tmpl
+```
+name,surname
+{{- range .}}
+Name: {{.name}}, Surname: {{.surname}}
+{{- end}}
+```
+note: CSV file must be **[RFC4180](https://datatracker.ietf.org/doc/html/rfc4180)** compliant and separator must be **comma ( , )**
+
 ### mongoDump to CSV
 - command
 ```

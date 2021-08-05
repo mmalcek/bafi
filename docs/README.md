@@ -1,5 +1,5 @@
 # BaFi
-**Universal JSON, BSON, YAML, XML converter to ANY format using templates**
+**Universal JSON, BSON, YAML, CSV, XML translator to ANY format using templates**
 
 **Github repository**
 - [https://github.com/mmalcek/bafi](https://github.com/mmalcek/bafi)
@@ -8,7 +8,7 @@
 - [https://github.com/mmalcek/bafi/releases](https://github.com/mmalcek/bafi/releases)
 
 ## Key features
-- Various input formats **(json, bson, yaml, xml)**
+- Various input formats **(json, bson, yaml, csv, xml)**
 - Flexible output formatting using text templates
 - Support for [LUA](https://www.lua.org/pil/contents.html) custom functions which allows very flexible data manipulation
 - stdin/stdout support which allows get data from source -> translate -> delivery to destination. This allows easily translate data between different web services like **REST to SOAP, SOAP to REST, REST to CSV, ...**
@@ -26,7 +26,7 @@
 - "-t template.tmpl" Template file. Alternatively you can use *inline* template 
     - inline template must start with **?** e.g. -t **"?{{.someValue}}"**
 - "-f json" Alternative input format. 
-    - Supported formats: **json, bson, yaml, xml (default)**
+    - Supported formats: **json, bson, yaml, csv, xml (default)**
 - "-v" - Show current verion
 - "-?" - list available command line arguments
 

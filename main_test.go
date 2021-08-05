@@ -134,6 +134,18 @@ func TestMapInputData(t *testing.T) {
 	if !strings.Contains(err.Error(), "cannot unmarshal !!str `name John`") {
 		t.Errorf("result: %v", err.Error())
 	}
+	// Test map csv
+	input = []byte("name,surname\r\nHello,World")
+	format = "csv"
+	result, _ = mapInputData(input, &format)
+	if result["0"].(map[string]interface{})["name"] != "Hello" {
+		t.Errorf("result: %v", result["0"].(map[string]interface{})["name"])
+	}
+	input = []byte("name,surname\r\nHello,World,!!!")
+	_, err = mapInputData(input, &format)
+	if !strings.Contains(err.Error(), "wrong number of fields") {
+		t.Errorf("result: %v", err.Error())
+	}
 	// Test map xml
 	input = []byte(`<name>John</name>`)
 	format = "xml"
