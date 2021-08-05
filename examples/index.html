@@ -123,6 +123,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="3"><a href="#csv-to-text" class="nav-link">CSV to text</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-level="3"><a href="#mongodump-to-csv" class="nav-link">mongoDump to CSV</a>
               <ul class="nav flex-column">
               </ul>
@@ -266,6 +270,25 @@ table, th, td { border: 1px solid black; width: 400px; }
 </ul>
 <pre><code>{{toXML (mapJSON $new) -}}
 </code></pre>
+<h3 id="csv-to-text">CSV to text</h3>
+<ul>
+<li>command</li>
+</ul>
+<pre><code>bafi.exe -i users.csv -f csv -t myTemplate.tmpl -o output.txt
+</code></pre>
+<p>users.csv</p>
+<pre><code>name,surname
+John,&quot;Jack Doe&quot;
+</code></pre>
+<ul>
+<li>myTemplate.tmpl</li>
+</ul>
+<pre><code>name,surname
+{{- range .}}
+Name: {{.name}}, Surname: {{.surname}}
+{{- end}}
+</code></pre>
+<p>note: CSV file must be <strong><a href="https://datatracker.ietf.org/doc/html/rfc4180">RFC4180</a></strong> compliant and separator must be <strong>comma ( , )</strong></p>
 <h3 id="mongodump-to-csv">mongoDump to CSV</h3>
 <ul>
 <li>command</li>
