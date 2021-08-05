@@ -50,7 +50,7 @@ func main() {
 		inputFile:    flag.String("i", "", "input file, if not defined read from stdin (pipe mode)"),
 		outputFile:   flag.String("o", "", "output file, if not defined write to stdout (pipe mode)"),
 		textTemplate: flag.String("t", "", "template, file or inline. Inline should start with ? e.g. -t \"?{{.MyValue}}\" "),
-		inputFormat:  flag.String("f", "", "input format, json, bson, yaml, xml(default)"),
+		inputFormat:  flag.String("f", "", "input format, json, bson, yaml, csv, xml(default)"),
 		getVersion:   flag.Bool("v", false, "print version and exit"),
 	}
 	flag.Parse()

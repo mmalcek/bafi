@@ -138,7 +138,7 @@ John,"Jack Doe"
 ```
 - myTemplate.tmpl
 ```
-name,surname
+Users:
 {{- range .}}
 Name: {{.name}}, Surname: {{.surname}}
 {{- end}}
