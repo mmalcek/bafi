@@ -377,9 +377,17 @@ func TestToXML(t *testing.T) {
 	testData := make(map[string]interface{})
 	testData["Hello"] = "World"
 	result := toXML(testData)
-	if result != `<doc><Hello>World</Hello></doc>` {
+	if !strings.Contains(result, "<Hello>World</Hello>") {
 		t.Errorf("result: %v", result)
 	}
+	testData2 := make([]map[string]interface{}, 1)
+	testData2[0] = make(map[string]interface{})
+	testData2[0]["Hello"] = "World"
+	result = toXML(testData2)
+	if !strings.Contains(result, "<Hello>World</Hello>") {
+		t.Errorf("result: %v", result)
+	}
+
 }
 
 func TestIsBool(t *testing.T) {

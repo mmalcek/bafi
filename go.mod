@@ -9,6 +9,6 @@ require (
 	github.com/shopspring/decimal v1.2.0
 	github.com/spf13/cast v1.4.0
 	github.com/yuin/gopher-lua v0.0.0-20210529063254-f4c35e4016d9
-	go.mongodb.org/mongo-driver v1.7.0
+	go.mongodb.org/mongo-driver v1.7.1
 	gopkg.in/yaml.v2 v2.4.0
 )

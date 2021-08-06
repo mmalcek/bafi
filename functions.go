@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
@@ -339,7 +340,7 @@ func toDecimalString(i interface{}) string {
 }
 
 // toJSON convert to JSON
-func toJSON(data map[string]interface{}) string {
+func toJSON(data interface{}) string {
 	out, err := json.Marshal(data)
 	if err != nil {
 		return fmt.Sprintf("err: %s", err.Error())
@@ -348,7 +349,7 @@ func toJSON(data map[string]interface{}) string {
 }
 
 // toBSON convert to BSON
-func toBSON(data map[string]interface{}) string {
+func toBSON(data interface{}) string {
 	out, err := bson.Marshal(data)
 	if err != nil {
 		return fmt.Sprintf("err: %s", err.Error())
@@ -357,7 +358,7 @@ func toBSON(data map[string]interface{}) string {
 }
 
 // toYAML convert to YAML
-func toYAML(data map[string]interface{}) string {
+func toYAML(data interface{}) string {
 	out, err := yaml.Marshal(data)
 	if err != nil {
 		return fmt.Sprintf("err: %s", err.Error())
@@ -366,8 +367,28 @@ func toYAML(data map[string]interface{}) string {
 }
 
 // toXML convert to XML
-func toXML(data map[string]interface{}) string {
-	out, err := mxj.AnyXml(data)
+func toXML(data interface{}) string {
+	var err error
+	out := []byte("<doc>\r\n")
+	if reflect.TypeOf(data).Kind() == reflect.Slice {
+		if reflect.TypeOf(data).Kind() == reflect.Slice {
+			for i := 0; i < reflect.ValueOf(data).Len(); i++ {
+				x, err := mxj.AnyXmlIndent(data.([]map[string]interface{})[i], "", "  ", "record")
+				if err != nil {
+					return fmt.Sprintf("err: %s", err.Error())
+				}
+				out = append(out, string(x)+"\r\n"...)
+			}
+			out = append(out, string("</doc>\r\n")...)
+			out, err = mxj.BeautifyXml(out, "", "  ")
+			if err != nil {
+				return fmt.Sprintf("err: %s", err.Error())
+			}
+			return string(out)
+		}
+
+	}
+	out, err = mxj.AnyXmlIndent(data, "", "  ", "doc")
 	if err != nil {
 		return fmt.Sprintf("err: %s", err.Error())
 	}

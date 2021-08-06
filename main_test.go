@@ -4,6 +4,8 @@ import (
 	"encoding/base64"
 	"strings"
 	"testing"
+
+	"github.com/clbanning/mxj/v2"
 )
 
 const bsonDump = `JgAAAAdfaWQAYQAVOXB0lMEH42tuAm5hbWUABgAAAEhlbGxvAAAmAAAAB19pZABhCmAZAkO5o4cVWbsCbmFtZQAGAAAAV29ybGQAAA==`
@@ -84,13 +86,13 @@ func TestMapInputData(t *testing.T) {
 	input := []byte(`{"name": "John","age": 30}`)
 	format := "json"
 	result, _ := mapInputData(input, &format)
-	if result["name"] != "John" || result["age"] != float64(30) {
+	if result.(map[string]interface{})["name"] != "John" || result.(map[string]interface{})["age"] != float64(30) {
 		t.Errorf("resultJSON: %v", result)
 	}
 	input = []byte(`[{"name": "John","age": 30}, {"name": "Hanz","age": 28}]`)
 	result, _ = mapInputData(input, &format)
-	if result["0"].(map[string]interface{})["name"] != "John" {
-		t.Errorf("resultJSONarray: %v", result["0"].(map[string]interface{})["name"])
+	if result.([]map[string]interface{})[0]["name"] != "John" {
+		t.Errorf("resultJSONarray: %v", result.([]map[string]interface{})[0]["name"])
 	}
 	input = []byte(`[{"name": "John","age": 30}, {"name": Hanz","age": 28}]`)
 	_, err := mapInputData(input, &format)
@@ -106,7 +108,7 @@ func TestMapInputData(t *testing.T) {
 	input = []byte{14, 0, 0, 0, 2, 104, 0, 2, 0, 0, 0, 119, 0, 0}
 	format = "bson"
 	result, _ = mapInputData(input, &format)
-	if result["h"] != "w" {
+	if result.(map[string]interface{})["h"] != "w" {
 		t.Errorf("resultBSON: %v", result)
 	}
 	input, err = base64.StdEncoding.DecodeString(bsonDump)
@@ -114,8 +116,8 @@ func TestMapInputData(t *testing.T) {
 		t.Errorf("base64BSONdump: %v", err.Error())
 	}
 	result, _ = mapInputData(input, &format)
-	if result["0"].(map[string]interface{})["name"] != `Hello` {
-		t.Errorf("resultBSONdump: %v", result["0"].(map[string]interface{})["name"])
+	if result.([]map[string]interface{})[0]["name"] != `Hello` {
+		t.Errorf("resultBSONdump: %v", result.([]map[string]interface{})[0]["name"])
 	}
 	input = []byte{14, 0, 0, 1, 2, 104, 0, 2, 0, 0, 0, 119, 0, 0}
 	_, err = mapInputData(input, &format)
@@ -126,20 +128,30 @@ func TestMapInputData(t *testing.T) {
 	input = []byte(`name: John`)
 	format = "yaml"
 	result, _ = mapInputData(input, &format)
-	if result["name"] != "John" {
-		t.Errorf("result: %v", result)
+	if result.(map[string]interface{})["name"] != "John" {
+		t.Errorf("resultYAML: %v", result)
+	}
+	input = []byte("- name: John\r\n- name: Peter")
+	result, _ = mapInputData(input, &format)
+	if result.([]map[string]interface{})[0]["name"] != "John" {
+		t.Errorf("resultYAMLarray: %v", result)
+	}
+	input = []byte("- name John\r\n- name: Peter")
+	_, err = mapInputData(input, &format)
+	if !strings.Contains(err.Error(), "cannot unmarshal !!str `name John`") {
+		t.Errorf("resultYAMLarrayErr: %v", err.Error())
 	}
 	input = []byte(`name John`)
 	_, err = mapInputData(input, &format)
 	if !strings.Contains(err.Error(), "cannot unmarshal !!str `name John`") {
-		t.Errorf("result: %v", err.Error())
+		t.Errorf("resultYAMLerr: %v", err.Error())
 	}
 	// Test map csv
 	input = []byte("name,surname\r\nHello,World")
 	format = "csv"
 	result, _ = mapInputData(input, &format)
-	if result["0"].(map[string]interface{})["name"] != "Hello" {
-		t.Errorf("result: %v", result["0"].(map[string]interface{})["name"])
+	if result.([]map[string]interface{})[0]["name"] != "Hello" {
+		t.Errorf("result: %v", result.([]map[string]interface{})[0]["name"])
 	}
 	input = []byte("name,surname\r\nHello,World,!!!")
 	_, err = mapInputData(input, &format)
@@ -150,7 +162,7 @@ func TestMapInputData(t *testing.T) {
 	input = []byte(`<name>John</name>`)
 	format = "xml"
 	result, _ = mapInputData(input, &format)
-	if result["name"] != "John" {
+	if result.(mxj.Map)["name"] != "John" {
 		t.Errorf("result: %v", result)
 	}
 	input = []byte(`<name>John<name>`)

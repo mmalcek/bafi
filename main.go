@@ -10,7 +10,6 @@ import (
 	"log"
 	"math/rand"
 	"os"
-	"strconv"
 	"strings"
 	"text/template"
 	"time"
@@ -114,31 +113,28 @@ func getInputData(inputFile *string) ([]byte, error) {
 }
 
 // mapInputData map input data to map[string]interface{}
-func mapInputData(data []byte, inputFormat *string) (map[string]interface{}, error) {
-	var err error
-	var mapData map[string]interface{}
+func mapInputData(data []byte, inputFormat *string) (interface{}, error) {
 	switch strings.ToLower(*inputFormat) {
 	case "json":
+		var mapData map[string]interface{}
 		if err := json.Unmarshal(data, &mapData); err != nil {
 			if strings.Contains(err.Error(), "cannot unmarshal array") {
-				x := make([]map[string]interface{}, 0)
-				if err := json.Unmarshal(data, &x); err != nil {
+				mapDataArray := make([]map[string]interface{}, 0)
+				if err := json.Unmarshal(data, &mapDataArray); err != nil {
 					return nil, fmt.Errorf("jsonArray: %s", err.Error())
 				}
-				mapData = make(map[string]interface{})
-				for i := range x {
-					mapData[strconv.Itoa(i)] = x[i]
-				}
-				return mapData, nil
+				return mapDataArray, nil
 			}
 			return nil, fmt.Errorf("mapJSON: %s", err.Error())
 		}
+		return mapData, nil
 	case "bson":
+		var mapData map[string]interface{}
 		if err := bson.Unmarshal(data, &mapData); err != nil {
 			// If error try parse as mongoDump
 			if strings.Contains(err.Error(), "invalid document length") {
 				var rawData bson.Raw
-				mapData = make(map[string]interface{})
+				mapDataArray := make([]map[string]interface{}, 0)
 				i := 0
 				for len(data) > 0 {
 					var x map[string]interface{}
@@ -148,26 +144,37 @@ func mapInputData(data []byte, inputFormat *string) (map[string]interface{}, err
 					if err := bson.Unmarshal(rawData, &x); err != nil {
 						return nil, fmt.Errorf("mapBSONArray2: %s", err.Error())
 					}
-					mapData[strconv.Itoa(i)] = x
+					mapDataArray = append(mapDataArray, x)
 					data = data[len(rawData):]
 					i++
 				}
-				return mapData, nil
+				return mapDataArray, nil
 			}
 			return nil, fmt.Errorf("mapBSON: %s", err.Error())
 		}
+		return mapData, nil
 	case "yaml":
+		var mapData map[string]interface{}
 		if err := yaml.Unmarshal(data, &mapData); err != nil {
+			if strings.Contains(err.Error(), "cannot unmarshal !!seq") {
+				mapDataArray := make([]map[string]interface{}, 0)
+				if err := yaml.Unmarshal(data, &mapDataArray); err != nil {
+					return nil, fmt.Errorf("yamlArray: %s", err.Error())
+				}
+				return mapDataArray, nil
+			}
 			return nil, fmt.Errorf("mapYAML: %s", err.Error())
 		}
+		return mapData, nil
 	case "csv":
+		var mapData []map[string]interface{}
 		r := csv.NewReader(strings.NewReader(string(data)))
 		r.Comma = ','
 		lines, err := r.ReadAll()
 		if err != nil {
 			return nil, fmt.Errorf("mapCSV: %s", err.Error())
 		}
-		mapData = make(map[string]interface{})
+		mapData = make([]map[string]interface{}, len(lines[1:]))
 		headers := make([]string, len(lines[0]))
 		for i, header := range lines[0] {
 			headers[i] = header
@@ -177,15 +184,16 @@ func mapInputData(data []byte, inputFormat *string) (map[string]interface{}, err
 			for j, value := range line {
 				x[headers[j]] = value
 			}
-			mapData[strconv.Itoa(i)] = x
+			mapData[i] = x
 		}
+		return mapData, nil
 	default:
-		mapData, err = mxj.NewMapXml(data)
+		mapData, err := mxj.NewMapXml(data)
 		if err != nil {
 			return nil, fmt.Errorf("mapXML: %s", err.Error())
 		}
+		return mapData, nil
 	}
-	return mapData, nil
 }
 
 // readTemplate get template from file or from input
@@ -204,7 +212,7 @@ func readTemplate(textTemplate string) ([]byte, error) {
 }
 
 // writeOutputData process template and write output
-func writeOutputData(mapData map[string]interface{}, outputFile *string, templateFile []byte) error {
+func writeOutputData(mapData interface{}, outputFile *string, templateFile []byte) error {
 	var err error
 	template, err := template.New("new").Funcs(templateFunctions()).Parse(string(templateFile))
 	if err != nil {
