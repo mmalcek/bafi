@@ -431,7 +431,7 @@ func isArray(v interface{}) bool {
 	return ok
 }
 
-// mustArray - convert to array. Usefull with XML where single record is not treated as array
+// mustArray - convert to array. Useful with XML where single record is not treated as array
 func mustArray(v interface{}) []interface{} { // convert to []interface{}
 	if v == nil {
 		return nil

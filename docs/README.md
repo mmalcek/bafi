@@ -153,7 +153,7 @@ Asside of integated functions bafi contains additional common functions
 - **isString** - {{isString .Value1}} - check if value is string
 - **isMap** - {{isMap .Value1}} - check if value is map
 - **isArray** - {{isArray .Value1}} - check if value is array
-- **mustArray** - {{mustArray .Value1}} - convert to array. Usefull with XML where single node is not treated as array
+- **mustArray** - {{mustArray .Value1}} - convert to array. Useful with XML where single node is not treated as array
 - **mapJSON** - convert stringified JSON to map so it can be used as object or translated to other formats (e.g. "toXML"). Check template.tmpl for example
 
 #### Lua custom functions
