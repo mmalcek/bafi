@@ -179,5 +179,5 @@ function sum(incomingData)
 end
 ```
 
-Check [examples](/examples) and **template.tmpl** and **testdata.xml** for advanced examples
+Check [examples](examples/) and **template.tmpl** and **testdata.xml** for advanced examples
 
