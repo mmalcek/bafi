@@ -12,12 +12,12 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/font-awesome.min.css" rel="stylesheet">
         <link href="css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
 
         <script src="js/jquery-1.10.2.min.js" defer></script>
         <script src="js/bootstrap.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/lua.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/lua.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
@@ -279,7 +279,7 @@
 <li><strong>isString</strong> - {{isString .Value1}} - check if value is string</li>
 <li><strong>isMap</strong> - {{isMap .Value1}} - check if value is map</li>
 <li><strong>isArray</strong> - {{isArray .Value1}} - check if value is array</li>
-<li><strong>mustArray</strong> - {{mustArray .Value1}} - convert to array. Usefull with XML where single node is not treated as array</li>
+<li><strong>mustArray</strong> - {{mustArray .Value1}} - convert to array. Useful with XML where single node is not treated as array</li>
 <li><strong>mapJSON</strong> - convert stringified JSON to map so it can be used as object or translated to other formats (e.g. "toXML"). Check template.tmpl for example</li>
 </ul>
 <h4 id="lua-custom-functions">Lua custom functions</h4>
@@ -324,13 +324,16 @@ end
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
             <div class="modal-body">
-                <p>From here you can search these documents. Enter your search terms below.</p>
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
                 <form>
                     <div class="form-group">
                         <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+                <div id="mkdocs-search-results"></div>
             </div>
             <div class="modal-footer">
             </div>
@@ -381,6 +384,6 @@ end
 </html>
 
 <!--
-MkDocs version : 1.2.2
-Build Date UTC : 2021-08-06 11:34:44.477148+00:00
+MkDocs version : 1.1.2
+Build Date UTC : 2021-08-09 20:32:24.380420+00:00
 -->
