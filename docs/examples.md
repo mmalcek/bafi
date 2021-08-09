@@ -1,5 +1,10 @@
 # Examples
 ## Command line
+note: in Powershell you must use <span style="color:red; font-weight: bold;">.\\</span>bafi.exe e.g.
+```
+.\bafi.exe -i input.csv -f csv -t "?{{toXML .}}"
+curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t "?{{toXML .}}"
+```
 ### Basic  
 Get data from *testdata.xml* -> process using *template.tmpl* -> save output as *output.txt*
 ```sh
