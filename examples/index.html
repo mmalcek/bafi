@@ -146,6 +146,10 @@
 
 <h1 id="examples">Examples</h1>
 <h2 id="command-line">Command line</h2>
+<p>note: in Powershell you must use <span style="color:red; font-weight: bold;">.\</span>bafi.exe e.g.</p>
+<pre><code>.\bafi.exe -i input.csv -f csv -t &quot;?{{toXML .}}&quot;
+curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
+</code></pre>
 <h3 id="basic">Basic</h3>
 <p>Get data from <em>testdata.xml</em> -&gt; process using <em>template.tmpl</em> -&gt; save output as <em>output.txt</em></p>
 <pre><code class="language-sh">bafi.exe -i testdata.xml -t template.tmpl -o output.txt
