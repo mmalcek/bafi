@@ -13,3 +13,5 @@ theme:
   nav_style: light
   plugins:
     - search
+  analytics:
+    gtag: G-GE1PDVJERL
