@@ -148,7 +148,7 @@ Users:
 Name: {{.name}}, Surname: {{.surname}}
 {{- end}}
 ```
-note: CSV file must be **[RFC4180](https://datatracker.ietf.org/doc/html/rfc4180)** compliant and separator must be **comma ( , )**
+note: CSV file must be **[RFC4180](https://datatracker.ietf.org/doc/html/rfc4180)** compliant, file must have header line and separator must be **comma ( , )**
 
 ### mongoDump to CSV
 - command

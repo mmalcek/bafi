@@ -10,7 +10,7 @@
 ## Key features
 - Various input formats **(json, bson, yaml, csv, xml)**
 - Flexible output formatting using text templates
-- Support for [LUA](https://www.lua.org/pil/contents.html) custom functions which allows very flexible data manipulation
+- Support for [Lua](https://www.lua.org/pil/contents.html) custom functions which allows very flexible data manipulation
 - stdin/stdout support which allows get data from source -> translate -> delivery to destination. This allows easily translate data between different web services like **REST to SOAP, SOAP to REST, REST to CSV, ...**
 
 

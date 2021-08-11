@@ -61,7 +61,7 @@ func main() {
 
 func processTemplate(params tParams) error {
 	if *params.getVersion {
-		fmt.Printf("Version: %s\r\n", version)
+		fmt.Printf("Version: %s\r\nProject page: https://github.com/mmalcek/bafi\r\n", version)
 		return nil
 	}
 	if *params.textTemplate == "" {
