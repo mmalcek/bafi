@@ -43,24 +43,24 @@ For example JSON document **myUser.json**
 }
 ```
 - Get user name:
-```bash
+```sh
 bafi.exe -i myUser.json -f json -t '?{{.user.name}}'
 ```
-- Use function to capitalize user name:
-```bash
+- Use function to change all letters to uppercase:
+```sh
 bafi.exe -i myUser.json -f json -t '?{{upper .user.name}}'
 ```
 - Use IF statement to compare user age to 20:
-```bash
+```sh
 bafi.exe -i myUser.json -f json -t '?User is {{if gt (toInt .user.age) 20}}old{{else}}young{{end}}.'
 ```
 
 - List favourite colors:
-```bash
+```sh
 bafi.exe -i myUser.json -f json -t '?{{range .user.favourite_colors}}{{.}},{{end}}'
 ```
 - Format data using template file **myTemplate.tmpl** and save output to **myUser.txt**:
-```bash
+```sh
 bafi.exe -i myUser.json -f json -t myTemplate.tmpl -o myUser.txt
 ```
 
@@ -74,6 +74,13 @@ Address: {{.user.address.street}}, {{.user.address.city}} - {{.user.address.stat
 {{- $colors = print (trimSuffix $colors ", " )}}
 Favourite colors: {{$colors}}
 ```
+
+note: in Powershell you must use <span style="color:red; font-weight: bold;">.\\</span>bafi.exe e.g.
+```powershell
+.\bafi.exe -i input.csv -f csv -t "?{{toXML .}}"
+curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t "?{{toXML .}}"
+```
+
 More examples [here](examples/#template)
 
 
@@ -87,7 +94,7 @@ More examples [here](examples/#template)
 - "-v" - Show current verion
 - "-?" - list available command line arguments
 
-```
+```sh
 bafi.exe -i testdata.xml -t template.tmpl -o output.txt
 ```
 More examples [here](examples/#command-line)

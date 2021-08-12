@@ -9,6 +9,7 @@ theme:
   highlightjs: true
   hljs_languages:
     - lua
+    - powershell
   navigation_depth: 4
   nav_style: light
   plugins:

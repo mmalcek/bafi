@@ -1,7 +1,7 @@
 # Examples
 ## Command line
 note: in Powershell you must use <span style="color:red; font-weight: bold;">.\\</span>bafi.exe e.g.
-```
+```powershell
 .\bafi.exe -i input.csv -f csv -t "?{{toXML .}}"
 curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t "?{{toXML .}}"
 ```
@@ -27,7 +27,7 @@ More info about curl [here](https://curl.se/) but you can of course use any tool
 
 ### Append output file
 Redirect stdout to file and append ( > = replace, >> = apppend )
-```
+```sh
 bafi.exe -i testdata.xml -t template.tmpl >> output.txt
 ```
 
@@ -36,7 +36,7 @@ Examples are based on testdata.tmpl included in project
 
 ### XML to CSV
 - command
-```
+```sh
 bafi.exe -i testdata.xml -t myTemplate.tmpl -o output.csv
 ```
 - myTemplate.tmpl
@@ -53,7 +53,7 @@ Employee,Date,val1,val2,val3,SUM,LuaMultiply,linkedText
 
 ### JSON to CSV
 - command
-```
+```sh
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.html
 ```
 - myTemplate.tmpl
@@ -66,7 +66,7 @@ name,surname
 
 ### JSON to HTML
 - command
-```
+```sh
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.html
 ```
 - myTemplate.tmpl
@@ -88,7 +88,7 @@ table, th, td { border: 1px solid black; width: 400px; }
 ```
 ### JSON to custom XML
 - command 
-```
+```sh
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.xml
 ```
 - myTemplate.tmpl
@@ -106,7 +106,7 @@ curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTempl
 
 ### XML to custom JSON
 - command 
-```
+```sh
 bafi.exe -i testdata.xml -t myTemplate.tmpl -o output.json
 ```
 
@@ -133,7 +133,7 @@ JSON in $new variable can be mapped to struct and autoformatted to other formats
 
 ### CSV to text
 - command
-```
+```sh
 bafi.exe -i users.csv -f csv -t myTemplate.tmpl -o output.txt
 ```
 users.csv
@@ -152,7 +152,7 @@ note: CSV file must be **[RFC4180](https://datatracker.ietf.org/doc/html/rfc4180
 
 ### mongoDump to CSV
 - command
-```
+```sh
 bafi.exe -i users.bson -f bson -t myTemplate.tmpl -o output.html
 ```
 - myTemplate.tmpl
@@ -165,7 +165,7 @@ name,surname
 
 ### Input autoformat to XXX
 Input data can be easily fomated to oher formats by functions **toXML,toJSON,toBSON,toYAML**. In this case its not necesarry add template file because it's as easy as 
-```
+```sh
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t "?{{toXML .}}" -o output.xml
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t "?{{toJSON .}}" -o output.json
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t "?{{toBSON .}}" -o output.bson
