@@ -116,8 +116,8 @@ bafi.exe -i testdata.xml -t myTemplate.tmpl -o output.json
 {{- range .TOP_LEVEL.DATA_LINE}}
 {{- $new = print $new "{\"employeeID\":\"" (index .Employee "-ID") "\", \"val1\":" .val1 "}," }}
 {{- end}}
-{{- /* "slice $new 0 (sub (len $new) 1" - remove trailing comma  */}}
-{{- $new = print (slice $new 0 (sub (len $new) 1)) "]}" }}
+{{- /* Trim trailing comma, alternatively you can remove last char by "(slice $new 0 (sub (len $new) 1))" */}}
+{{- $new = print (trimSuffix $new "," ) "]}"}}
 {{ $new}}
 ```
 JSON in $new variable can be mapped to struct and autoformatted to other formats like:

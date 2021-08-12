@@ -22,6 +22,60 @@
 [![License](https://img.shields.io/github/license/mmalcek/bafi)](https://github.com/mmalcek/bafi/blob/main/LICENSE)
 [![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go) 
 [![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/mmalcek/bafi?label=latest%20release)](https://github.com/mmalcek/bafi/releases/latest)
+<!--![GitHub All Releases Downloads](https://img.shields.io/github/downloads/mmalcek/bafi/total)-->
+
+## How does it work?
+Application automaticaly parse input data into object which can be simply accessed in tamplate using dot notation where first dot represent root of object **{{ . }}**.
+
+For example JSON document **myUser.json**
+```json
+{
+    "user": {
+        "name": "John Doe",
+        "age": 25,
+        "address": {
+            "street": "Main Street",
+            "city": "New York",
+            "state": "NY"
+        },
+        "favourite_colors": ["red", "green", "blue"]
+    }
+}
+```
+- Get user name:
+```bash
+bafi.exe -i myUser.json -f json -t '?{{.user.name}}'
+```
+- Use function to capitalize user name:
+```bash
+bafi.exe -i myUser.json -f json -t '?{{upper .user.name}}'
+```
+- Use IF statement to compare user age to 20:
+```bash
+bafi.exe -i myUser.json -f json -t '?User is {{if gt (toInt .user.age) 20}}old{{else}}young{{end}}.'
+```
+
+- List favourite colors:
+```bash
+bafi.exe -i myUser.json -f json -t '?{{range .user.favourite_colors}}{{.}},{{end}}'
+```
+- Format data using template file **myTemplate.tmpl** and save output to **myUser.txt**:
+```bash
+bafi.exe -i myUser.json -f json -t myTemplate.tmpl -o myUser.txt
+```
+
+```
+{{- /* Content of myTemplate.tmpl file */ -}}
+User: {{.user.name}}
+Age: {{.user.age}}
+Address: {{.user.address.street}}, {{.user.address.city}} - {{.user.address.state}}
+{{- /* Create list of colors and remove comma at the end */ -}}
+{{- $colors := ""}}{{range .user.favourite_colors}}{{$colors = print $colors . ", "}}{{end}}
+{{- $colors = print (trimSuffix $colors ", " )}}
+Favourite colors: {{$colors}}
+```
+More examples [here](examples/#template)
+
 
 ## Command line arguments
 - "-i input.xml" Input file name. If not defined app tries read stdin
@@ -33,10 +87,10 @@
 - "-v" - Show current verion
 - "-?" - list available command line arguments
 
-Example: ([more examples](examples/#command-line))
 ```
 bafi.exe -i testdata.xml -t template.tmpl -o output.txt
 ```
+More examples [here](examples/#command-line)
 ## Templates
 Bafi uses [text/template](https://pkg.go.dev/text/template). Here is a quick summary how to use. Examples are based on *testdata.xml* included in project
 
