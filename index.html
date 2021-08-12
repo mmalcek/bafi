@@ -93,6 +93,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="2"><a href="#how-does-it-work" class="nav-link">How does it work?</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-level="2"><a href="#command-line-arguments" class="nav-link">Command line arguments</a>
               <ul class="nav flex-column">
               </ul>
@@ -165,6 +169,59 @@
 <a href="https://github.com/mmalcek/bafi/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/mmalcek/bafi" /></a>
 <a href="https://github.com/avelino/awesome-go"><img alt="Mentioned in Awesome Go" src="https://awesome.re/mentioned-badge.svg" /></a> 
 <a href="https://github.com/mmalcek/bafi/releases/latest"><img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/mmalcek/bafi?label=latest%20release" /></a></p>
+<!--![GitHub All Releases Downloads](https://img.shields.io/github/downloads/mmalcek/bafi/total)-->
+
+<h2 id="how-does-it-work">How does it work?</h2>
+<p>Application automaticaly parse input data into object which can be simply accessed in tamplate using dot notation where first dot represent root of object <strong>{{ . }}</strong>.</p>
+<p>For example JSON document <strong>myUser.json</strong></p>
+<pre><code class="language-json">{
+    &quot;user&quot;: {
+        &quot;name&quot;: &quot;John Doe&quot;,
+        &quot;age&quot;: 25,
+        &quot;address&quot;: {
+            &quot;street&quot;: &quot;Main Street&quot;,
+            &quot;city&quot;: &quot;New York&quot;,
+            &quot;state&quot;: &quot;NY&quot;
+        },
+        &quot;favourite_colors&quot;: [&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;]
+    }
+}
+</code></pre>
+<ul>
+<li>Get user name:</li>
+</ul>
+<pre><code class="language-bash">bafi.exe -i myUser.json -f json -t '?{{.user.name}}'
+</code></pre>
+<ul>
+<li>Use function to capitalize user name:</li>
+</ul>
+<pre><code class="language-bash">bafi.exe -i myUser.json -f json -t '?{{upper .user.name}}'
+</code></pre>
+<ul>
+<li>Use IF statement to compare user age to 20:</li>
+</ul>
+<pre><code class="language-bash">bafi.exe -i myUser.json -f json -t '?User is {{if gt (toInt .user.age) 20}}old{{else}}young{{end}}.'
+</code></pre>
+<ul>
+<li>List favourite colors:</li>
+</ul>
+<pre><code class="language-bash">bafi.exe -i myUser.json -f json -t '?{{range .user.favourite_colors}}{{.}},{{end}}'
+</code></pre>
+<ul>
+<li>Format data using template file <strong>myTemplate.tmpl</strong> and save output to <strong>myUser.txt</strong>:</li>
+</ul>
+<pre><code class="language-bash">bafi.exe -i myUser.json -f json -t myTemplate.tmpl -o myUser.txt
+</code></pre>
+<pre><code>{{- /* Content of myTemplate.tmpl file */ -}}
+User: {{.user.name}}
+Age: {{.user.age}}
+Address: {{.user.address.street}}, {{.user.address.city}} - {{.user.address.state}}
+{{- /* Create list of colors and remove comma at the end */ -}}
+{{- $colors := &quot;&quot;}}{{range .user.favourite_colors}}{{$colors = print $colors . &quot;, &quot;}}{{end}}
+{{- $colors = print (trimSuffix $colors &quot;, &quot; )}}
+Favourite colors: {{$colors}}
+</code></pre>
+<p>More examples <a href="examples/#template">here</a></p>
 <h2 id="command-line-arguments">Command line arguments</h2>
 <ul>
 <li>"-i input.xml" Input file name. If not defined app tries read stdin</li>
@@ -180,9 +237,9 @@
 <li>"-v" - Show current verion</li>
 <li>"-?" - list available command line arguments</li>
 </ul>
-<p>Example: (<a href="examples/#command-line">more examples</a>)</p>
 <pre><code>bafi.exe -i testdata.xml -t template.tmpl -o output.txt
 </code></pre>
+<p>More examples <a href="examples/#command-line">here</a></p>
 <h2 id="templates">Templates</h2>
 <p>Bafi uses <a href="https://pkg.go.dev/text/template">text/template</a>. Here is a quick summary how to use. Examples are based on <em>testdata.xml</em> included in project</p>
 <h3 id="comments">Comments</h3>
@@ -393,5 +450,5 @@ end
 
 <!--
 MkDocs version : 1.2.2
-Build Date UTC : 2021-08-11 13:10:48.493638+00:00
+Build Date UTC : 2021-08-12 10:50:24.251900+00:00
 -->

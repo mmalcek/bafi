@@ -267,8 +267,8 @@ table, th, td { border: 1px solid black; width: 400px; }
 {{- range .TOP_LEVEL.DATA_LINE}}
 {{- $new = print $new &quot;{\&quot;employeeID\&quot;:\&quot;&quot; (index .Employee &quot;-ID&quot;) &quot;\&quot;, \&quot;val1\&quot;:&quot; .val1 &quot;},&quot; }}
 {{- end}}
-{{- /* &quot;slice $new 0 (sub (len $new) 1&quot; - remove trailing comma  */}}
-{{- $new = print (slice $new 0 (sub (len $new) 1)) &quot;]}&quot; }}
+{{- /* Trim trailing comma, alternatively you can remove last char by &quot;(slice $new 0 (sub (len $new) 1))&quot; */}}
+{{- $new = print (trimSuffix $new &quot;,&quot; ) &quot;]}&quot;}}
 {{ $new}}
 </code></pre>
 <p>JSON in $new variable can be mapped to struct and autoformatted to other formats like:</p>
