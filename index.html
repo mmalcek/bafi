@@ -18,6 +18,7 @@
         <script src="js/bootstrap.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/lua.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/powershell.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-GE1PDVJERL"></script>
         <script>
@@ -190,27 +191,27 @@
 <ul>
 <li>Get user name:</li>
 </ul>
-<pre><code class="language-bash">bafi.exe -i myUser.json -f json -t '?{{.user.name}}'
+<pre><code class="language-sh">bafi.exe -i myUser.json -f json -t '?{{.user.name}}'
 </code></pre>
 <ul>
-<li>Use function to capitalize user name:</li>
+<li>Use function to change all letters to uppercase:</li>
 </ul>
-<pre><code class="language-bash">bafi.exe -i myUser.json -f json -t '?{{upper .user.name}}'
+<pre><code class="language-sh">bafi.exe -i myUser.json -f json -t '?{{upper .user.name}}'
 </code></pre>
 <ul>
 <li>Use IF statement to compare user age to 20:</li>
 </ul>
-<pre><code class="language-bash">bafi.exe -i myUser.json -f json -t '?User is {{if gt (toInt .user.age) 20}}old{{else}}young{{end}}.'
+<pre><code class="language-sh">bafi.exe -i myUser.json -f json -t '?User is {{if gt (toInt .user.age) 20}}old{{else}}young{{end}}.'
 </code></pre>
 <ul>
 <li>List favourite colors:</li>
 </ul>
-<pre><code class="language-bash">bafi.exe -i myUser.json -f json -t '?{{range .user.favourite_colors}}{{.}},{{end}}'
+<pre><code class="language-sh">bafi.exe -i myUser.json -f json -t '?{{range .user.favourite_colors}}{{.}},{{end}}'
 </code></pre>
 <ul>
 <li>Format data using template file <strong>myTemplate.tmpl</strong> and save output to <strong>myUser.txt</strong>:</li>
 </ul>
-<pre><code class="language-bash">bafi.exe -i myUser.json -f json -t myTemplate.tmpl -o myUser.txt
+<pre><code class="language-sh">bafi.exe -i myUser.json -f json -t myTemplate.tmpl -o myUser.txt
 </code></pre>
 <pre><code>{{- /* Content of myTemplate.tmpl file */ -}}
 User: {{.user.name}}
@@ -220,6 +221,10 @@ Address: {{.user.address.street}}, {{.user.address.city}} - {{.user.address.stat
 {{- $colors := &quot;&quot;}}{{range .user.favourite_colors}}{{$colors = print $colors . &quot;, &quot;}}{{end}}
 {{- $colors = print (trimSuffix $colors &quot;, &quot; )}}
 Favourite colors: {{$colors}}
+</code></pre>
+<p>note: in Powershell you must use <span style="color:red; font-weight: bold;">.\</span>bafi.exe e.g.</p>
+<pre><code class="language-powershell">.\bafi.exe -i input.csv -f csv -t &quot;?{{toXML .}}&quot;
+curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 </code></pre>
 <p>More examples <a href="examples/#template">here</a></p>
 <h2 id="command-line-arguments">Command line arguments</h2>
@@ -237,7 +242,7 @@ Favourite colors: {{$colors}}
 <li>"-v" - Show current verion</li>
 <li>"-?" - list available command line arguments</li>
 </ul>
-<pre><code>bafi.exe -i testdata.xml -t template.tmpl -o output.txt
+<pre><code class="language-sh">bafi.exe -i testdata.xml -t template.tmpl -o output.txt
 </code></pre>
 <p>More examples <a href="examples/#command-line">here</a></p>
 <h2 id="templates">Templates</h2>
@@ -450,5 +455,5 @@ end
 
 <!--
 MkDocs version : 1.2.2
-Build Date UTC : 2021-08-12 10:50:24.251900+00:00
+Build Date UTC : 2021-08-12 13:01:52.733716+00:00
 -->

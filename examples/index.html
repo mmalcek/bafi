@@ -18,6 +18,7 @@
         <script src="../js/bootstrap.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/lua.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/powershell.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-GE1PDVJERL"></script>
         <script>
@@ -155,7 +156,7 @@
 <h1 id="examples">Examples</h1>
 <h2 id="command-line">Command line</h2>
 <p>note: in Powershell you must use <span style="color:red; font-weight: bold;">.\</span>bafi.exe e.g.</p>
-<pre><code>.\bafi.exe -i input.csv -f csv -t &quot;?{{toXML .}}&quot;
+<pre><code class="language-powershell">.\bafi.exe -i input.csv -f csv -t &quot;?{{toXML .}}&quot;
 curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 </code></pre>
 <h3 id="basic">Basic</h3>
@@ -175,7 +176,7 @@ curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 <p>More info about curl <a href="https://curl.se/">here</a> but you can of course use any tool with stdout</p>
 <h3 id="append-output-file">Append output file</h3>
 <p>Redirect stdout to file and append ( &gt; = replace, &gt;&gt; = apppend )</p>
-<pre><code>bafi.exe -i testdata.xml -t template.tmpl &gt;&gt; output.txt
+<pre><code class="language-sh">bafi.exe -i testdata.xml -t template.tmpl &gt;&gt; output.txt
 </code></pre>
 <h2 id="template">Template</h2>
 <p>Examples are based on testdata.tmpl included in project</p>
@@ -183,7 +184,7 @@ curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 <ul>
 <li>command</li>
 </ul>
-<pre><code>bafi.exe -i testdata.xml -t myTemplate.tmpl -o output.csv
+<pre><code class="language-sh">bafi.exe -i testdata.xml -t myTemplate.tmpl -o output.csv
 </code></pre>
 <ul>
 <li>myTemplate.tmpl</li>
@@ -201,7 +202,7 @@ curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 <ul>
 <li>command</li>
 </ul>
-<pre><code>curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.html
+<pre><code class="language-sh">curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.html
 </code></pre>
 <ul>
 <li>myTemplate.tmpl</li>
@@ -215,7 +216,7 @@ curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 <ul>
 <li>command</li>
 </ul>
-<pre><code>curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.html
+<pre><code class="language-sh">curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.html
 </code></pre>
 <ul>
 <li>myTemplate.tmpl</li>
@@ -239,7 +240,7 @@ table, th, td { border: 1px solid black; width: 400px; }
 <ul>
 <li>command </li>
 </ul>
-<pre><code>curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.xml
+<pre><code class="language-sh">curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.xml
 </code></pre>
 <ul>
 <li>myTemplate.tmpl</li>
@@ -258,7 +259,7 @@ table, th, td { border: 1px solid black; width: 400px; }
 <ul>
 <li>command </li>
 </ul>
-<pre><code>bafi.exe -i testdata.xml -t myTemplate.tmpl -o output.json
+<pre><code class="language-sh">bafi.exe -i testdata.xml -t myTemplate.tmpl -o output.json
 </code></pre>
 <ul>
 <li>myTemplate.tmpl</li>
@@ -286,7 +287,7 @@ table, th, td { border: 1px solid black; width: 400px; }
 <ul>
 <li>command</li>
 </ul>
-<pre><code>bafi.exe -i users.csv -f csv -t myTemplate.tmpl -o output.txt
+<pre><code class="language-sh">bafi.exe -i users.csv -f csv -t myTemplate.tmpl -o output.txt
 </code></pre>
 <p>users.csv</p>
 <pre><code>name,surname
@@ -305,7 +306,7 @@ Name: {{.name}}, Surname: {{.surname}}
 <ul>
 <li>command</li>
 </ul>
-<pre><code>bafi.exe -i users.bson -f bson -t myTemplate.tmpl -o output.html
+<pre><code class="language-sh">bafi.exe -i users.bson -f bson -t myTemplate.tmpl -o output.html
 </code></pre>
 <ul>
 <li>myTemplate.tmpl</li>
@@ -317,7 +318,7 @@ Name: {{.name}}, Surname: {{.surname}}
 </code></pre>
 <h3 id="input-autoformat-to-xxx">Input autoformat to XXX</h3>
 <p>Input data can be easily fomated to oher formats by functions <strong>toXML,toJSON,toBSON,toYAML</strong>. In this case its not necesarry add template file because it's as easy as </p>
-<pre><code>curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toXML .}}&quot; -o output.xml
+<pre><code class="language-sh">curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toXML .}}&quot; -o output.xml
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toJSON .}}&quot; -o output.json
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toBSON .}}&quot; -o output.bson
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toYAML .}}&quot; -o output.yml
