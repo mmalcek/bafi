@@ -12,6 +12,7 @@
 - Flexible output formatting using text templates
 - Support for [Lua](https://www.lua.org/pil/contents.html) custom functions which allows very flexible data manipulation
 - stdin/stdout support which allows get data from source -> translate -> delivery to destination. This allows easily translate data between different web services like **REST to SOAP, SOAP to REST, REST to CSV, ...**
+- Merge multiple input files in various formats into single output file formated using template
 
 <img src="img/scheme.svg" style="border: 0;" height="150px" />
 
@@ -85,14 +86,17 @@ More examples [here](examples/#template)
 
 
 ## Command line arguments
-- "-i input.xml" Input file name. If not defined app tries read stdin
-- "-o output.txt" Output file name. If not defined result is send to stdout
-- "-t template.tmpl" Template file. Alternatively you can use *inline* template 
+- **-i input.xml** Input file name. 
+    - If not defined app tries read stdin
+    - If prefixed with "?" (**-i ?files.yaml**) app will expect yaml file with multiple files description. See [example](examples/#multiple-input-files)
+- **-o output.txt** Output file name. 
+    - If not defined result is send to stdout
+- **-t template.tmpl** Template file. Alternatively you can use *inline* template 
     - inline template must start with **?** e.g. -t **"?{{.someValue}}"**
-- "-f json" Alternative input format. 
+- **-f json** Input format. 
     - Supported formats: **json, bson, yaml, csv, xml (default)**
-- "-v" - Show current verion
-- "-?" - list available command line arguments
+- **-v** Show current verion
+- **-?** list available command line arguments
 
 ```sh
 bafi.exe -i testdata.xml -t template.tmpl -o output.txt

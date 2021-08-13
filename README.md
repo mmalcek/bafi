@@ -15,6 +15,7 @@
 - Flexible output formatting using text templates
 - Support for [Lua](https://www.lua.org/pil/contents.html) custom functions which allows very flexible data manipulation
 - stdin/stdout support which allows get data from source -> translate -> delivery to destination. This allows easily translate data between different web services like **REST to SOAP, SOAP to REST, REST to CSV, ...**
+- Merge multiple input files in various formats into single output file formated using template
 
 
 

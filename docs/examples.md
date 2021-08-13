@@ -150,7 +150,7 @@ Name: {{.name}}, Surname: {{.surname}}
 ```
 note: CSV file must be **[RFC4180](https://datatracker.ietf.org/doc/html/rfc4180)** compliant, file must have header line and separator must be **comma ( , )**
 
-### mongoDump to CSV
+### MongoDump to CSV
 - command
 ```sh
 bafi.exe -i users.bson -f bson -t myTemplate.tmpl -o output.html
@@ -171,3 +171,51 @@ curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t "?{{toJ
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t "?{{toBSON .}}" -o output.bson
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t "?{{toYAML .}}" -o output.yml
 ```
+
+### Multiple input files
+Bafi can read multiple input files and merge them into one output file. This will require aditional file with files description.
+Description file must be in YAML format as described below and prefixed by question mark **"?"** for examle **bafi.exe -t ?files.yaml**
+
+Example: 
+
+- batch file which gets the data from multiple sources **myFiles.bat**
+```sh
+curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml > ecbRates.xml
+curl -s https://goweather.herokuapp.com/weather/prague > pragueWeather.json
+```
+- Files description **myFiles.yaml**
+```yaml
+- file: ./ecbRates.xml # file path
+  format: xml # File format
+  label: RATES # Label which will be used in the template {{ .RATES }}
+- file: ./pragueWeather.json
+  format: json
+  label: WEATHER
+```
+- Template file **myTemplate.tmpl** which will generate simple HTML page with data
+```html
+<html>
+    <body>
+    <h3> Weather in Prague </h3>
+    <h4> Temperatre: {{.WEATHER.temperature}} </h4>
+    <h4> Wind: {{.WEATHER.wind}} </h4>
+    <h3> ECB Exchange rates from: {{dateFormat (index .RATES.Envelope.Cube.Cube "-time") "2006-01-02" "02.01.2006" }}</h3>
+        <table>
+            <tr><th>currency</th><th>rate</th>
+            {{- range .RATES.Envelope.Cube.Cube.Cube }} 
+            <tr><td>{{index . "-currency" }}</td><td>{{index . "-rate" }}</td>
+            {{- end}}
+        </table>
+    <body>
+</html>
+
+<style>
+table, th, td { border: 1px solid black; width: 400px; }
+</style>
+```
+- Finally run bafi
+```sh
+bafi.exe -t myTemplate.tmpl -i ?myFiles.yaml -o output.html
+```
+
+

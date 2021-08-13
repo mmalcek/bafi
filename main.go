@@ -20,7 +20,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-const version = "1.0.7"
+const version = "1.0.8"
 
 var (
 	luaData *lua.LState
@@ -46,11 +46,15 @@ func init() {
 
 func main() {
 	params := tParams{
-		inputFile:    flag.String("i", "", "input file, if not defined read from stdin (pipe mode)"),
-		outputFile:   flag.String("o", "", "output file, if not defined write to stdout (pipe mode)"),
-		textTemplate: flag.String("t", "", "template, file or inline. Inline should start with ? e.g. -t \"?{{.MyValue}}\" "),
-		inputFormat:  flag.String("f", "", "input format, json, bson, yaml, csv, xml(default)"),
-		getVersion:   flag.Bool("v", false, "print version and exit"),
+		inputFile: flag.String("i", "", `input file 
+ -if not defined read from stdin (pipe mode)
+ -if prefixed with "?" app will expect yaml file with multiple files description. `),
+		outputFile: flag.String("o", "", `output file, 
+ -if not defined write to stdout (pipe mode)`),
+		textTemplate: flag.String("t", "", `template, file or inline. 
+- Inline template should start with ? e.g. -t "?{{.MyValue}}" `),
+		inputFormat: flag.String("f", "", "input format: json, bson, yaml, csv, xml(default)"),
+		getVersion:  flag.Bool("v", false, "show version (Project page: https://github.com/mmalcek/bafi)"),
 	}
 	flag.Parse()
 
