@@ -57,6 +57,9 @@ func main() {
 	if err := processTemplate(params); err != nil {
 		log.Fatal(err.Error())
 	}
+	if luaData != nil {
+		luaData.Close()
+	}
 }
 
 func processTemplate(params tParams) error {
@@ -68,13 +71,29 @@ func processTemplate(params tParams) error {
 		fmt.Println("template file must be defined: -t template.tmpl")
 		return nil
 	}
-	data, err := getInputData(params.inputFile)
+	data, files, err := getInputData(params.inputFile)
 	if err != nil {
 		return err
 	}
-	mapData, err := mapInputData(data, params.inputFormat)
-	if err != nil {
-		return err
+
+	// If list of file map them one by one else map incoming []byte to mapData
+	var mapData interface{}
+	if data == nil && files != nil {
+		filesStruct := make(map[string]interface{})
+		for _, file := range files {
+			if data, err := ioutil.ReadFile(file["file"].(string)); err != nil {
+				return err
+			} else {
+				if filesStruct[file["label"].(string)], err = mapInputData(data, file["format"].(string)); err != nil {
+					return err
+				}
+			}
+		}
+		mapData = &filesStruct
+	} else {
+		if mapData, err = mapInputData(data, *params.inputFormat); err != nil {
+			return err
+		}
 	}
 	templateFile, err := readTemplate(*params.textTemplate)
 	if err != nil {
@@ -83,38 +102,46 @@ func processTemplate(params tParams) error {
 	if err := writeOutputData(mapData, params.outputFile, templateFile); err != nil {
 		return err
 	}
-	if luaData != nil {
-		luaData.Close()
-	}
 	return nil
 }
 
-// getInputData get the data from stdin/pipe or from file
-func getInputData(inputFile *string) ([]byte, error) {
-	var data []byte
+// getInputData get the data from stdin/pipe or from file or forward list of multiple input files
+func getInputData(input *string) (data []byte, files []map[string]interface{}, errorMsg error) {
 	var err error
-	if *inputFile == "" {
+	inputFile := *input
+	switch {
+	case inputFile == "":
 		fi, err := os.Stdin.Stat()
 		if err != nil {
-			return nil, fmt.Errorf("getStdin: %s", err.Error())
+			return nil, nil, fmt.Errorf("getStdin: %s", err.Error())
 		}
 		if fi.Mode()&os.ModeNamedPipe == 0 {
-			return nil, fmt.Errorf("stdin: Error-noPipe")
+			return nil, nil, fmt.Errorf("stdin: Error-noPipe")
 		}
 		if data, err = ioutil.ReadAll(os.Stdin); err != nil {
-			return nil, fmt.Errorf("readStdin: %s", err.Error())
+			return nil, nil, fmt.Errorf("readStdin: %s", err.Error())
 		}
-	} else {
-		if data, err = ioutil.ReadFile(*inputFile); err != nil {
-			return nil, fmt.Errorf("readFile: %s", err.Error())
+	case inputFile[:1] == "?":
+		files = make([]map[string]interface{}, 0)
+		if configFile, err := ioutil.ReadFile(inputFile[1:]); err != nil {
+			return nil, nil, fmt.Errorf("readFileList: %s", err.Error())
+		} else {
+			if err := yaml.Unmarshal(configFile, &files); err != nil {
+				return nil, nil, fmt.Errorf("yaml.UnmarshalFileList: %s", err.Error())
+			}
+		}
+		return nil, files, nil
+	default:
+		if data, err = ioutil.ReadFile(inputFile); err != nil {
+			return nil, nil, fmt.Errorf("readFile: %s", err.Error())
 		}
 	}
-	return cleanBOM(data), nil
+	return cleanBOM(data), nil, nil
 }
 
 // mapInputData map input data to map[string]interface{}
-func mapInputData(data []byte, inputFormat *string) (interface{}, error) {
-	switch strings.ToLower(*inputFormat) {
+func mapInputData(data []byte, inputFormat string) (interface{}, error) {
+	switch strings.ToLower(inputFormat) {
 	case "json":
 		var mapData map[string]interface{}
 		if err := json.Unmarshal(data, &mapData); err != nil {
@@ -156,7 +183,7 @@ func mapInputData(data []byte, inputFormat *string) (interface{}, error) {
 	case "yaml":
 		var mapData map[string]interface{}
 		if err := yaml.Unmarshal(data, &mapData); err != nil {
-			if strings.Contains(err.Error(), "cannot unmarshal !!seq") {
+			if strings.Contains(err.Error(), "cannot unmarshal !!") {
 				mapDataArray := make([]map[string]interface{}, 0)
 				if err := yaml.Unmarshal(data, &mapDataArray); err != nil {
 					return nil, fmt.Errorf("yamlArray: %s", err.Error())

@@ -50,6 +50,20 @@ func TestProcessTemplate(t *testing.T) {
 	if err != nil {
 		t.Errorf("result: %v", err.Error())
 	}
+
+	textTemplate = `?Output template test: description = {{index .filesTest.TOP_LEVEL "-description"}} {{print "\r\n"}}`
+	inputFile = "?filesTest.yaml"
+	err = processTemplate(params)
+	if err != nil {
+		t.Errorf("result: %v", err.Error())
+	}
+
+	inputFile = "?filesTest.yamlx"
+	err = processTemplate(params)
+	if !strings.Contains(err.Error(), "readFileList: open filesTest.yamlx") {
+		t.Errorf("result: %v", err.Error())
+	}
+
 	getVersion = true
 	err = processTemplate(params)
 	if err != nil {
@@ -65,17 +79,17 @@ func TestProcessTemplate(t *testing.T) {
 
 func TestGetInputData(t *testing.T) {
 	inputFile := "testdata.xml"
-	data, _ := getInputData(&inputFile)
+	data, _, _ := getInputData(&inputFile)
 	if !strings.Contains(string(data), `<?xml version="1.0" encoding="utf-8"?>`) {
 		t.Errorf("result: %v", string(data))
 	}
 	inputFile = "Hello.xml"
-	_, err := getInputData(&inputFile)
+	_, _, err := getInputData(&inputFile)
 	if !strings.Contains(err.Error(), `readFile: open Hello.xml:`) {
 		t.Errorf("result: %v", err.Error())
 	}
 	inputFile = ""
-	_, err = getInputData(&inputFile)
+	_, _, err = getInputData(&inputFile)
 	if !strings.Contains(err.Error(), `stdin: Error-noPipe`) {
 		t.Errorf("result: %v", err.Error())
 	}
@@ -85,29 +99,29 @@ func TestMapInputData(t *testing.T) {
 	// Test map json
 	input := []byte(`{"name": "John","age": 30}`)
 	format := "json"
-	result, _ := mapInputData(input, &format)
+	result, _ := mapInputData(input, format)
 	if result.(map[string]interface{})["name"] != "John" || result.(map[string]interface{})["age"] != float64(30) {
 		t.Errorf("resultJSON: %v", result)
 	}
 	input = []byte(`[{"name": "John","age": 30}, {"name": "Hanz","age": 28}]`)
-	result, _ = mapInputData(input, &format)
+	result, _ = mapInputData(input, format)
 	if result.([]map[string]interface{})[0]["name"] != "John" {
 		t.Errorf("resultJSONarray: %v", result.([]map[string]interface{})[0]["name"])
 	}
 	input = []byte(`[{"name": "John","age": 30}, {"name": Hanz","age": 28}]`)
-	_, err := mapInputData(input, &format)
+	_, err := mapInputData(input, format)
 	if !strings.Contains(err.Error(), "invalid character 'H'") {
 		t.Errorf("resultJSONerr: %v", err.Error())
 	}
 	input = []byte(`{"name" John","age": 30}`)
-	_, err = mapInputData(input, &format)
+	_, err = mapInputData(input, format)
 	if !strings.Contains(err.Error(), "invalid character 'J'") {
 		t.Errorf("resultJSONerr: %v", err.Error())
 	}
 	// Test map bson
 	input = []byte{14, 0, 0, 0, 2, 104, 0, 2, 0, 0, 0, 119, 0, 0}
 	format = "bson"
-	result, _ = mapInputData(input, &format)
+	result, _ = mapInputData(input, format)
 	if result.(map[string]interface{})["h"] != "w" {
 		t.Errorf("resultBSON: %v", result)
 	}
@@ -115,58 +129,58 @@ func TestMapInputData(t *testing.T) {
 	if err != nil {
 		t.Errorf("base64BSONdump: %v", err.Error())
 	}
-	result, _ = mapInputData(input, &format)
+	result, _ = mapInputData(input, format)
 	if result.([]map[string]interface{})[0]["name"] != `Hello` {
 		t.Errorf("resultBSONdump: %v", result.([]map[string]interface{})[0]["name"])
 	}
 	input = []byte{14, 0, 0, 1, 2, 104, 0, 2, 0, 0, 0, 119, 0, 0}
-	_, err = mapInputData(input, &format)
+	_, err = mapInputData(input, format)
 	if !strings.Contains(err.Error(), "EOF") {
 		t.Errorf("resultBSONerr: %v", err.Error())
 	}
 	// Test map yaml
 	input = []byte(`name: John`)
 	format = "yaml"
-	result, _ = mapInputData(input, &format)
+	result, _ = mapInputData(input, format)
 	if result.(map[string]interface{})["name"] != "John" {
 		t.Errorf("resultYAML: %v", result)
 	}
 	input = []byte("- name: John\r\n- name: Peter")
-	result, _ = mapInputData(input, &format)
+	result, _ = mapInputData(input, format)
 	if result.([]map[string]interface{})[0]["name"] != "John" {
 		t.Errorf("resultYAMLarray: %v", result)
 	}
 	input = []byte("- name John\r\n- name: Peter")
-	_, err = mapInputData(input, &format)
+	_, err = mapInputData(input, format)
 	if !strings.Contains(err.Error(), "cannot unmarshal !!str `name John`") {
 		t.Errorf("resultYAMLarrayErr: %v", err.Error())
 	}
 	input = []byte(`name John`)
-	_, err = mapInputData(input, &format)
+	_, err = mapInputData(input, format)
 	if !strings.Contains(err.Error(), "cannot unmarshal !!str `name John`") {
 		t.Errorf("resultYAMLerr: %v", err.Error())
 	}
 	// Test map csv
 	input = []byte("name,surname\r\nHello,World")
 	format = "csv"
-	result, _ = mapInputData(input, &format)
+	result, _ = mapInputData(input, format)
 	if result.([]map[string]interface{})[0]["name"] != "Hello" {
 		t.Errorf("result: %v", result.([]map[string]interface{})[0]["name"])
 	}
 	input = []byte("name,surname\r\nHello,World,!!!")
-	_, err = mapInputData(input, &format)
+	_, err = mapInputData(input, format)
 	if !strings.Contains(err.Error(), "wrong number of fields") {
 		t.Errorf("result: %v", err.Error())
 	}
 	// Test map xml
 	input = []byte(`<name>John</name>`)
 	format = "xml"
-	result, _ = mapInputData(input, &format)
+	result, _ = mapInputData(input, format)
 	if result.(mxj.Map)["name"] != "John" {
 		t.Errorf("result: %v", result)
 	}
 	input = []byte(`<name>John<name>`)
-	_, err = mapInputData(input, &format)
+	_, err = mapInputData(input, format)
 	if !strings.Contains(err.Error(), "xml.Decoder.Token() - XML syntax error on line 1") {
 		t.Errorf("result: %v", err.Error())
 	}

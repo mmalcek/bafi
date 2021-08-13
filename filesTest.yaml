@@ -1,0 +1,4 @@
+# Example array of files:
+- file: ./testdata.xml # file path
+  format: xml # File format
+  label: filesTest # Label which will be used in the template {{ .filesTest }}
