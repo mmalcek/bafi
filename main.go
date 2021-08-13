@@ -81,12 +81,12 @@ func processTemplate(params tParams) error {
 	if data == nil && files != nil {
 		filesStruct := make(map[string]interface{})
 		for _, file := range files {
-			if data, err := ioutil.ReadFile(file["file"].(string)); err != nil {
+			data, err := ioutil.ReadFile(file["file"].(string))
+			if err != nil {
 				return err
-			} else {
-				if filesStruct[file["label"].(string)], err = mapInputData(data, file["format"].(string)); err != nil {
-					return err
-				}
+			}
+			if filesStruct[file["label"].(string)], err = mapInputData(data, file["format"].(string)); err != nil {
+				return err
 			}
 		}
 		mapData = &filesStruct
@@ -123,12 +123,12 @@ func getInputData(input *string) (data []byte, files []map[string]interface{}, e
 		}
 	case inputFile[:1] == "?":
 		files = make([]map[string]interface{}, 0)
-		if configFile, err := ioutil.ReadFile(inputFile[1:]); err != nil {
+		configFile, err := ioutil.ReadFile(inputFile[1:])
+		if err != nil {
 			return nil, nil, fmt.Errorf("readFileList: %s", err.Error())
-		} else {
-			if err := yaml.Unmarshal(configFile, &files); err != nil {
-				return nil, nil, fmt.Errorf("yaml.UnmarshalFileList: %s", err.Error())
-			}
+		}
+		if err := yaml.Unmarshal(configFile, &files); err != nil {
+			return nil, nil, fmt.Errorf("yaml.UnmarshalFileList: %s", err.Error())
 		}
 		return nil, files, nil
 	default:
