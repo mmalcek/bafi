@@ -16,12 +16,12 @@ import (
 	"time"
 
 	"github.com/clbanning/mxj/v2"
-	"github.com/go-yaml/yaml"
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
 	"github.com/spf13/cast"
 	lua "github.com/yuin/gopher-lua"
 	"go.mongodb.org/mongo-driver/bson"
+	"gopkg.in/yaml.v3"
 )
 
 // templateFunctions extends template functions
@@ -341,7 +341,7 @@ func toDecimalString(i interface{}) string {
 
 // toJSON convert to JSON
 func toJSON(data interface{}) string {
-	out, err := json.Marshal(data)
+	out, err := json.MarshalIndent(data, "", "  ")
 	if err != nil {
 		return fmt.Sprintf("err: %s", err.Error())
 	}

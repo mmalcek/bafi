@@ -17,10 +17,10 @@ import (
 	"github.com/clbanning/mxj/v2"
 	lua "github.com/yuin/gopher-lua"
 	"go.mongodb.org/mongo-driver/bson"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
-const version = "1.0.6"
+const version = "1.0.7"
 
 var (
 	luaData *lua.LState

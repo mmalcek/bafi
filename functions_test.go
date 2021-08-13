@@ -339,7 +339,7 @@ func TestToJSON(t *testing.T) {
 	testData := make(map[string]interface{})
 	testData["Hello"] = "World"
 	result := toJSON(testData)
-	if result != `{"Hello":"World"}` {
+	if !strings.Contains(result, `"Hello": "World"`) {
 		t.Errorf("result: %v", result)
 	}
 	testData["Hello"] = make(chan int)
