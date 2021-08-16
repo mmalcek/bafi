@@ -136,11 +136,15 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="3"><a href="#mongodump-to-csv" class="nav-link">mongoDump to CSV</a>
+            <li class="nav-item" data-level="3"><a href="#mongodump-to-csv" class="nav-link">MongoDump to CSV</a>
               <ul class="nav flex-column">
               </ul>
             </li>
             <li class="nav-item" data-level="3"><a href="#input-autoformat-to-xxx" class="nav-link">Input autoformat to XXX</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="3"><a href="#multiple-input-files" class="nav-link">Multiple input files</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -302,7 +306,7 @@ Name: {{.name}}, Surname: {{.surname}}
 {{- end}}
 </code></pre>
 <p>note: CSV file must be <strong><a href="https://datatracker.ietf.org/doc/html/rfc4180">RFC4180</a></strong> compliant, file must have header line and separator must be <strong>comma ( , )</strong></p>
-<h3 id="mongodump-to-csv">mongoDump to CSV</h3>
+<h3 id="mongodump-to-csv">MongoDump to CSV</h3>
 <ul>
 <li>command</li>
 </ul>
@@ -322,6 +326,53 @@ Name: {{.name}}, Surname: {{.surname}}
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toJSON .}}&quot; -o output.json
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toBSON .}}&quot; -o output.bson
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toYAML .}}&quot; -o output.yml
+</code></pre>
+<h3 id="multiple-input-files">Multiple input files</h3>
+<p>Bafi can read multiple input files and merge them into one output file. This will require aditional file with files description.
+Description file must be in YAML format as described below and prefixed by question mark <strong>"?"</strong> for examle <strong>bafi.exe -t ?files.yaml</strong></p>
+<p>Example: </p>
+<ul>
+<li>batch file which gets the data from multiple sources <strong>myFiles.bat</strong></li>
+</ul>
+<pre><code class="language-sh">curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml &gt; ecbRates.xml
+curl -s https://goweather.herokuapp.com/weather/prague &gt; pragueWeather.json
+</code></pre>
+<ul>
+<li>Files description <strong>myFiles.yaml</strong></li>
+</ul>
+<pre><code class="language-yaml">- file: ./ecbRates.xml # file path
+  format: xml # File format
+  label: RATES # Label which will be used in the template {{ .RATES }}
+- file: ./pragueWeather.json
+  format: json
+  label: WEATHER
+</code></pre>
+<ul>
+<li>Template file <strong>myTemplate.tmpl</strong> which will generate simple HTML page with data</li>
+</ul>
+<pre><code class="language-html">&lt;html&gt;
+    &lt;body&gt;
+    &lt;h3&gt; Weather in Prague &lt;/h3&gt;
+    &lt;h4&gt; Temperatre: {{.WEATHER.temperature}} &lt;/h4&gt;
+    &lt;h4&gt; Wind: {{.WEATHER.wind}} &lt;/h4&gt;
+    &lt;h3&gt; ECB Exchange rates from: {{dateFormat (index .RATES.Envelope.Cube.Cube &quot;-time&quot;) &quot;2006-01-02&quot; &quot;02.01.2006&quot; }}&lt;/h3&gt;
+        &lt;table&gt;
+            &lt;tr&gt;&lt;th&gt;currency&lt;/th&gt;&lt;th&gt;rate&lt;/th&gt;
+            {{- range .RATES.Envelope.Cube.Cube.Cube }} 
+            &lt;tr&gt;&lt;td&gt;{{index . &quot;-currency&quot; }}&lt;/td&gt;&lt;td&gt;{{index . &quot;-rate&quot; }}&lt;/td&gt;
+            {{- end}}
+        &lt;/table&gt;
+    &lt;body&gt;
+&lt;/html&gt;
+
+&lt;style&gt;
+table, th, td { border: 1px solid black; width: 400px; }
+&lt;/style&gt;
+</code></pre>
+<ul>
+<li>Finally run bafi</li>
+</ul>
+<pre><code class="language-sh">bafi.exe -t myTemplate.tmpl -i ?myFiles.yaml -o output.html
 </code></pre></div>
             </div>
         </div>
