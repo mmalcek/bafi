@@ -150,6 +150,13 @@ Name: {{.name}}, Surname: {{.surname}}
 ```
 note: CSV file must be **[RFC4180](https://datatracker.ietf.org/doc/html/rfc4180)** compliant, file must have header line and separator must be **comma ( , )**
 
+### Any SQL to XML
+Bafi can be used in combination with very interesting tool **USQL** [https://github.com/xo/usql](https://github.com/xo/usql). USQL allows query almost any SQL like database (MSSQL,MySQL,postgres, ...) and get result in various formats. In this example we use -J for JSON. Output can be further processed by BaFi and templates
+
+```sh
+usql.exe mssql://user:password@server/instance/database -c "SELECT * FROM USERS" -J -q | bafi.exe -f json -t "?{{toXML .}}'"
+```
+
 ### MongoDump to CSV
 - command
 ```sh
