@@ -136,6 +136,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="3"><a href="#any-sql-to-xml" class="nav-link">Any SQL to XML</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-level="3"><a href="#mongodump-to-csv" class="nav-link">MongoDump to CSV</a>
               <ul class="nav flex-column">
               </ul>
@@ -306,6 +310,10 @@ Name: {{.name}}, Surname: {{.surname}}
 {{- end}}
 </code></pre>
 <p>note: CSV file must be <strong><a href="https://datatracker.ietf.org/doc/html/rfc4180">RFC4180</a></strong> compliant, file must have header line and separator must be <strong>comma ( , )</strong></p>
+<h3 id="any-sql-to-xml">Any SQL to XML</h3>
+<p>Bafi can be used in combination with very interesting tool <strong>USQL</strong> <a href="https://github.com/xo/usql">https://github.com/xo/usql</a>. USQL allows query almost any SQL like database (MSSQL,MySQL,postgres, ...) and get result in various formats. In this example we use -J for JSON. Output can be further processed by BaFi and templates</p>
+<pre><code class="language-sh">usql.exe mssql://user:password@server/instance/database -c &quot;SELECT * FROM USERS&quot; -J -q | bafi.exe -f json -t &quot;?{{toXML .}}'&quot;
+</code></pre>
 <h3 id="mongodump-to-csv">MongoDump to CSV</h3>
 <ul>
 <li>command</li>
