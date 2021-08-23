@@ -156,7 +156,9 @@ If statement
 ```
 
 ### Functions
-In go template all data manipulation is done by using functions for example 
+In go templates all operations are done by functions where function name is followed by operands
+
+For example: 
 
 count val1+val2
 ```
@@ -166,6 +168,12 @@ count (val1+val2)/val3
 ```
 {{div (add $val1 $val2) $val3}}
 ```
+
+This is called [Polish notation](https://en.wikipedia.org/wiki/Polish_notation) or "Prefix notation" also used in another languages like [Lisp](https://en.wikipedia.org/wiki/Lisp_(programming_language)) 
+
+The key benefit of using this notation is that order of operations is clear. For example **6/2*(1+2)** - even diferent calculators may have different opinion on order of operations in this case. With Polish notation order of operations is strictly defined (from inside to outside) **div 6 (mul 2 (add 1 2))** . This brings benefits with increasing number of operations especially in templates where math and non-math operations can be mixed together.
+
+ <img src="img/calc.jpg" height="160px"> 
 
 There are 3 categories of functions
 #### Native functions
