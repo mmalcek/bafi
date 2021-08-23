@@ -310,6 +310,19 @@ curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 <p>This is called <a href="https://en.wikipedia.org/wiki/Polish_notation">Polish notation</a> or "Prefix notation" also used in another languages like <a href="https://en.wikipedia.org/wiki/Lisp_(programming_language)">Lisp</a> </p>
 <p>The key benefit of using this notation is that order of operations is clear. For example <strong>6/2*(1+2)</strong> - even diferent calculators may have different opinion on order of operations in this case. With Polish notation order of operations is strictly defined (from inside to outside) <strong>div 6 (mul 2 (add 1 2))</strong> . This brings benefits with increasing number of operations especially in templates where math and non-math operations can be mixed together.</p>
 <p><img src="img/calc.jpg" height="160px"> </p>
+<p>For example we have json array of items numbered from <strong>0</strong></p>
+<pre><code class="language-json">{&quot;items&quot;: [&quot;item-0&quot;,&quot;item-1&quot;,&quot;item-2&quot;,&quot;item-3&quot;]}
+</code></pre>
+<p>We need change items numbering to start with <strong>1</strong>. To achieve this we have to do series of operations: 1. trim prefix "item-" -&gt; 2. convert to int -&gt; 3. add 1 -&gt; 4. convert to string -&gt; 5. append "item-" for all items in range. This can be done in one line</p>
+<pre><code>{{ range .items }}{{ print &quot;item-&quot; (toString (add1 (toInt (trimPrefix . &quot;item-&quot;)))) }} {{ end }}
+</code></pre>
+<p>or alternatively (slightly shorter) print formatted string - examples <a href="https://zetcode.com/golang/string-format/">here</a>, documentation <a href="https://golang.org/pkg/fmt/">here</a></p>
+<pre><code>{{ range .items }}{{ printf &quot;item-%d &quot; (add1 (toInt (trimPrefix . &quot;item-&quot;))) }}{{ end }}
+</code></pre>
+<p>but BaFi also tries automaticaly cast variables so the shortest option is</p>
+<pre><code>{{range .items}}{{print &quot;item-&quot; (add1 (trimPrefix . &quot;item-&quot;))}} {{end}}
+</code></pre>
+<p>Expected result: <strong>item-1 item-2 item-3 item-4</strong> </p>
 <p>There are 3 categories of functions</p>
 <h4 id="native-functions">Native functions</h4>
 <p>text/template integrates <a href="https://pkg.go.dev/text/template#hdr-Functions">native functions</a> to work with data</p>
@@ -350,6 +363,7 @@ curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 <li><strong>trimSuffix</strong> - {{trimSuffix "!Hello World!" "!"}} - returns "!HelloWorld"</li>
 <li><strong>trimAll</strong> - {{trimAll "!Hello World!" "!"}} - returns "Hello World"</li>
 <li><strong>atoi</strong> - {{atoi "42"}} - string to int</li>
+<li><strong>toString</strong> - {{toString 42}} - int to string</li>
 <li><strong>toInt</strong> - {{int "42"}} - cast to int</li>
 <li><strong>toInt64</strong> - {{int64 "42"}} - cast to int64</li>
 <li><strong>toFloat64</strong> - {{float64 "3.14159"}} - cast to float64</li>
@@ -468,5 +482,5 @@ end
 
 <!--
 MkDocs version : 1.2.2
-Build Date UTC : 2021-08-23 09:34:59.486670+00:00
+Build Date UTC : 2021-08-23 22:08:07.251777+00:00
 -->
