@@ -283,6 +283,13 @@ func TestAtoi(t *testing.T) {
 	}
 }
 
+func TestToString(t *testing.T) {
+	result := toString(42)
+	if result != "42" {
+		t.Errorf("result: %v", result)
+	}
+}
+
 func TestToInt(t *testing.T) {
 	if toInt("42") != 42 {
 		t.Errorf("result: %d", toInt("42"))

@@ -175,7 +175,27 @@ The key benefit of using this notation is that order of operations is clear. For
 
  <img src="img/calc.jpg" height="160px"> 
 
+For example we have json array of items numbered from **0**
+
+```json
+{"items": ["item-0","item-1","item-2","item-3"]}
+```
+We need change items numbering to start with **1**. To achieve this we have to do series of operations: 1. trim prefix "item-" -> 2. convert to int -> 3. add 1 -> 4. convert to string -> 5. append "item-" for all items in range. This can be done in one line
+```
+{{ range .items }}{{ print "item-" (toString (add1 (toInt (trimPrefix . "item-")))) }} {{ end }}
+```
+or alternatively (slightly shorter) print formatted string - examples [here](https://zetcode.com/golang/string-format/), documentation [here](https://golang.org/pkg/fmt/)
+```
+{{ range .items }}{{ printf "item-%d " (add1 (toInt (trimPrefix . "item-"))) }}{{ end }}
+```
+but BaFi also tries automaticaly cast variables so the shortest option is
+```
+{{range .items}}{{print "item-" (add1 (trimPrefix . "item-"))}} {{end}}
+```
+Expected result: **item-1 item-2 item-3 item-4** 
+
 There are 3 categories of functions
+
 #### Native functions
 text/template integrates [native functions](https://pkg.go.dev/text/template#hdr-Functions) to work with data
 
@@ -216,6 +236,7 @@ Asside of integated functions bafi contains additional common functions
 - **trimSuffix** - {{trimSuffix "!Hello World!" "!"}} - returns "!HelloWorld"
 - **trimAll** - {{trimAll "!Hello World!" "!"}} - returns "Hello World"
 - **atoi** - {{atoi "42"}} - string to int
+- **toString** - {{toString 42}} - int to string
 - **toInt** - {{int "42"}} - cast to int
 - **toInt64** - {{int64 "42"}} - cast to int64
 - **toFloat64** - {{float64 "3.14159"}} - cast to float64

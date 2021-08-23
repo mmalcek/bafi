@@ -61,6 +61,7 @@ func templateFunctions() template.FuncMap {
 		"trimSuffix":      trimSuffix,
 		"trimPrefix":      trimPrefix,
 		"atoi":            atoi,
+		"toString":        toString,
 		"toInt":           toInt,
 		"toInt64":         toInt64,
 		"toFloat64":       toFloat64,
@@ -309,6 +310,10 @@ func atoi(a string) int { i, _ := strconv.Atoi(a); return i }
 // toInt convert to int
 func toInt(v interface{}) int {
 	return cast.ToInt(v)
+}
+
+func toString(v interface{}) string {
+	return cast.ToString(v)
 }
 
 // toInt64 converts integer types to 64-bit integers
