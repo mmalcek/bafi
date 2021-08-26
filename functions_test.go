@@ -283,6 +283,17 @@ func TestAtoi(t *testing.T) {
 	}
 }
 
+func TestToBool(t *testing.T) {
+	result := toBool("true")
+	if !result {
+		t.Errorf("result: %v", result)
+	}
+	result = toBool("false")
+	if result {
+		t.Errorf("result: %v", result)
+	}
+}
+
 func TestToString(t *testing.T) {
 	result := toString(42)
 	if result != "42" {

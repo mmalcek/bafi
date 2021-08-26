@@ -236,6 +236,7 @@ Asside of integated functions bafi contains additional common functions
 - **trimSuffix** - {{trimSuffix "!Hello World!" "!"}} - returns "!HelloWorld"
 - **trimAll** - {{trimAll "!Hello World!" "!"}} - returns "Hello World"
 - **atoi** - {{atoi "42"}} - string to int
+- **toBool** - {{toBool "true"}} - string to bool 
 - **toString** - {{toString 42}} - int to string
 - **toInt** - {{int "42"}} - cast to int
 - **toInt64** - {{int64 "42"}} - cast to int64

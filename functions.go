@@ -61,6 +61,7 @@ func templateFunctions() template.FuncMap {
 		"trimSuffix":      trimSuffix,
 		"trimPrefix":      trimPrefix,
 		"atoi":            atoi,
+		"toBool":          toBool,
 		"toString":        toString,
 		"toInt":           toInt,
 		"toInt64":         toInt64,
@@ -306,6 +307,10 @@ func trimSuffix(a, b string) string { return strings.TrimSuffix(a, b) }
 
 // - atoi {{atoi "42"}} - string to int
 func atoi(a string) int { i, _ := strconv.Atoi(a); return i }
+
+func toBool(v interface{}) bool {
+	return cast.ToBool(v)
+}
 
 // toInt convert to int
 func toInt(v interface{}) int {
