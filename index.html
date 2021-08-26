@@ -346,7 +346,15 @@ curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 <li><strong>min</strong> - get Min value from range</li>
 <li><strong>maxf</strong></li>
 <li><strong>minf</strong></li>
-<li><strong>dateFormat</strong> -&gt; {{dateFormat .Value "oldFormat" "newFormat"}} - <a href="https://programming.guide/go/format-parse-string-time-date-example.html">GO time format</a></li>
+<li><strong>dateFormat</strong> - {{dateFormat .Value "oldFormat" "newFormat"}} - <a href="https://programming.guide/go/format-parse-string-time-date-example.html">GO time format</a><ul>
+<li>{{dateFormat "2021-08-26T22:14:00" "2006-01-02T15:04:05" "02.01.2006-15:04"}}</li>
+</ul>
+</li>
+<li><strong>dateFormatTZ</strong> - {{dateFormatTZ .Value "oldFormat" "newFormat" "timeZone"}} <ul>
+<li>This fuction is similar to dateFormat but applies timezone offset - <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">Timezones</a></li>
+<li>{{dateFormatTZ "2021-08-26T03:35:00.000+04:00" "2006-01-02T15:04:05.000-07:00" "02.01.2006-15:04" "Europe/Prague"}}</li>
+</ul>
+</li>
 <li><strong>now</strong> - {{now "02.01.2006"}} - GO format date (see notes below)</li>
 <li><strong>b64enc</strong> - encode to base64</li>
 <li><strong>b64dec</strong> - decode from base64</li>
@@ -483,5 +491,5 @@ end
 
 <!--
 MkDocs version : 1.2.2
-Build Date UTC : 2021-08-26 16:17:11.141420+00:00
+Build Date UTC : 2021-08-26 20:47:39.090225+00:00
 -->
