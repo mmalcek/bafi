@@ -162,6 +162,18 @@ func TestDateFormat(t *testing.T) {
 	}
 }
 
+func TestDateFormatTZ(t *testing.T) {
+	if dateFormatTZ("2021-08-26T03:35:00.000+04:00", "2006-01-02T15:04:05.000-07:00", "15:04", "Europe/Prague") != "01:35" {
+		t.Errorf("result: %s", dateFormatTZ("2021-08-26T03:35:00.000+04:00", "2006-01-02T15:04:05.000-07:00", "15:04", "Europe/Prague"))
+	}
+	if dateFormatTZ("Hello", "World", "01022006", "42") != "err: unknownTimeZone" {
+		t.Errorf("result: %s", dateFormatTZ("Hello", "World", "01022006", "42"))
+	}
+	if dateFormatTZ("Hello", "World", "01022006", "Europe/Prague") != "err: wrongFormatDefinition" {
+		t.Errorf("result: %s", dateFormatTZ("Hello", "World", "01022006", "Europe/Prague"))
+	}
+}
+
 func TestNow(t *testing.T) {
 	if now("2006-01-02 15:04") != time.Now().Format("2006-01-02 15:04") {
 		t.Errorf("result: %s", now("2006-01-02 15:04"))

@@ -45,6 +45,7 @@ func templateFunctions() template.FuncMap {
 		"maxf":            maxf,
 		"minf":            minf,
 		"dateFormat":      dateFormat,
+		"dateFormatTZ":    dateFormatTZ,
 		"now":             now,
 		"b64enc":          base64encode,
 		"b64dec":          base64decode,
@@ -214,6 +215,19 @@ func dateFormat(date string, inputFormat string, outputFormat string) string {
 	if err != nil {
 		return date
 	}
+	return timeParsed.Format(outputFormat)
+}
+
+func dateFormatTZ(date string, inputFormat string, outputFormat string, timeZone string) string {
+	location, err := time.LoadLocation(timeZone)
+	if err != nil {
+		return "err: unknownTimeZone"
+	}
+	timeParsed, err := time.Parse(inputFormat, date)
+	if err != nil {
+		return "err: wrongFormatDefinition"
+	}
+	timeParsed = timeParsed.In(location)
 	return timeParsed.Format(outputFormat)
 }
 

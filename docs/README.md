@@ -219,7 +219,11 @@ Asside of integated functions bafi contains additional common functions
 - **min** - get Min value from range
 - **maxf**
 - **minf**
-- **dateFormat** -> {{dateFormat .Value "oldFormat" "newFormat"}} - [GO time format](https://programming.guide/go/format-parse-string-time-date-example.html)
+- **dateFormat** - {{dateFormat .Value "oldFormat" "newFormat"}} - [GO time format](https://programming.guide/go/format-parse-string-time-date-example.html)
+    - {{dateFormat "2021-08-26T22:14:00" "2006-01-02T15:04:05" "02.01.2006-15:04"}}
+- **dateFormatTZ** - {{dateFormatTZ .Value "oldFormat" "newFormat" "timeZone"}} 
+    - This fuction is similar to dateFormat but applies timezone offset - [Timezones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+    - {{dateFormatTZ "2021-08-26T03:35:00.000+04:00" "2006-01-02T15:04:05.000-07:00" "02.01.2006-15:04" "Europe/Prague"}}
 - **now** - {{now "02.01.2006"}} - GO format date (see notes below)
 - **b64enc** - encode to base64
 - **b64dec** - decode from base64
