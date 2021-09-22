@@ -174,6 +174,12 @@ func TestDateFormatTZ(t *testing.T) {
 	}
 }
 
+func TestDateToInt(t *testing.T) {
+	if dateToInt("15.03.2021", "02.01.2006") != 1615766400 {
+		t.Errorf("result: %v", dateToInt("15.03.2021", "02.01.2006"))
+	}
+}
+
 func TestNow(t *testing.T) {
 	if now("2006-01-02 15:04") != time.Now().Format("2006-01-02 15:04") {
 		t.Errorf("result: %s", now("2006-01-02 15:04"))

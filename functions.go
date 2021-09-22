@@ -46,6 +46,7 @@ func templateFunctions() template.FuncMap {
 		"minf":            minf,
 		"dateFormat":      dateFormat,
 		"dateFormatTZ":    dateFormatTZ,
+		"dateToInt":       dateToInt,
 		"now":             now,
 		"b64enc":          base64encode,
 		"b64dec":          base64decode,
@@ -229,6 +230,15 @@ func dateFormatTZ(date string, inputFormat string, outputFormat string, timeZone
 	}
 	timeParsed = timeParsed.In(location)
 	return timeParsed.Format(outputFormat)
+}
+
+// convert date to unix timestamp
+func dateToInt(date string, inputFormat string) int64 {
+	timeParsed, err := time.Parse(inputFormat, date)
+	if err != nil {
+		return 0
+	}
+	return timeParsed.Unix()
 }
 
 // now return current date/time in specified format

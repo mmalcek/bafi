@@ -45,6 +45,21 @@ jobs:
           GOARCH: amd64
           GOOS: linux
           EXTRA_FILES: "docs/README.md docs/examples.md docs/about.md LICENSE testdata.xml template.tmpl lua/json.lua lua/functions.lua"
+  release-linux-386:
+    name: release linux/amd64
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: compile and release
+        uses: mmalcek/go-release.action@v1.0.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PROJECT_NAME: bafi
+          CGO_ENABLED: 0
+          GOARCH: "386"
+          GOOS: linux
+          EXTRA_FILES: "docs/README.md docs/examples.md docs/about.md LICENSE testdata.xml template.tmpl lua/json.lua lua/functions.lua"
   release-darwin-amd64:
     name: release darwin/amd64
     runs-on: ubuntu-latest
