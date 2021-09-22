@@ -355,6 +355,7 @@ curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 <li>{{dateFormatTZ "2021-08-26T03:35:00.000+04:00" "2006-01-02T15:04:05.000-07:00" "02.01.2006-15:04" "Europe/Prague"}}</li>
 </ul>
 </li>
+<li><strong>dateToInt</strong> - {{dateToInt .Value "dateFormat"}} - convert date to integer (unixtime, int64), usefull for comparing dates</li>
 <li><strong>now</strong> - {{now "02.01.2006"}} - GO format date (see notes below)</li>
 <li><strong>b64enc</strong> - encode to base64</li>
 <li><strong>b64dec</strong> - decode from base64</li>
@@ -491,5 +492,5 @@ end
 
 <!--
 MkDocs version : 1.2.2
-Build Date UTC : 2021-08-26 20:53:19.003527+00:00
+Build Date UTC : 2021-09-22 08:11:23.993065+00:00
 -->
