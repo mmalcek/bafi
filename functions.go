@@ -47,6 +47,7 @@ func templateFunctions() template.FuncMap {
 		"dateFormat":      dateFormat,
 		"dateFormatTZ":    dateFormatTZ,
 		"dateToInt":       dateToInt,
+		"intToDate":       intToDate,
 		"now":             now,
 		"b64enc":          base64encode,
 		"b64dec":          base64decode,
@@ -87,16 +88,15 @@ func templateFunctions() template.FuncMap {
 }
 
 // add count
-func add(i ...interface{}) int64 {
-	var a int64 = 0
-	for _, b := range i {
-		a += toInt64(b)
+func add(a ...interface{}) (r int64) {
+	for i := range a {
+		r += toInt64(a[i])
 	}
-	return a
+	return
 }
 
 // add1 input+1
-func add1(i interface{}) int64 { return toInt64(i) + 1 }
+func add1(a interface{}) int64 { return toInt64(a) + 1 }
 
 // sub substitute
 func sub(a, b interface{}) int64 { return toInt64(a) - toInt64(b) }
@@ -108,12 +108,12 @@ func div(a, b interface{}) int64 { return toInt64(a) / toInt64(b) }
 func mod(a, b interface{}) int64 { return toInt64(a) % toInt64(b) }
 
 // mul multiply
-func mul(a interface{}, v ...interface{}) int64 {
-	val := toInt64(a)
-	for _, b := range v {
-		val = val * toInt64(b)
+func mul(a ...interface{}) (r int64) {
+	r = 1
+	for i := range a {
+		r = r * toInt64(a[i])
 	}
-	return val
+	return r
 }
 
 // addf count float
@@ -239,6 +239,11 @@ func dateToInt(date string, inputFormat string) int64 {
 		return 0
 	}
 	return timeParsed.Unix()
+}
+
+// convert unix timestamp to date
+func intToDate(date int64, outputFormat string) string {
+	return time.Unix(date, 0).Format(outputFormat)
 }
 
 // now return current date/time in specified format

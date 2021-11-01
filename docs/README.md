@@ -225,6 +225,7 @@ Asside of integated functions bafi contains additional common functions
     - This fuction is similar to dateFormat but applies timezone offset - [Timezones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
     - {{dateFormatTZ "2021-08-26T03:35:00.000+04:00" "2006-01-02T15:04:05.000-07:00" "02.01.2006-15:04" "Europe/Prague"}}
 - **dateToInt** - {{dateToInt .Value "dateFormat"}} - convert date to integer (unixtime, int64), usefull for comparing dates
+- **intToDate** - {{intToDate .Value "dateFormat"}} - convert integer (unixtime, int64) to date, usefull for comparing dates
 - **now** - {{now "02.01.2006"}} - GO format date (see notes below)
 - **b64enc** - encode to base64
 - **b64dec** - decode from base64

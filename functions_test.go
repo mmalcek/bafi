@@ -180,6 +180,12 @@ func TestDateToInt(t *testing.T) {
 	}
 }
 
+func TestIntToDate(t *testing.T) {
+	if intToDate(1615766400, "02.01.2006") != "15.03.2021" {
+		t.Errorf("result: %v", intToDate(1615766400, "02.01.2006"))
+	}
+}
+
 func TestNow(t *testing.T) {
 	if now("2006-01-02 15:04") != time.Now().Format("2006-01-02 15:04") {
 		t.Errorf("result: %s", now("2006-01-02 15:04"))
