@@ -46,7 +46,7 @@ jobs:
           GOOS: linux
           EXTRA_FILES: "docs/README.md docs/examples.md docs/about.md LICENSE testdata.xml template.tmpl lua/json.lua lua/functions.lua"
   release-linux-386:
-    name: release linux/amd64
+    name: release linux/386
     runs-on: ubuntu-latest
     steps:
       - name: checkout
