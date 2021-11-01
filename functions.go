@@ -167,10 +167,10 @@ func round(a interface{}, p int, rOpt ...float64) float64 {
 }
 
 // max return highest from numbers {{max .v1 .v2 .v3}}
-func max(a interface{}, i ...interface{}) int64 {
+func max(a interface{}, numbers ...interface{}) int64 {
 	aa := toInt64(a)
-	for _, b := range i {
-		bb := toInt64(b)
+	for i := range numbers {
+		bb := toInt64(numbers[i])
 		if bb > aa {
 			aa = bb
 		}
@@ -179,10 +179,10 @@ func max(a interface{}, i ...interface{}) int64 {
 }
 
 // min return lowest from numbers {{min .v1 .v2 .v3}}
-func min(a interface{}, i ...interface{}) int64 {
+func min(a interface{}, numbers ...interface{}) int64 {
 	aa := toInt64(a)
-	for _, b := range i {
-		bb := toInt64(b)
+	for i := range numbers {
+		bb := toInt64(numbers[i])
 		if bb < aa {
 			aa = bb
 		}
@@ -191,20 +191,20 @@ func min(a interface{}, i ...interface{}) int64 {
 }
 
 // maxf return highest from float numbers {{maxf .v1 .v2 .v3}}
-func maxf(a interface{}, i ...interface{}) float64 {
+func maxf(a interface{}, numbers ...interface{}) float64 {
 	aa := toFloat64(a)
-	for _, b := range i {
-		bb := toFloat64(b)
+	for i := range numbers {
+		bb := toFloat64(numbers[i])
 		aa = math.Max(aa, bb)
 	}
 	return aa
 }
 
 // minf return lowest from float numbers {{minf .v1 .v2 .v3}}
-func minf(a interface{}, i ...interface{}) float64 {
+func minf(a interface{}, numbers ...interface{}) float64 {
 	aa := toFloat64(a)
-	for _, b := range i {
-		bb := toFloat64(b)
+	for i := range numbers {
+		bb := toFloat64(numbers[i])
 		aa = math.Min(aa, bb)
 	}
 	return aa
@@ -242,8 +242,8 @@ func dateToInt(date string, inputFormat string) int64 {
 }
 
 // convert unix timestamp to date
-func intToDate(date int64, outputFormat string) string {
-	return time.Unix(date, 0).Format(outputFormat)
+func intToDate(unixTime interface{}, outputFormat string) string {
+	return time.Unix(toInt64(unixTime), 0).Format(outputFormat)
 }
 
 // now return current date/time in specified format
