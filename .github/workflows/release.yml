@@ -22,7 +22,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: compile and release
-        uses: mmalcek/go-release.action@v1.0.3
+        uses: mmalcek/go-release.action@v1.0.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PROJECT_NAME: bafi
@@ -37,7 +37,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: compile and release
-        uses: mmalcek/go-release.action@v1.0.3
+        uses: mmalcek/go-release.action@v1.0.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PROJECT_NAME: bafi
@@ -52,7 +52,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: compile and release
-        uses: mmalcek/go-release.action@v1.0.3
+        uses: mmalcek/go-release.action@v1.0.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PROJECT_NAME: bafi
@@ -67,7 +67,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: compile and release
-        uses: mmalcek/go-release.action@v1.0.3
+        uses: mmalcek/go-release.action@v1.0.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PROJECT_NAME: bafi
