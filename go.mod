@@ -1,4 +1,4 @@
-module bafi
+module github.com/mmalcek/bafi
 
 go 1.17
 
