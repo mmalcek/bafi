@@ -94,7 +94,11 @@ More examples [here](examples/#template)
 - **-t template.tmpl** Template file. Alternatively you can use *inline* template 
     - inline template must start with **?** e.g. -t **"?{{.someValue}}"**
 - **-f json** Input format. 
-    - Supported formats: **json, bson, yaml, csv, xml (default)**
+    - Supported formats: **json, bson, yaml, csv, xml**
+    - If not defined (for file input) app tries detect input format automatically by file extension
+- **-d ','** Data delimiter (for CSV files only) 
+    - Can be defined as string e.g. -d ',' or as [hex](https://www.asciitable.com/asciifull.gif) value prefixed by **0x** e.g. 'TAB' can be defined as -f 0x09.
+    - default delimiter is comma (**,**) 
 - **-v** Show current verion
 - **-?** list available command line arguments
 

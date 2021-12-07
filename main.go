@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/csv"
+	"encoding/hex"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -21,18 +22,19 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-const version = "1.0.14"
+const version = "1.0.15"
 
 var (
 	luaData *lua.LState
 )
 
 type tParams struct {
-	inputFile    *string
-	outputFile   *string
-	textTemplate *string
-	inputFormat  *string
-	getVersion   *bool
+	inputFile      *string
+	outputFile     *string
+	textTemplate   *string
+	inputFormat    *string
+	inputDelimiter *string
+	getVersion     *bool
 }
 
 func init() {
@@ -53,9 +55,10 @@ func main() {
 		outputFile: flag.String("o", "", `output file, 
  -if not defined write to stdout (pipe mode)`),
 		textTemplate: flag.String("t", "", `template, file or inline. 
- - Inline template should start with ? e.g. -t "?{{.MyValue}}" `),
-		inputFormat: flag.String("f", "", "input format: json, bson, yaml, csv, xml(default)"),
-		getVersion:  flag.Bool("v", false, "show version (Project page: https://github.com/mmalcek/bafi)"),
+ -Inline template should start with ? e.g. -t "?{{.MyValue}}" `),
+		inputFormat:    flag.String("f", "", "input format: json, bson, yaml, csv, xml(default)"),
+		inputDelimiter: flag.String("d", "", "input delimiter: CSV only, default is comma"),
+		getVersion:     flag.Bool("v", false, "show version (Project page: https://github.com/mmalcek/bafi)"),
 	}
 	flag.Parse()
 
@@ -107,13 +110,14 @@ func processTemplate(params tParams) error {
 			if err != nil {
 				return err
 			}
-			if filesStruct[file["label"].(string)], err = mapInputData(data, file["format"].(string)); err != nil {
+			*params.inputFormat = file["format"].(string)
+			if filesStruct[file["label"].(string)], err = mapInputData(data, params); err != nil {
 				return err
 			}
 		}
 		mapData = &filesStruct
 	} else {
-		if mapData, err = mapInputData(data, *params.inputFormat); err != nil {
+		if mapData, err = mapInputData(data, params); err != nil {
 			return err
 		}
 	}
@@ -162,8 +166,8 @@ func getInputData(input *string) (data []byte, files []map[string]interface{}, e
 }
 
 // mapInputData map input data to map[string]interface{}
-func mapInputData(data []byte, inputFormat string) (interface{}, error) {
-	switch strings.ToLower(inputFormat) {
+func mapInputData(data []byte, params tParams) (interface{}, error) {
+	switch strings.ToLower(*params.inputFormat) {
 	case "json":
 		var mapData map[string]interface{}
 		if err := json.Unmarshal(data, &mapData); err != nil {
@@ -218,7 +222,7 @@ func mapInputData(data []byte, inputFormat string) (interface{}, error) {
 	case "csv":
 		var mapData []map[string]interface{}
 		r := csv.NewReader(strings.NewReader(string(data)))
-		r.Comma = ','
+		r.Comma = prepareDelimiter(*params.inputDelimiter)
 		lines, err := r.ReadAll()
 		if err != nil {
 			return nil, fmt.Errorf("mapCSV: %s", err.Error())
@@ -245,6 +249,21 @@ func mapInputData(data []byte, inputFormat string) (interface{}, error) {
 	default:
 		return nil, fmt.Errorf("unknown input format: use parameter -f to define input format e.g. -f json (accepted values are json, bson, yaml, csv, xml)")
 	}
+}
+
+// Delimiter can be defined as string or as HEX value eg. 0x09
+func prepareDelimiter(inputString string) rune {
+	if inputString != "" {
+		if len(inputString) == 4 && inputString[0:2] == "0x" {
+			bytes, err := hex.DecodeString(inputString[2:4])
+			if err != nil {
+				log.Fatal(fmt.Sprintf("error CSV delimiter: %s", err.Error()))
+			}
+			return rune(string(bytes)[0])
+		}
+		return rune(inputString[0])
+	}
+	return rune(',')
 }
 
 // readTemplate get template from file or from input
