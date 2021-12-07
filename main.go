@@ -10,6 +10,7 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"path/filepath"
 	"strings"
 	"text/template"
 	"time"
@@ -52,7 +53,7 @@ func main() {
 		outputFile: flag.String("o", "", `output file, 
  -if not defined write to stdout (pipe mode)`),
 		textTemplate: flag.String("t", "", `template, file or inline. 
-- Inline template should start with ? e.g. -t "?{{.MyValue}}" `),
+ - Inline template should start with ? e.g. -t "?{{.MyValue}}" `),
 		inputFormat: flag.String("f", "", "input format: json, bson, yaml, csv, xml(default)"),
 		getVersion:  flag.Bool("v", false, "show version (Project page: https://github.com/mmalcek/bafi)"),
 	}
@@ -78,6 +79,23 @@ func processTemplate(params tParams) error {
 	data, files, err := getInputData(params.inputFile)
 	if err != nil {
 		return err
+	}
+	// Try identify file format by extension. Input parameter -f has priority
+	if *params.inputFormat == "" {
+		switch filepath.Ext(*params.inputFile) {
+		case ".json":
+			*params.inputFormat = "json"
+		case ".bson":
+			*params.inputFormat = "bson"
+		case ".yaml", ".yml":
+			*params.inputFormat = "yaml"
+		case ".csv":
+			*params.inputFormat = "csv"
+		case ".xml", ".cdf", ".cdf3":
+			*params.inputFormat = "xml"
+		default:
+			*params.inputFormat = ""
+		}
 	}
 
 	// If list of file map them one by one else map incoming []byte to mapData
@@ -218,12 +236,14 @@ func mapInputData(data []byte, inputFormat string) (interface{}, error) {
 			mapData[i] = x
 		}
 		return mapData, nil
-	default:
+	case "xml":
 		mapData, err := mxj.NewMapXml(data)
 		if err != nil {
 			return nil, fmt.Errorf("mapXML: %s", err.Error())
 		}
 		return mapData, nil
+	default:
+		return nil, fmt.Errorf("unknown input format: use parameter -f to define input format e.g. -f json (accepted values are json, bson, yaml, csv, xml)")
 	}
 }
 
