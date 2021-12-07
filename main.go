@@ -57,7 +57,7 @@ func main() {
 		textTemplate: flag.String("t", "", `template, file or inline. 
  -Inline template should start with ? e.g. -t "?{{.MyValue}}" `),
 		inputFormat:    flag.String("f", "", "input format: json, bson, yaml, csv, xml(default)"),
-		inputDelimiter: flag.String("d", "", "input delimiter: CSV only, default is comma"),
+		inputDelimiter: flag.String("d", "", "input delimiter: CSV only, default is comma -d ';' or -d 0x09"),
 		getVersion:     flag.Bool("v", false, "show version (Project page: https://github.com/mmalcek/bafi)"),
 	}
 	flag.Parse()
