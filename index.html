@@ -244,7 +244,13 @@ curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 </ul>
 </li>
 <li><strong>-f json</strong> Input format. <ul>
-<li>Supported formats: <strong>json, bson, yaml, csv, xml (default)</strong></li>
+<li>Supported formats: <strong>json, bson, yaml, csv, xml</strong></li>
+<li>If not defined (for file input) app tries detect input format automatically by file extension</li>
+</ul>
+</li>
+<li><strong>-d ','</strong> Data delimiter (for CSV files only) <ul>
+<li>Can be defined as string e.g. -d ',' or as <a href="https://www.asciitable.com/asciifull.gif">hex</a> value prefixed by <strong>0x</strong> e.g. 'TAB' can be defined as -f 0x09.</li>
+<li>default delimiter is comma (<strong>,</strong>) </li>
 </ul>
 </li>
 <li><strong>-v</strong> Show current verion</li>
@@ -493,5 +499,5 @@ end
 
 <!--
 MkDocs version : 1.2.3
-Build Date UTC : 2021-12-07 15:29:22.415694+00:00
+Build Date UTC : 2021-12-07 15:32:05.927079+00:00
 -->
