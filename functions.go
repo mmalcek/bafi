@@ -284,11 +284,11 @@ func base32decode(v string) string {
 // newUUID returns UUID
 func newUUID() string { return uuid.New().String() }
 
-func replaceAll(src, old, new string) string {
+func replaceAll(old, new, src string) string {
 	return strings.Replace(src, old, new, -1)
 }
 
-func replaceAllRegex(src string, regex string, new string) string {
+func replaceAllRegex(regex, new, src string) string {
 	r := regexp.MustCompile(regex)
 	return r.ReplaceAllString(src, new)
 }

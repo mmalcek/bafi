@@ -238,13 +238,13 @@ func TestContains(t *testing.T) {
 }
 
 func TestReplaceAll(t *testing.T) {
-	if replaceAll("aaxbb", "x", "Z") != "aaZbb" {
+	if replaceAll("x", "Z", "aaxbb") != "aaZbb" {
 		t.Errorf("result: %v", replaceAll("aaxbb", "x", "Z"))
 	}
 }
 
 func TestReplaceAllRegex(t *testing.T) {
-	if replaceAllRegex("aaxbb", `[a-d]`, "Z") != "ZZxZZ" {
+	if replaceAllRegex("[a-d]", "Z", "aaxbb") != "ZZxZZ" {
 		t.Errorf("result: %v", replaceAllRegex("aaxbb", `[a-d]`, "Z"))
 	}
 }

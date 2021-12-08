@@ -235,8 +235,8 @@ Asside of integated functions bafi contains additional common functions
 - **b64dec** - decode from base64
 - **b32enc** - oncode to base32
 - **b32dec** - decode from base32
-- **replaceAll** - {{replaceAll .Value "oldValue" "newValue"}} - replace all occurences of "oldValue" with "newValue" e.g. {{replaceAll "aaxbb" "x" "Z"}} -> "aaZbb"
-- **replaceAllRegex** - {{replaceAllRegex .Value "regex" "newValue"}} - replace all occurences of "regex" with "newValue" e.g. {{replaceAllRegex "aaxbb" "[a-d]", "Z"}} -> "ZZxZZ"
+- **replaceAll** - {{replaceAll "oldValue" "newValue" .Value}} - replace all occurences of "oldValue" with "newValue" e.g. {{replaceAll "x" "Z" "aaxbb"}} -> "aaZbb"
+- **replaceAllRegex** - {{replaceAllRegex "regex" "newValue" .Value}} - replace all occurences of "regex" with "newValue" e.g. {{replaceAllRegex "[a-d]", "Z" "aaxbb"}} -> "ZZxZZ"
 - **uuid** - generate UUID
 - **regexMatch** - {{regexMatch pattern .Value1}} more about go [regex](https://gobyexample.com/regular-expressions)
 - **contains** - check if string contains substring e.g. {{contains "aaxbb" "xb"}}
