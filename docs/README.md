@@ -45,24 +45,24 @@ For example JSON document **myUser.json**
 ```
 - Get user name:
 ```sh
-bafi.exe -i myUser.json -f json -t '?{{.user.name}}'
+bafi.exe -i myUser.json -t '?{{.user.name}}'
 ```
 - Use function to change all letters to uppercase:
 ```sh
-bafi.exe -i myUser.json -f json -t '?{{upper .user.name}}'
+bafi.exe -i myUser.json -t '?{{upper .user.name}}'
 ```
 - Use IF statement to compare user age to 20:
 ```sh
-bafi.exe -i myUser.json -f json -t '?User is {{if gt (toInt .user.age) 20}}old{{else}}young{{end}}.'
+bafi.exe -i myUser.json -t '?User is {{if gt (toInt .user.age) 20}}old{{else}}young{{end}}.'
 ```
 
 - List favourite colors:
 ```sh
-bafi.exe -i myUser.json -f json -t '?{{range .user.favourite_colors}}{{.}},{{end}}'
+bafi.exe -i myUser.json -t '?{{range .user.favourite_colors}}{{.}},{{end}}'
 ```
 - Format data using template file **myTemplate.tmpl** and save output to **myUser.txt**:
 ```sh
-bafi.exe -i myUser.json -f json -t myTemplate.tmpl -o myUser.txt
+bafi.exe -i myUser.json -t myTemplate.tmpl -o myUser.txt
 ```
 
 ```
@@ -78,7 +78,7 @@ Favourite colors: {{$colors}}
 
 note: in Powershell you must use <span style="color:red; font-weight: bold;">.\\</span>bafi.exe e.g.
 ```powershell
-.\bafi.exe -i input.csv -f csv -t "?{{toXML .}}"
+.\bafi.exe -i input.csv -t "?{{toXML .}}"
 curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t "?{{toXML .}}"
 ```
 
@@ -235,6 +235,8 @@ Asside of integated functions bafi contains additional common functions
 - **b64dec** - decode from base64
 - **b32enc** - oncode to base32
 - **b32dec** - decode from base32
+- **replaceAll** - {{replaceAll .Value "oldValue" "newValue"}} - replace all occurences of "oldValue" with "newValue" e.g. {{replaceAll "aaxbb" "x" "Z"}} -> "aaZbb"
+- **replaceAllRegex** - {{replaceAllRegex .Value "regex" "newValue"}} - replace all occurences of "regex" with "newValue" e.g. {{replaceAllRegex "aaxbb" "[a-d]", "Z"}} -> "ZZxZZ"
 - **uuid** - generate UUID
 - **regexMatch** - {{regexMatch pattern .Value1}} more about go [regex](https://gobyexample.com/regular-expressions)
 - **contains** - check if string contains substring e.g. {{contains "aaxbb" "xb"}}

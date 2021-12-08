@@ -54,6 +54,8 @@ func templateFunctions() template.FuncMap {
 		"b32enc":          base32encode,
 		"b32dec":          base32decode,
 		"uuid":            newUUID,
+		"replaceAll":      replaceAll,
+		"replaceAllRegex": replaceAllRegex,
 		"regexMatch":      regexMatch,
 		"contains":        contains,
 		"upper":           upper,
@@ -281,6 +283,15 @@ func base32decode(v string) string {
 
 // newUUID returns UUID
 func newUUID() string { return uuid.New().String() }
+
+func replaceAll(src, old, new string) string {
+	return strings.Replace(src, old, new, -1)
+}
+
+func replaceAllRegex(src string, regex string, new string) string {
+	r := regexp.MustCompile(regex)
+	return r.ReplaceAllString(src, new)
+}
 
 // regexMatch check regex e.g. {{regexMatch "a.b", "aaxbb"}}
 func regexMatch(regex string, s string) bool {

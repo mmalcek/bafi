@@ -2,7 +2,7 @@
 ## Command line
 note: in Powershell you must use <span style="color:red; font-weight: bold;">.\\</span>bafi.exe e.g.
 ```powershell
-.\bafi.exe -i input.csv -f csv -t "?{{toXML .}}"
+.\bafi.exe -i input.csv -t "?{{toXML .}}"
 curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t "?{{toXML .}}"
 ```
 ### Basic  
@@ -134,7 +134,7 @@ JSON in $new variable can be mapped to struct and autoformatted to other formats
 ### CSV to text
 - command
 ```sh
-bafi.exe -i users.csv -f csv -t myTemplate.tmpl -o output.txt
+bafi.exe -i users.csv -t myTemplate.tmpl -o output.txt
 ```
 users.csv
 ```
@@ -160,7 +160,7 @@ usql.exe mssql://user:password@server/instance/database -c "SELECT * FROM USERS"
 ### MongoDump to CSV
 - command
 ```sh
-bafi.exe -i users.bson -f bson -t myTemplate.tmpl -o output.html
+bafi.exe -i users.bson -t myTemplate.tmpl -o output.html
 ```
 - myTemplate.tmpl
 ```

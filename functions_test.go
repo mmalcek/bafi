@@ -237,6 +237,18 @@ func TestContains(t *testing.T) {
 	}
 }
 
+func TestReplaceAll(t *testing.T) {
+	if replaceAll("aaxbb", "x", "Z") != "aaZbb" {
+		t.Errorf("result: %v", replaceAll("aaxbb", "x", "Z"))
+	}
+}
+
+func TestReplaceAllRegex(t *testing.T) {
+	if replaceAllRegex("aaxbb", `[a-d]`, "Z") != "ZZxZZ" {
+		t.Errorf("result: %v", replaceAllRegex("aaxbb", `[a-d]`, "Z"))
+	}
+}
+
 func TestUUID(t *testing.T) {
 	testUUID := newUUID()
 	r := regexp.MustCompile("^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-4[a-fA-F0-9]{3}-[8|9|aA|bB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$")
