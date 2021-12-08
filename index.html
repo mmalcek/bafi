@@ -368,8 +368,8 @@ curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 <li><strong>b64dec</strong> - decode from base64</li>
 <li><strong>b32enc</strong> - oncode to base32</li>
 <li><strong>b32dec</strong> - decode from base32</li>
-<li><strong>replaceAll</strong> - {{replaceAll .Value "oldValue" "newValue"}} - replace all occurences of "oldValue" with "newValue" e.g. {{replaceAll "aaxbb" "x" "Z"}} -&gt; "aaZbb"</li>
-<li><strong>replaceAllRegex</strong> - {{replaceAllRegex .Value "regex" "newValue"}} - replace all occurences of "regex" with "newValue" e.g. {{replaceAllRegex "aaxbb" "[a-d]", "Z"}} -&gt; "ZZxZZ"</li>
+<li><strong>replaceAll</strong> - {{replaceAll "oldValue" "newValue" .Value}} - replace all occurences of "oldValue" with "newValue" e.g. {{replaceAll "x" "Z" "aaxbb"}} -&gt; "aaZbb"</li>
+<li><strong>replaceAllRegex</strong> - {{replaceAllRegex "regex" "newValue" .Value}} - replace all occurences of "regex" with "newValue" e.g. {{replaceAllRegex "[a-d]", "Z" "aaxbb"}} -&gt; "ZZxZZ"</li>
 <li><strong>uuid</strong> - generate UUID</li>
 <li><strong>regexMatch</strong> - {{regexMatch pattern .Value1}} more about go <a href="https://gobyexample.com/regular-expressions">regex</a></li>
 <li><strong>contains</strong> - check if string contains substring e.g. {{contains "aaxbb" "xb"}}</li>
@@ -501,5 +501,5 @@ end
 
 <!--
 MkDocs version : 1.2.3
-Build Date UTC : 2021-12-08 12:16:37.342729+00:00
+Build Date UTC : 2021-12-08 12:24:26.518176+00:00
 -->
