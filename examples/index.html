@@ -164,7 +164,7 @@
 <h1 id="examples">Examples</h1>
 <h2 id="command-line">Command line</h2>
 <p>note: in Powershell you must use <span style="color:red; font-weight: bold;">.\</span>bafi.exe e.g.</p>
-<pre><code class="language-powershell">.\bafi.exe -i input.csv -f csv -t &quot;?{{toXML .}}&quot;
+<pre><code class="language-powershell">.\bafi.exe -i input.csv -t &quot;?{{toXML .}}&quot;
 curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 </code></pre>
 <h3 id="basic">Basic</h3>
@@ -295,7 +295,7 @@ table, th, td { border: 1px solid black; width: 400px; }
 <ul>
 <li>command</li>
 </ul>
-<pre><code class="language-sh">bafi.exe -i users.csv -f csv -t myTemplate.tmpl -o output.txt
+<pre><code class="language-sh">bafi.exe -i users.csv -t myTemplate.tmpl -o output.txt
 </code></pre>
 <p>users.csv</p>
 <pre><code>name,surname
@@ -318,7 +318,7 @@ Name: {{.name}}, Surname: {{.surname}}
 <ul>
 <li>command</li>
 </ul>
-<pre><code class="language-sh">bafi.exe -i users.bson -f bson -t myTemplate.tmpl -o output.html
+<pre><code class="language-sh">bafi.exe -i users.bson -t myTemplate.tmpl -o output.html
 </code></pre>
 <ul>
 <li>myTemplate.tmpl</li>

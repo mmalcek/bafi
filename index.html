@@ -192,27 +192,27 @@
 <ul>
 <li>Get user name:</li>
 </ul>
-<pre><code class="language-sh">bafi.exe -i myUser.json -f json -t '?{{.user.name}}'
+<pre><code class="language-sh">bafi.exe -i myUser.json -t '?{{.user.name}}'
 </code></pre>
 <ul>
 <li>Use function to change all letters to uppercase:</li>
 </ul>
-<pre><code class="language-sh">bafi.exe -i myUser.json -f json -t '?{{upper .user.name}}'
+<pre><code class="language-sh">bafi.exe -i myUser.json -t '?{{upper .user.name}}'
 </code></pre>
 <ul>
 <li>Use IF statement to compare user age to 20:</li>
 </ul>
-<pre><code class="language-sh">bafi.exe -i myUser.json -f json -t '?User is {{if gt (toInt .user.age) 20}}old{{else}}young{{end}}.'
+<pre><code class="language-sh">bafi.exe -i myUser.json -t '?User is {{if gt (toInt .user.age) 20}}old{{else}}young{{end}}.'
 </code></pre>
 <ul>
 <li>List favourite colors:</li>
 </ul>
-<pre><code class="language-sh">bafi.exe -i myUser.json -f json -t '?{{range .user.favourite_colors}}{{.}},{{end}}'
+<pre><code class="language-sh">bafi.exe -i myUser.json -t '?{{range .user.favourite_colors}}{{.}},{{end}}'
 </code></pre>
 <ul>
 <li>Format data using template file <strong>myTemplate.tmpl</strong> and save output to <strong>myUser.txt</strong>:</li>
 </ul>
-<pre><code class="language-sh">bafi.exe -i myUser.json -f json -t myTemplate.tmpl -o myUser.txt
+<pre><code class="language-sh">bafi.exe -i myUser.json -t myTemplate.tmpl -o myUser.txt
 </code></pre>
 <pre><code>{{- /* Content of myTemplate.tmpl file */ -}}
 User: {{.user.name}}
@@ -224,7 +224,7 @@ Address: {{.user.address.street}}, {{.user.address.city}} - {{.user.address.stat
 Favourite colors: {{$colors}}
 </code></pre>
 <p>note: in Powershell you must use <span style="color:red; font-weight: bold;">.\</span>bafi.exe e.g.</p>
-<pre><code class="language-powershell">.\bafi.exe -i input.csv -f csv -t &quot;?{{toXML .}}&quot;
+<pre><code class="language-powershell">.\bafi.exe -i input.csv -t &quot;?{{toXML .}}&quot;
 curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 </code></pre>
 <p>More examples <a href="examples/#template">here</a></p>
@@ -368,6 +368,8 @@ curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 <li><strong>b64dec</strong> - decode from base64</li>
 <li><strong>b32enc</strong> - oncode to base32</li>
 <li><strong>b32dec</strong> - decode from base32</li>
+<li><strong>replaceAll</strong> - {{replaceAll .Value "oldValue" "newValue"}} - replace all occurences of "oldValue" with "newValue" e.g. {{replaceAll "aaxbb" "x" "Z"}} -&gt; "aaZbb"</li>
+<li><strong>replaceAllRegex</strong> - {{replaceAllRegex .Value "regex" "newValue"}} - replace all occurences of "regex" with "newValue" e.g. {{replaceAllRegex "aaxbb" "[a-d]", "Z"}} -&gt; "ZZxZZ"</li>
 <li><strong>uuid</strong> - generate UUID</li>
 <li><strong>regexMatch</strong> - {{regexMatch pattern .Value1}} more about go <a href="https://gobyexample.com/regular-expressions">regex</a></li>
 <li><strong>contains</strong> - check if string contains substring e.g. {{contains "aaxbb" "xb"}}</li>
@@ -499,5 +501,5 @@ end
 
 <!--
 MkDocs version : 1.2.3
-Build Date UTC : 2021-12-07 15:32:15.260757+00:00
+Build Date UTC : 2021-12-08 11:07:08.231776+00:00
 -->
