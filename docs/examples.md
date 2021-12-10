@@ -148,7 +148,7 @@ Users:
 Name: {{.name}}, Surname: {{.surname}}
 {{- end}}
 ```
-note: CSV file must be **[RFC4180](https://datatracker.ietf.org/doc/html/rfc4180)** compliant, file must have header line and separator must be **comma ( , )**
+note: CSV file must be **[RFC4180](https://datatracker.ietf.org/doc/html/rfc4180)** compliant, file must have header line and separator must be **comma ( , )**. Or you can use command line argument -d ( e.g. **-d ';'** or **-d 0x09** ) to define separator(delimiter).
 
 ### Any SQL to XML
 Bafi can be used in combination with very interesting tool **USQL** [https://github.com/xo/usql](https://github.com/xo/usql). USQL allows query almost any SQL like database (MSSQL,MySQL,postgres, ...) and get result in various formats. In this example we use -J for JSON. Output can be further processed by BaFi and templates
