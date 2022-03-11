@@ -309,7 +309,7 @@ John,&quot;Jack Doe&quot;
 Name: {{.name}}, Surname: {{.surname}}
 {{- end}}
 </code></pre>
-<p>note: CSV file must be <strong><a href="https://datatracker.ietf.org/doc/html/rfc4180">RFC4180</a></strong> compliant, file must have header line and separator must be <strong>comma ( , )</strong></p>
+<p>note: CSV file must be <strong><a href="https://datatracker.ietf.org/doc/html/rfc4180">RFC4180</a></strong> compliant, file must have header line and separator must be <strong>comma ( , )</strong>. Or you can use command line argument -d ( e.g. <strong>-d ';'</strong> or <strong>-d 0x09</strong> ) to define separator(delimiter).</p>
 <h3 id="any-sql-to-xml">Any SQL to XML</h3>
 <p>Bafi can be used in combination with very interesting tool <strong>USQL</strong> <a href="https://github.com/xo/usql">https://github.com/xo/usql</a>. USQL allows query almost any SQL like database (MSSQL,MySQL,postgres, ...) and get result in various formats. In this example we use -J for JSON. Output can be further processed by BaFi and templates</p>
 <pre><code class="language-sh">usql.exe mssql://user:password@server/instance/database -c &quot;SELECT * FROM USERS&quot; -J -q | bafi.exe -f json -t &quot;?{{toXML .}}&quot;

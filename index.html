@@ -380,11 +380,11 @@ curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 <li><strong>trimPrefix</strong> - {{trimPrefix "!Hello World!" "!"}} - returns "Hello World!"</li>
 <li><strong>trimSuffix</strong> - {{trimSuffix "!Hello World!" "!"}} - returns "!HelloWorld"</li>
 <li><strong>trimAll</strong> - {{trimAll "!Hello World!" "!"}} - returns "Hello World"</li>
-<li><strong>atoi</strong> - {{atoi "42"}} - string to int</li>
+<li><strong>atoi</strong> - {{atoi "042"}} - string to int. Result will be 42. atoi must be used especially for convert strings with leading zeroes</li>
 <li><strong>toBool</strong> - {{toBool "true"}} - string to bool </li>
 <li><strong>toString</strong> - {{toString 42}} - int to string</li>
-<li><strong>toInt</strong> - {{int "42"}} - cast to int</li>
-<li><strong>toInt64</strong> - {{int64 "42"}} - cast to int64</li>
+<li><strong>toInt</strong> - {{int true}} - cast to int. Result will be 1. If you need convert string with leading zeroes use "atoi" </li>
+<li><strong>toInt64</strong> - {{int64 "42"}} - cast to int64. Result will be 42. If you need convert string with leading zeroes use "atoi" </li>
 <li><strong>toFloat64</strong> - {{float64 "3.14159"}} - cast to float64</li>
 <li><strong>toDecimal</strong> - {{toDecimal "3.14159"}} - cast to decimal (if error return 0)</li>
 <li><strong>toDecimalString</strong> - {{toDecimalString "3.14159"}} - cast to decimal string (if error return "error message")</li>
@@ -501,5 +501,5 @@ end
 
 <!--
 MkDocs version : 1.2.3
-Build Date UTC : 2021-12-08 12:24:36.085700+00:00
+Build Date UTC : 2022-03-11 13:19:46.359141+00:00
 -->
