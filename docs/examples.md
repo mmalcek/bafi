@@ -170,6 +170,16 @@ name,surname
 {{- end}}
 ```
 
+### Dashes in key names
+If key name contains dashes ( - ) bafi will fail with error "bad character U+002D '-'" for example:
+```
+{{.my-key.subkey}}
+```
+This is known limitation of go templates which can be solved by workaround
+```
+{{index . "my-key" "subkey"}}
+```
+
 ### Input autoformat to XXX
 Input data can be easily fomated to oher formats by functions **toXML,toJSON,toBSON,toYAML**. In this case its not necesarry add template file because it's as easy as 
 ```sh
