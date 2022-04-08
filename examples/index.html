@@ -144,6 +144,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="3"><a href="#dashes-in-key-names" class="nav-link">Dashes in key names</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-level="3"><a href="#input-autoformat-to-xxx" class="nav-link">Input autoformat to XXX</a>
               <ul class="nav flex-column">
               </ul>
@@ -327,6 +331,13 @@ Name: {{.name}}, Surname: {{.surname}}
 {{- range .}}
 &quot;{{.firstname}}&quot;,&quot;{{.lastname}}&quot;
 {{- end}}
+</code></pre>
+<h3 id="dashes-in-key-names">Dashes in key names</h3>
+<p>If key name contains dashes ( - ) bafi will fail with error "bad character U+002D '-'" for example:</p>
+<pre><code>{{.my-key.subkey}}
+</code></pre>
+<p>This is known limitation of go templates which can be solved by workaround</p>
+<pre><code>{{index . &quot;my-key&quot; &quot;subkey&quot;}}
 </code></pre>
 <h3 id="input-autoformat-to-xxx">Input autoformat to XXX</h3>
 <p>Input data can be easily fomated to oher formats by functions <strong>toXML,toJSON,toBSON,toYAML</strong>. In this case its not necesarry add template file because it's as easy as </p>
