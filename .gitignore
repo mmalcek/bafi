@@ -7,4 +7,5 @@ site
 output.*
 temp.txt
 cover.out
+oryxBuildBinary
 
