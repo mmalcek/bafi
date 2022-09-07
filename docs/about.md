@@ -12,5 +12,3 @@ It is and always will be Open-source/[MIT license](https://github.com/mmalcek/ba
 
 ## Questions
 If you have any questions, please feel free to open discussion [here](https://github.com/mmalcek/bafi/discussions) or report an issue [here](https://github.com/mmalcek/bafi/issues).
-
-I'm also open to idea arrange some trainings via zoom so if you are interested, please drop me a line. **mario.malcek@systemsatwork.com**
