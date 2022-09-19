@@ -33,3 +33,9 @@ curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t "?{{toX
 ```
 
 More examples and description in [documentation](https://mmalcek.github.io/bafi/)
+
+**If you like this app you can buy me a coffe ;)**
+
+<a href='https://ko-fi.com/mmalcek' target='_blank'>
+	<img height='30' style='border:0px;height:40px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' />
+</a>

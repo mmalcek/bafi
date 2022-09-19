@@ -25,6 +25,15 @@
 [![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/mmalcek/bafi?label=latest%20release)](https://github.com/mmalcek/bafi/releases/latest)
 <!--![GitHub All Releases Downloads](https://img.shields.io/github/downloads/mmalcek/bafi/total)-->
 
+
+**If you like this app you can buy me a coffe ;)**
+
+<a href='https://ko-fi.com/mmalcek' target='_blank'>
+	<img height='30' style='border:0px;height:40px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' />
+</a>
+<br />
+<br />
+
 ## How does it work?
 Application automaticaly parse input data into object which can be simply accessed in tamplate using dot notation where first dot represent root of object **{{ . }}**.
 
