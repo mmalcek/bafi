@@ -191,7 +191,7 @@ curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t "?{{toY
 
 ### Multiple input files
 Bafi can read multiple input files and merge them into one output file. This will require aditional file with files description.
-Description file must be in YAML format as described below and prefixed by question mark **"?"** for examle **bafi.exe -t ?files.yaml**
+Description file must be in YAML format as described below and prefixed by question mark **"?"** for examle **bafi.exe -i ?files.yaml**
 
 Example: 
 
