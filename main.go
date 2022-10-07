@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"math/rand"
 	"os"
@@ -106,7 +106,7 @@ func processTemplate(params tParams) error {
 	if data == nil && files != nil {
 		filesStruct := make(map[string]interface{})
 		for _, file := range files {
-			data, err := ioutil.ReadFile(file["file"].(string))
+			data, err := os.ReadFile(file["file"].(string))
 			if err != nil {
 				return err
 			}
@@ -144,12 +144,12 @@ func getInputData(input *string) (data []byte, files []map[string]interface{}, e
 		if fi.Mode()&os.ModeNamedPipe == 0 {
 			return nil, nil, fmt.Errorf("stdin: Error-noPipe")
 		}
-		if data, err = ioutil.ReadAll(os.Stdin); err != nil {
+		if data, err = io.ReadAll(os.Stdin); err != nil {
 			return nil, nil, fmt.Errorf("readStdin: %s", err.Error())
 		}
 	case inputFile[:1] == "?":
 		files = make([]map[string]interface{}, 0)
-		configFile, err := ioutil.ReadFile(inputFile[1:])
+		configFile, err := os.ReadFile(inputFile[1:])
 		if err != nil {
 			return nil, nil, fmt.Errorf("readFileList: %s", err.Error())
 		}
@@ -158,7 +158,7 @@ func getInputData(input *string) (data []byte, files []map[string]interface{}, e
 		}
 		return nil, files, nil
 	default:
-		if data, err = ioutil.ReadFile(inputFile); err != nil {
+		if data, err = os.ReadFile(inputFile); err != nil {
 			return nil, nil, fmt.Errorf("readFile: %s", err.Error())
 		}
 	}
@@ -229,9 +229,7 @@ func mapInputData(data []byte, params tParams) (interface{}, error) {
 		}
 		mapData = make([]map[string]interface{}, len(lines[1:]))
 		headers := make([]string, len(lines[0]))
-		for i, header := range lines[0] {
-			headers[i] = header
-		}
+		copy(headers, lines[0])
 		for i, line := range lines[1:] {
 			x := make(map[string]interface{})
 			for j, value := range line {
@@ -257,7 +255,7 @@ func prepareDelimiter(inputString string) rune {
 		if len(inputString) == 4 && inputString[0:2] == "0x" {
 			bytes, err := hex.DecodeString(inputString[2:4])
 			if err != nil {
-				log.Fatal(fmt.Sprintf("error CSV delimiter: %s", err.Error()))
+				log.Fatalf(fmt.Sprintf("error CSV delimiter: %s", err.Error()))
 			}
 			return rune(string(bytes)[0])
 		}
@@ -273,7 +271,7 @@ func readTemplate(textTemplate string) ([]byte, error) {
 	if textTemplate[:1] == "?" {
 		templateFile = []byte(textTemplate[1:])
 	} else {
-		templateFile, err = ioutil.ReadFile(textTemplate)
+		templateFile, err = os.ReadFile(textTemplate)
 		if err != nil {
 			return nil, fmt.Errorf("readFile: %s", err.Error())
 		}

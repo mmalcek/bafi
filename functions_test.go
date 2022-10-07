@@ -546,7 +546,7 @@ func TestConvertDecimal(t *testing.T) {
 	if result.String() != "457842.123845" {
 		t.Errorf("result: %v", result)
 	}
-	result, err = convertDecimal("457842.123845a")
+	_, err = convertDecimal("457842.123845a")
 	if err.Error() != "can't convert 457842.123845a to decimal" {
 		t.Errorf("result: %v", err)
 	}
