@@ -12,21 +12,18 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/font-awesome.min.css" rel="stylesheet">
         <link href="css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
-
-        <script src="js/jquery-1.10.2.min.js" defer></script>
-        <script src="js/bootstrap.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/lua.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/powershell.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/lua.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/powershell.min.js"></script>
+        <script>hljs.highlightAll();</script>
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-GE1PDVJERL"></script>
         <script>
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          gtag('config', 'G-GE1PDVJERL');
+          gtag('config', "G-GE1PDVJERL");
         </script> 
     </head>
 
@@ -95,6 +92,10 @@
               </ul>
             </li>
             <li class="nav-item" data-level="2"><a href="#how-does-it-work" class="nav-link">How does it work?</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#online-demo-wasm" class="nav-link">Online demo (WASM)</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -167,7 +168,6 @@
 <p><a href="https://github.com/mmalcek/bafi/actions/workflows/go.yml"><img alt="Go" src="https://github.com/mmalcek/bafi/actions/workflows/go.yml/badge.svg" /></a>
 <a href="https://github.com/mmalcek/bafi/actions/workflows/codeql-analysis.yml"><img alt="CodeQL" src="https://github.com/mmalcek/bafi/actions/workflows/codeql-analysis.yml/badge.svg" /></a>
 <a href="https://goreportcard.com/report/github.com/mmalcek/bafi"><img alt="Go Report Card" src="https://goreportcard.com/badge/github.com/mmalcek/bafi" /></a>
-<a href="https://gocover.io/github.com/mmalcek/bafi"><img alt="GoCover" src="https://gocover.io/_badge/github.com/mmalcek/bafi" /></a>
 <a href="https://github.com/mmalcek/bafi/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/mmalcek/bafi" /></a>
 <a href="https://github.com/avelino/awesome-go#text-processing"><img alt="Mentioned in Awesome Go" src="https://awesome.re/mentioned-badge.svg" /></a> 
 <a href="https://github.com/mmalcek/bafi/releases/latest"><img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/mmalcek/bafi?label=latest%20release" /></a></p>
@@ -232,6 +232,57 @@ Favourite colors: {{$colors}}
 curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 </code></pre>
 <p>More examples <a href="examples/#template">here</a></p>
+<script src="js/wasm_exec.js"></script>
+<script>
+const go = new Go();
+WebAssembly
+  .instantiateStreaming(fetch('js/bafi.wasm'), go.importObject)
+  .then((result) => { go.run(result.instance)});
+function getBAFI() {
+    let input1 = document.getElementById("input1").value;
+    let input2 = document.getElementById("input2").value;
+    let format = document.getElementById("format").value;
+    var element = document.getElementById("bafiData");
+    element.innerHTML = bafi(input1,input2,format); 
+}
+</script>
+
+<h2 id="online-demo-wasm">Online demo (WASM)</h2>
+<p><strong>Just try it here :)</strong></p>
+<textarea type="text" id="input1" rows="13" cols="40">
+{
+  "user": {
+    "name": "John Doe",
+    "age": 25,
+    "address": {
+        "street": "Main Street",
+        "city": "New York",
+          "state": "NY"
+    },
+    "favourite_colors": ["red", "green", "blue"]
+  }
+}
+</textarea>
+
+<textarea type="text" id="input2" rows="13" cols="40">
+Hello {{upper .user.name}}, 
+
+  you are {{.user.age}} years old 
+  and live in {{.user.address.city}}, {{.user.address.state}}. 
+  Your favourite colors are:
+{{range .user.favourite_colors}}  {{.}}
+{{end}}
+</textarea>
+<p><br />
+<select name="format" id="format">
+    <option value="json">JSON</option>
+    <option value="xml">XML</option>
+    <option value="yaml">YAML</option>
+    <option value="csv">CSV</option>
+</select>
+<button type="button" onClick="getBAFI()">Create OUTPUT</button></p>
+<pre style="max-width: 600px; min-height:200px"  id="bafiData"></pre>
+
 <h2 id="command-line-arguments">Command line arguments</h2>
 <ul>
 <li><strong>-i input.xml</strong> Input file name. <ul>
@@ -432,12 +483,14 @@ end
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
+        <script src="js/jquery-3.6.0.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
         <script>
             var base_url = ".",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="js/base.js" defer></script>
-        <script src="search/main.js" defer></script>
+        <script src="js/base.js"></script>
+        <script src="search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -504,6 +557,6 @@ end
 </html>
 
 <!--
-MkDocs version : 1.3.0
-Build Date UTC : 2022-09-19 10:01:52.724191+00:00
+MkDocs version : 1.5.3
+Build Date UTC : 2023-10-12 20:37:03.403813+00:00
 -->

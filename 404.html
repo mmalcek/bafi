@@ -12,21 +12,18 @@
         <link href="/bafi/css/bootstrap.min.css" rel="stylesheet">
         <link href="/bafi/css/font-awesome.min.css" rel="stylesheet">
         <link href="/bafi/css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
-
-        <script src="/bafi/js/jquery-1.10.2.min.js" defer></script>
-        <script src="/bafi/js/bootstrap.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/lua.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/powershell.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/lua.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/powershell.min.js"></script>
+        <script>hljs.highlightAll();</script>
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-GE1PDVJERL"></script>
         <script>
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          gtag('config', 'G-GE1PDVJERL');
+          gtag('config', "G-GE1PDVJERL");
         </script> 
     </head>
 
@@ -83,12 +80,14 @@
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
+        <script src="/bafi/js/jquery-3.6.0.min.js"></script>
+        <script src="/bafi/js/bootstrap.min.js"></script>
         <script>
             var base_url = "/bafi/",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="/bafi/js/base.js" defer></script>
-        <script src="/bafi/search/main.js" defer></script>
+        <script src="/bafi/js/base.js"></script>
+        <script src="/bafi/search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
