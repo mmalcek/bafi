@@ -19,7 +19,6 @@
 [![Go](https://github.com/mmalcek/bafi/actions/workflows/go.yml/badge.svg)](https://github.com/mmalcek/bafi/actions/workflows/go.yml)
 [![CodeQL](https://github.com/mmalcek/bafi/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/mmalcek/bafi/actions/workflows/codeql-analysis.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mmalcek/bafi)](https://goreportcard.com/report/github.com/mmalcek/bafi)
-[![GoCover](https://gocover.io/_badge/github.com/mmalcek/bafi)](https://gocover.io/github.com/mmalcek/bafi)
 [![License](https://img.shields.io/github/license/mmalcek/bafi)](https://github.com/mmalcek/bafi/blob/main/LICENSE)
 [![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go#text-processing) 
 [![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/mmalcek/bafi?label=latest%20release)](https://github.com/mmalcek/bafi/releases/latest)
@@ -90,6 +89,56 @@ curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t "?{{toXML .}}"
 
 More examples [here](examples/#template)
 
+<script src="js/wasm_exec.js"></script>
+<script>
+const go = new Go();
+WebAssembly
+  .instantiateStreaming(fetch('js/bafi.wasm'), go.importObject)
+  .then((result) => { go.run(result.instance)});
+function getBAFI() {
+    let input1 = document.getElementById("input1").value;
+    let input2 = document.getElementById("input2").value;
+    let format = document.getElementById("format").value;
+    var element = document.getElementById("bafiData");
+    element.innerHTML = bafi(input1,input2,format); 
+}
+</script>
+
+## Online demo (WASM)
+ **Just try it here :)**
+<textarea type="text" id="input1" rows="13" cols="40">
+{
+  "user": {
+    "name": "John Doe",
+    "age": 25,
+    "address": {
+        "street": "Main Street",
+        "city": "New York",
+          "state": "NY"
+    },
+    "favourite_colors": ["red", "green", "blue"]
+  }
+}
+</textarea>
+
+<textarea type="text" id="input2" rows="13" cols="40">
+Hello {{upper .user.name}}, 
+
+  you are {{.user.age}} years old 
+  and live in {{.user.address.city}}, {{.user.address.state}}. 
+  Your favourite colors are:
+{{range .user.favourite_colors}}  {{.}}
+{{end}}
+</textarea>
+<br />
+<select name="format" id="format">
+    <option value="json">JSON</option>
+    <option value="xml">XML</option>
+    <option value="yaml">YAML</option>
+    <option value="csv">CSV</option>
+</select>
+<button type="button" onClick="getBAFI()">Create OUTPUT</button>
+<pre style="max-width: 600px; min-height:200px"  id="bafiData"></pre>
 
 ## Command line arguments
 - **-i input.xml** Input file name. 
