@@ -1,10 +1,11 @@
 module github.com/mmalcek/bafi
 
-go 1.17
+go 1.21.4
 
 require (
 	github.com/clbanning/mxj/v2 v2.5.5
 	github.com/google/uuid v1.3.0
+	github.com/mmalcek/mt940 v0.0.3
 	github.com/shopspring/decimal v1.3.1
 	github.com/spf13/cast v1.4.1
 	github.com/yuin/gopher-lua v0.0.0-20210529063254-f4c35e4016d9

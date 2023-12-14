@@ -17,6 +17,7 @@ import (
 	"time"
 
 	"github.com/clbanning/mxj/v2"
+	"github.com/mmalcek/mt940"
 	lua "github.com/yuin/gopher-lua"
 	"go.mongodb.org/mongo-driver/bson"
 	"gopkg.in/yaml.v3"
@@ -56,7 +57,7 @@ func main() {
  -if not defined write to stdout (pipe mode)`),
 		textTemplate: flag.String("t", "", `template, file or inline. 
  -Inline template should start with ? e.g. -t "?{{.MyValue}}" `),
-		inputFormat:    flag.String("f", "", "input format: json, bson, yaml, csv, xml(default)"),
+		inputFormat:    flag.String("f", "", "input format: json, bson, yaml, csv, mt940, xml(default)"),
 		inputDelimiter: flag.String("d", "", "input delimiter: CSV only, default is comma -d ';' or -d 0x09"),
 		getVersion:     flag.Bool("v", false, "show version (Project page: https://github.com/mmalcek/bafi)"),
 	}
@@ -94,6 +95,8 @@ func processTemplate(params tParams) error {
 			*params.inputFormat = "yaml"
 		case ".csv":
 			*params.inputFormat = "csv"
+		case ".sta":
+			*params.inputFormat = "mt940"
 		case ".xml", ".cdf", ".cdf3":
 			*params.inputFormat = "xml"
 		default:
@@ -242,6 +245,12 @@ func mapInputData(data []byte, params tParams) (interface{}, error) {
 		mapData, err := mxj.NewMapXml(data)
 		if err != nil {
 			return nil, fmt.Errorf("mapXML: %s", err.Error())
+		}
+		return mapData, nil
+	case "mt940":
+		mapData, err := mt940.Parse(data)
+		if err != nil {
+			return nil, fmt.Errorf("mapMT940: %s", err.Error())
 		}
 		return mapData, nil
 	default:
