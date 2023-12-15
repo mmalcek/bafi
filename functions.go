@@ -64,6 +64,7 @@ func templateFunctions() template.FuncMap {
 		"trim":            trim,
 		"trimAll":         trimAll,
 		"trimSuffix":      trimSuffix,
+		"indexOf":         indexOf,
 		"trimPrefix":      trimPrefix,
 		"atoi":            atoi,
 		"toBool":          toBool,
@@ -345,7 +346,13 @@ func trimPrefix(a, b string) string { return strings.TrimPrefix(a, b) }
 // trimSuffix - {{trimSuffix "!Hello World!" "!"}} - returns "!HelloWorld"
 func trimSuffix(a, b string) string { return strings.TrimSuffix(a, b) }
 
-// - atoi {{atoi "42"}} - string to int
+// indexOf {{indexOf "abcd", "bc"}} -> 1
+// TODO: add to tests and documentation
+func indexOf(a, b string) int {
+	return strings.Index(a, b)
+}
+
+// atoi {{atoi "42"}} - string to int
 func atoi(a string) int { i, _ := strconv.Atoi(a); return i }
 
 func toBool(v interface{}) bool {
