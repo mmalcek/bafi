@@ -155,7 +155,7 @@ Hello {{upper .user.name}},
     - format CSV:
         - Can be defined as string e.g. -d ',' or as [hex](https://www.asciitable.com/asciifull.gif) value prefixed by **0x** e.g. 'TAB' can be defined as -f 0x09. Default delimiter is comma (**,**) 
     - format mt940:
-        - Can be defined as string e.g. -d '\$'. Delimiter is automaticaly enclosed by new lines "\\r\\n\$\\r\\n"
+        - For Multiple messages in one file (e.g. Multicash). Can be defined as string e.g. -d '$'. If delimiter is set BaFi will return array of mt940 messages
 - **-v** Show current verion
 - **-?** list available command line arguments
 
