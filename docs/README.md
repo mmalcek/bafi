@@ -151,9 +151,11 @@ Hello {{upper .user.name}},
 - **-f json** Input format. 
     - Supported formats: **json, bson, yaml, csv, xml, mt940**
     - If not defined (for file input) app tries detect input format automatically by file extension
-- **-d ','** Data delimiter (for CSV files only) 
-    - Can be defined as string e.g. -d ',' or as [hex](https://www.asciitable.com/asciifull.gif) value prefixed by **0x** e.g. 'TAB' can be defined as -f 0x09.
-    - default delimiter is comma (**,**) 
+- **-d ','** Data delimiter 
+    - format CSV:
+        - Can be defined as string e.g. -d ',' or as [hex](https://www.asciitable.com/asciifull.gif) value prefixed by **0x** e.g. 'TAB' can be defined as -f 0x09. Default delimiter is comma (**,**) 
+    - format mt940:
+        - Can be defined as string e.g. -d '\$'. Delimiter is automaticaly enclosed by new lines "\\r\\n\$\\r\\n"
 - **-v** Show current verion
 - **-?** list available command line arguments
 

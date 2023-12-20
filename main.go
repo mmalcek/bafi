@@ -23,7 +23,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-const version = "1.0.17"
+const version = "1.1.1"
 
 var (
 	luaData *lua.LState
