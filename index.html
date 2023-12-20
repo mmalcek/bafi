@@ -151,14 +151,14 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="bafi">BaFi</h1>
-<p><strong>Universal JSON, BSON, YAML, CSV, XML translator to ANY format using templates</strong></p>
+<p><strong>Universal JSON, BSON, YAML, CSV, XML, mt940 translator to ANY format using templates</strong></p>
 <p><strong>Github repository</strong>
 - <a href="https://github.com/mmalcek/bafi">https://github.com/mmalcek/bafi</a></p>
 <p><strong>Releases (Windows, MAC, Linux)</strong>
 - <a href="https://github.com/mmalcek/bafi/releases">https://github.com/mmalcek/bafi/releases</a></p>
 <h2 id="key-features">Key features</h2>
 <ul>
-<li>Various input formats <strong>(json, bson, yaml, csv, xml)</strong></li>
+<li>Various input formats <strong>(json, bson, yaml, csv, xml, mt940)</strong></li>
 <li>Flexible output formatting using text templates</li>
 <li>Support for <a href="https://www.lua.org/pil/contents.html">Lua</a> custom functions which allows very flexible data manipulation</li>
 <li>stdin/stdout support which allows get data from source -&gt; translate -&gt; delivery to destination. This allows easily translate data between different web services like <strong>REST to SOAP, SOAP to REST, REST to CSV, ...</strong></li>
@@ -299,7 +299,7 @@ Hello {{upper .user.name}},
 </ul>
 </li>
 <li><strong>-f json</strong> Input format. <ul>
-<li>Supported formats: <strong>json, bson, yaml, csv, xml</strong></li>
+<li>Supported formats: <strong>json, bson, yaml, csv, xml, mt940</strong></li>
 <li>If not defined (for file input) app tries detect input format automatically by file extension</li>
 </ul>
 </li>
@@ -558,5 +558,5 @@ end
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2023-10-12 20:37:03.403813+00:00
+Build Date UTC : 2023-12-20 14:00:36.963080+00:00
 -->
