@@ -319,7 +319,7 @@ Name: {{.name}}, Surname: {{.surname}}
 <ul>
 <li>mt940 returns simple struct (Header,Fields,[]Transactions) of strings and additional parsing needs to be done in template. This allows full flexibility on data processing</li>
 <li>Identifiers are prefixed by <strong>"F_"</strong> (e.g. <strong>:20:</strong> = <strong>.Fields.F_20</strong>)</li>
-<li>if parameter -d (delimiter -d "$") is defined for files with multiple messages (e.g. - Multicash), app returns array of mt940 messages</li>
+<li>if parameter -d (delimiter -d "$") is defined for files with multiple messages (e.g. - Multicash), app returns array of mt940 messages. Delimiter is automaticaly enclosed by new lines "\r\n\$\r\n".</li>
 <li>
 <p>Note: This is actually good place to use integrated <a href="/#lua-custom-functions">LUA interpreter</a> where you can create your own set of custom functions to parse data and easily reuse them in templates.</p>
 </li>
