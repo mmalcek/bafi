@@ -5,12 +5,12 @@
 [![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go#text-processing) 
 [![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/mmalcek/bafi?label=latest%20release)](https://github.com/mmalcek/bafi/releases/latest)
 
-# Universal JSON, BSON, YAML, CSV, XML translator to ANY format using templates
+# Universal JSON, BSON, YAML, CSV, XML, mt940 translator to ANY format using templates
 
 <img src="./docs/img/scheme.svg" style="border: 0;" height="150px" />
 
 ## Key features
-- Various input formats **(json, bson, yaml, csv, xml)**
+- Various input formats **(json, bson, yaml, csv, xml, mt940)**
 - Flexible output formatting using text templates
 - Support for [Lua](https://www.lua.org/pil/contents.html) custom functions which allows very flexible data manipulation
 - stdin/stdout support which allows get data from source -> translate -> delivery to destination. This allows easily translate data between different web services like **REST to SOAP, SOAP to REST, REST to CSV, ...**

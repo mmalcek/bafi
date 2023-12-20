@@ -150,6 +150,24 @@ Name: {{.name}}, Surname: {{.surname}}
 ```
 note: CSV file must be **[RFC4180](https://datatracker.ietf.org/doc/html/rfc4180)** compliant, file must have header line and separator must be **comma ( , )**. Or you can use command line argument -d ( e.g. **-d ';'** or **-d 0x09** ) to define separator(delimiter).
 
+### mt940 to CSV
+- mt940 returns simple struct (Header,Fields,[]Transactions) of strings and additional parsing needs to be done in template. This allows full flexibility on data processing
+- if parameter -d (delimiter -d "$") is defined for files with multiple messages (e.g. - Multicash), app returns array of mt940 messages
+
+- command
+```sh
+bafi.exe -i message.sta -t myTemplate.tmpl -o output.csv
+```
+- myTemplate.tmpl
+```
+Reference, balance, VS 
+{{- $F20 := .Fields.F_20 }}{{ $F60F := .Fields.F_60F }}
+{{range .Transactions }} 
+{{- $vsS := add (indexOf .F_86 "?21") 3 }} {{- $vsE := add $vsS 17 -}}
+{{- $F20}}, {{$F60F}}, {{slice .F_86 $vsS $vsE}}
+{{ end }}
+```
+
 ### Any SQL to XML
 Bafi can be used in combination with very interesting tool **USQL** [https://github.com/xo/usql](https://github.com/xo/usql). USQL allows query almost any SQL like database (MSSQL,MySQL,postgres, ...) and get result in various formats. In this example we use -J for JSON. Output can be further processed by BaFi and templates
 

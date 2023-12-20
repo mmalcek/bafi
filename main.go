@@ -248,11 +248,11 @@ func mapInputData(data []byte, params tParams) (interface{}, error) {
 		}
 		return mapData, nil
 	case "mt940":
-		mapData, err := mt940.Parse(data)
-		if err != nil {
-			return nil, fmt.Errorf("mapMT940: %s", err.Error())
+		if *params.inputDelimiter == "" {
+			return mt940.Parse(data)
+		} else {
+			return mt940.ParseMultimessage(data, "\r\n"+*params.inputDelimiter+"\r\n")
 		}
-		return mapData, nil
 	default:
 		return nil, fmt.Errorf("unknown input format: use parameter -f to define input format e.g. -f json (accepted values are json, bson, yaml, csv, xml)")
 	}

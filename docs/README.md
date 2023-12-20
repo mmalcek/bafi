@@ -1,5 +1,5 @@
 # BaFi
-**Universal JSON, BSON, YAML, CSV, XML translator to ANY format using templates**
+**Universal JSON, BSON, YAML, CSV, XML, mt940 translator to ANY format using templates**
 
 **Github repository**
 - [https://github.com/mmalcek/bafi](https://github.com/mmalcek/bafi)
@@ -8,7 +8,7 @@
 - [https://github.com/mmalcek/bafi/releases](https://github.com/mmalcek/bafi/releases)
 
 ## Key features
-- Various input formats **(json, bson, yaml, csv, xml)**
+- Various input formats **(json, bson, yaml, csv, xml, mt940)**
 - Flexible output formatting using text templates
 - Support for [Lua](https://www.lua.org/pil/contents.html) custom functions which allows very flexible data manipulation
 - stdin/stdout support which allows get data from source -> translate -> delivery to destination. This allows easily translate data between different web services like **REST to SOAP, SOAP to REST, REST to CSV, ...**
@@ -149,7 +149,7 @@ Hello {{upper .user.name}},
 - **-t template.tmpl** Template file. Alternatively you can use *inline* template 
     - inline template must start with **?** e.g. -t **"?{{.someValue}}"**
 - **-f json** Input format. 
-    - Supported formats: **json, bson, yaml, csv, xml**
+    - Supported formats: **json, bson, yaml, csv, xml, mt940**
     - If not defined (for file input) app tries detect input format automatically by file extension
 - **-d ','** Data delimiter (for CSV files only) 
     - Can be defined as string e.g. -d ',' or as [hex](https://www.asciitable.com/asciifull.gif) value prefixed by **0x** e.g. 'TAB' can be defined as -f 0x09.
