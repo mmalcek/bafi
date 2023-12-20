@@ -303,9 +303,15 @@ Hello {{upper .user.name}},
 <li>If not defined (for file input) app tries detect input format automatically by file extension</li>
 </ul>
 </li>
-<li><strong>-d ','</strong> Data delimiter (for CSV files only) <ul>
-<li>Can be defined as string e.g. -d ',' or as <a href="https://www.asciitable.com/asciifull.gif">hex</a> value prefixed by <strong>0x</strong> e.g. 'TAB' can be defined as -f 0x09.</li>
-<li>default delimiter is comma (<strong>,</strong>) </li>
+<li><strong>-d ','</strong> Data delimiter <ul>
+<li>format CSV:<ul>
+<li>Can be defined as string e.g. -d ',' or as <a href="https://www.asciitable.com/asciifull.gif">hex</a> value prefixed by <strong>0x</strong> e.g. 'TAB' can be defined as -f 0x09. Default delimiter is comma (<strong>,</strong>) </li>
+</ul>
+</li>
+<li>format mt940:<ul>
+<li>Can be defined as string e.g. -d '\$'. Delimiter is automaticaly enclosed by new lines "\r\n\$\r\n"</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><strong>-v</strong> Show current verion</li>
@@ -558,5 +564,5 @@ end
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2023-12-20 14:00:36.963080+00:00
+Build Date UTC : 2023-12-20 22:07:40.354639+00:00
 -->
