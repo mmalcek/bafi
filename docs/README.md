@@ -262,7 +262,7 @@ text/template integrates [native functions](https://pkg.go.dev/text/template#hdr
 
 #### Additional functions
 Asside of integated functions bafi contains additional common functions
-
+##### Math functions
 - **add** - {{add .Value1 .Value2}}
 - **add1** - {{add1 .Value1}} = Value1+1
 - **sub** - substract
@@ -280,6 +280,9 @@ Asside of integated functions bafi contains additional common functions
 - **min** - get Min value from range
 - **maxf**
 - **minf**
+
+##### Date functions
+
 - **dateFormat** - {{dateFormat .Value "oldFormat" "newFormat"}} - [GO time format](https://programming.guide/go/format-parse-string-time-date-example.html)
     - {{dateFormat "2021-08-26T22:14:00" "2006-01-02T15:04:05" "02.01.2006-15:04"}}
 - **dateFormatTZ** - {{dateFormatTZ .Value "oldFormat" "newFormat" "timeZone"}} 
@@ -288,42 +291,46 @@ Asside of integated functions bafi contains additional common functions
 - **dateToInt** - {{dateToInt .Value "dateFormat"}} - convert date to integer (unixtime, int64), usefull for comparing dates
 - **intToDate** - {{intToDate .Value "dateFormat"}} - convert integer (unixtime, int64) to date, usefull for comparing dates
 - **now** - {{now "02.01.2006"}} - GO format date (see notes below)
+
+##### String functions
+- **addSubstring** - {{addSubstring $myString, "XX", $position}} add substring to $position in string (if $position is 1,2,3 = Adding from right, if -1,-2,-3 = Adding from left)
+- **atoi** - {{atoi "042"}} - string to int. Result will be 42. atoi must be used especially for convert strings with leading zeroes
 - **b64enc** - encode to base64
 - **b64dec** - decode from base64
 - **b32enc** - oncode to base32
 - **b32dec** - decode from base32
-- **replaceAll** - {{replaceAll "oldValue" "newValue" .Value}} - replace all occurences of "oldValue" with "newValue" e.g. {{replaceAll "x" "Z" "aaxbb"}} -> "aaZbb"
-- **replaceAllRegex** - {{replaceAllRegex "regex" "newValue" .Value}} - replace all occurences of "regex" with "newValue" e.g. {{replaceAllRegex "[a-d]", "Z" "aaxbb"}} -> "ZZxZZ"
-- **uuid** - generate UUID
-- **regexMatch** - {{regexMatch pattern .Value1}} more about go [regex](https://gobyexample.com/regular-expressions)
 - **contains** - check if string contains substring e.g. {{contains "aaxbb" "xb"}}
-- **upper** - to uppercase
-- **lower** - to lowercase
-- **addSubstring** - {{addSubstring $myString, "XX", $position}} add substring to $position in string (if $position is 1,2,3 = Adding from right, if -1,-2,-3 = Adding from left)
-- **trim** - remove leading and trailing whitespace
-- **trimPrefix** - {{trimPrefix "!Hello World!" "!"}} - returns "Hello World!"
-- **trimSuffix** - {{trimSuffix "!Hello World!" "!"}} - returns "!HelloWorld"
-- **trimAll** - {{trimAll "!Hello World!" "!"}} - returns "Hello World"
-- **atoi** - {{atoi "042"}} - string to int. Result will be 42. atoi must be used especially for convert strings with leading zeroes
-- **toBool** - {{toBool "true"}} - string to bool 
-- **toString** - {{toString 42}} - int to string
-- **toInt** - {{int true}} - cast to int. Result will be 1. If you need convert string with leading zeroes use "atoi" 
-- **toInt64** - {{int64 "42"}} - cast to int64. Result will be 42. If you need convert string with leading zeroes use "atoi" 
-- **toFloat64** - {{float64 "3.14159"}} - cast to float64
-- **toDecimal** - {{toDecimal "3.14159"}} - cast to decimal (if error return 0)
-- **toDecimalString** - {{toDecimalString "3.14159"}} - cast to decimal string (if error return "error message")
-- **toJSON** - convert input object to JSON
-- **toBSON** - convert input object to BSON
-- **toYAML** - convert input object to YAML
-- **toXML** - convert input object to XML
+- **indexOf** - {{indexOf "aaxbb" "xb"}} - returns indexOf first char of substring in string
+- **isArray** - {{isArray .Value1}} - check if value is array
 - **isBool** - {{isBool .Value1}} - check if value is bool
 - **isInt** - {{isInt .Value1}} - check if value is int
 - **isFloat64** - {{isFloat64 .Value1}} - check if value is float64
 - **isString** - {{isString .Value1}} - check if value is string
 - **isMap** - {{isMap .Value1}} - check if value is map
-- **isArray** - {{isArray .Value1}} - check if value is array
-- **mustArray** - {{mustArray .Value1}} - convert to array. Useful with XML where single node is not treated as array
+- **regexMatch** - {{regexMatch pattern .Value1}} more about go [regex](https://gobyexample.com/regular-expressions)
+- **replaceAll** - {{replaceAll "oldValue" "newValue" .Value}} - replace all occurences of "oldValue" with "newValue" e.g. {{replaceAll "x" "Z" "aaxbb"}} -> "aaZbb"
+- **replaceAllRegex** - {{replaceAllRegex "regex" "newValue" .Value}} - replace all occurences of "regex" with "newValue" e.g. {{replaceAllRegex "[a-d]", "Z" "aaxbb"}} -> "ZZxZZ"
+- **lower** - to lowercase
+- **trim** - remove leading and trailing whitespace
+- **trimPrefix** - {{trimPrefix "!Hello World!" "!"}} - returns "Hello World!"
+- **trimSuffix** - {{trimSuffix "!Hello World!" "!"}} - returns "!HelloWorld"
 - **mapJSON** - convert stringified JSON to map so it can be used as object or translated to other formats (e.g. "toXML"). Check template.tmpl for example
+- **mustArray** - {{mustArray .Value1}} - convert to array. Useful with XML where single node is not treated as array
+- **toBool** - {{toBool "true"}} - string to bool 
+- **toDecimal** - {{toDecimal "3.14159"}} - cast to decimal (if error return 0)
+- **toDecimalString** - {{toDecimalString "3.14159"}} - cast to decimal string (if error return "error message")
+- **toFloat64** - {{float64 "3.14159"}} - cast to float64
+- **toInt** - {{int true}} - cast to int. Result will be 1. If you need convert string with leading zeroes use "atoi" 
+- **toInt64** - {{int64 "42"}} - cast to int64. Result will be 42. If you need convert string with leading zeroes use "atoi" 
+- **toString** - {{toString 42}} - int to string
+- **toJSON** - convert input object to JSON
+- **toBSON** - convert input object to BSON
+- **toYAML** - convert input object to YAML
+- **toXML** - convert input object to XML
+- **trimAll** - {{trimAll "!Hello World!" "!"}} - returns "Hello World"
+- **upper** - to uppercase
+- **uuid** - generate UUID
+
 
 #### Lua custom functions
 You can write your own custom lua functions defined in ./lua/functions.lua file
