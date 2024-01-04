@@ -395,6 +395,7 @@ Hello {{upper .user.name}},
 <p>text/template integrates <a href="https://pkg.go.dev/text/template#hdr-Functions">native functions</a> to work with data</p>
 <h4 id="additional-functions">Additional functions</h4>
 <p>Asside of integated functions bafi contains additional common functions</p>
+<h5 id="math-functions">Math functions</h5>
 <ul>
 <li><strong>add</strong> - {{add .Value1 .Value2}}</li>
 <li><strong>add1</strong> - {{add1 .Value1}} = Value1+1</li>
@@ -413,6 +414,9 @@ Hello {{upper .user.name}},
 <li><strong>min</strong> - get Min value from range</li>
 <li><strong>maxf</strong></li>
 <li><strong>minf</strong></li>
+</ul>
+<h5 id="date-functions">Date functions</h5>
+<ul>
 <li><strong>dateFormat</strong> - {{dateFormat .Value "oldFormat" "newFormat"}} - <a href="https://programming.guide/go/format-parse-string-time-date-example.html">GO time format</a><ul>
 <li>{{dateFormat "2021-08-26T22:14:00" "2006-01-02T15:04:05" "02.01.2006-15:04"}}</li>
 </ul>
@@ -425,42 +429,46 @@ Hello {{upper .user.name}},
 <li><strong>dateToInt</strong> - {{dateToInt .Value "dateFormat"}} - convert date to integer (unixtime, int64), usefull for comparing dates</li>
 <li><strong>intToDate</strong> - {{intToDate .Value "dateFormat"}} - convert integer (unixtime, int64) to date, usefull for comparing dates</li>
 <li><strong>now</strong> - {{now "02.01.2006"}} - GO format date (see notes below)</li>
+</ul>
+<h5 id="string-functions">String functions</h5>
+<ul>
+<li><strong>addSubstring</strong> - {{addSubstring $myString, "XX", $position}} add substring to $position in string (if $position is 1,2,3 = Adding from right, if -1,-2,-3 = Adding from left)</li>
+<li><strong>atoi</strong> - {{atoi "042"}} - string to int. Result will be 42. atoi must be used especially for convert strings with leading zeroes</li>
 <li><strong>b64enc</strong> - encode to base64</li>
 <li><strong>b64dec</strong> - decode from base64</li>
 <li><strong>b32enc</strong> - oncode to base32</li>
 <li><strong>b32dec</strong> - decode from base32</li>
-<li><strong>replaceAll</strong> - {{replaceAll "oldValue" "newValue" .Value}} - replace all occurences of "oldValue" with "newValue" e.g. {{replaceAll "x" "Z" "aaxbb"}} -&gt; "aaZbb"</li>
-<li><strong>replaceAllRegex</strong> - {{replaceAllRegex "regex" "newValue" .Value}} - replace all occurences of "regex" with "newValue" e.g. {{replaceAllRegex "[a-d]", "Z" "aaxbb"}} -&gt; "ZZxZZ"</li>
-<li><strong>uuid</strong> - generate UUID</li>
-<li><strong>regexMatch</strong> - {{regexMatch pattern .Value1}} more about go <a href="https://gobyexample.com/regular-expressions">regex</a></li>
 <li><strong>contains</strong> - check if string contains substring e.g. {{contains "aaxbb" "xb"}}</li>
-<li><strong>upper</strong> - to uppercase</li>
-<li><strong>lower</strong> - to lowercase</li>
-<li><strong>addSubstring</strong> - {{addSubstring $myString, "XX", $position}} add substring to $position in string (if $position is 1,2,3 = Adding from right, if -1,-2,-3 = Adding from left)</li>
-<li><strong>trim</strong> - remove leading and trailing whitespace</li>
-<li><strong>trimPrefix</strong> - {{trimPrefix "!Hello World!" "!"}} - returns "Hello World!"</li>
-<li><strong>trimSuffix</strong> - {{trimSuffix "!Hello World!" "!"}} - returns "!HelloWorld"</li>
-<li><strong>trimAll</strong> - {{trimAll "!Hello World!" "!"}} - returns "Hello World"</li>
-<li><strong>atoi</strong> - {{atoi "042"}} - string to int. Result will be 42. atoi must be used especially for convert strings with leading zeroes</li>
-<li><strong>toBool</strong> - {{toBool "true"}} - string to bool </li>
-<li><strong>toString</strong> - {{toString 42}} - int to string</li>
-<li><strong>toInt</strong> - {{int true}} - cast to int. Result will be 1. If you need convert string with leading zeroes use "atoi" </li>
-<li><strong>toInt64</strong> - {{int64 "42"}} - cast to int64. Result will be 42. If you need convert string with leading zeroes use "atoi" </li>
-<li><strong>toFloat64</strong> - {{float64 "3.14159"}} - cast to float64</li>
-<li><strong>toDecimal</strong> - {{toDecimal "3.14159"}} - cast to decimal (if error return 0)</li>
-<li><strong>toDecimalString</strong> - {{toDecimalString "3.14159"}} - cast to decimal string (if error return "error message")</li>
-<li><strong>toJSON</strong> - convert input object to JSON</li>
-<li><strong>toBSON</strong> - convert input object to BSON</li>
-<li><strong>toYAML</strong> - convert input object to YAML</li>
-<li><strong>toXML</strong> - convert input object to XML</li>
+<li><strong>indexOf</strong> - {{indexOf "aaxbb" "xb"}} - returns indexOf first char of substring in string</li>
+<li><strong>isArray</strong> - {{isArray .Value1}} - check if value is array</li>
 <li><strong>isBool</strong> - {{isBool .Value1}} - check if value is bool</li>
 <li><strong>isInt</strong> - {{isInt .Value1}} - check if value is int</li>
 <li><strong>isFloat64</strong> - {{isFloat64 .Value1}} - check if value is float64</li>
 <li><strong>isString</strong> - {{isString .Value1}} - check if value is string</li>
 <li><strong>isMap</strong> - {{isMap .Value1}} - check if value is map</li>
-<li><strong>isArray</strong> - {{isArray .Value1}} - check if value is array</li>
-<li><strong>mustArray</strong> - {{mustArray .Value1}} - convert to array. Useful with XML where single node is not treated as array</li>
+<li><strong>regexMatch</strong> - {{regexMatch pattern .Value1}} more about go <a href="https://gobyexample.com/regular-expressions">regex</a></li>
+<li><strong>replaceAll</strong> - {{replaceAll "oldValue" "newValue" .Value}} - replace all occurences of "oldValue" with "newValue" e.g. {{replaceAll "x" "Z" "aaxbb"}} -&gt; "aaZbb"</li>
+<li><strong>replaceAllRegex</strong> - {{replaceAllRegex "regex" "newValue" .Value}} - replace all occurences of "regex" with "newValue" e.g. {{replaceAllRegex "[a-d]", "Z" "aaxbb"}} -&gt; "ZZxZZ"</li>
+<li><strong>lower</strong> - to lowercase</li>
+<li><strong>trim</strong> - remove leading and trailing whitespace</li>
+<li><strong>trimPrefix</strong> - {{trimPrefix "!Hello World!" "!"}} - returns "Hello World!"</li>
+<li><strong>trimSuffix</strong> - {{trimSuffix "!Hello World!" "!"}} - returns "!HelloWorld"</li>
 <li><strong>mapJSON</strong> - convert stringified JSON to map so it can be used as object or translated to other formats (e.g. "toXML"). Check template.tmpl for example</li>
+<li><strong>mustArray</strong> - {{mustArray .Value1}} - convert to array. Useful with XML where single node is not treated as array</li>
+<li><strong>toBool</strong> - {{toBool "true"}} - string to bool </li>
+<li><strong>toDecimal</strong> - {{toDecimal "3.14159"}} - cast to decimal (if error return 0)</li>
+<li><strong>toDecimalString</strong> - {{toDecimalString "3.14159"}} - cast to decimal string (if error return "error message")</li>
+<li><strong>toFloat64</strong> - {{float64 "3.14159"}} - cast to float64</li>
+<li><strong>toInt</strong> - {{int true}} - cast to int. Result will be 1. If you need convert string with leading zeroes use "atoi" </li>
+<li><strong>toInt64</strong> - {{int64 "42"}} - cast to int64. Result will be 42. If you need convert string with leading zeroes use "atoi" </li>
+<li><strong>toString</strong> - {{toString 42}} - int to string</li>
+<li><strong>toJSON</strong> - convert input object to JSON</li>
+<li><strong>toBSON</strong> - convert input object to BSON</li>
+<li><strong>toYAML</strong> - convert input object to YAML</li>
+<li><strong>toXML</strong> - convert input object to XML</li>
+<li><strong>trimAll</strong> - {{trimAll "!Hello World!" "!"}} - returns "Hello World"</li>
+<li><strong>upper</strong> - to uppercase</li>
+<li><strong>uuid</strong> - generate UUID</li>
 </ul>
 <h4 id="lua-custom-functions">Lua custom functions</h4>
 <p>You can write your own custom lua functions defined in ./lua/functions.lua file</p>
@@ -564,5 +572,5 @@ end
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2023-12-20 22:27:44.673421+00:00
+Build Date UTC : 2024-01-04 11:21:34.810115+00:00
 -->
