@@ -10,6 +10,7 @@
 ## Key features
 - Various input formats **(json, bson, yaml, csv, xml, mt940)**
 - Flexible output formatting using text templates
+- Output can be anything: HTML page, SQL Query, Shell script, CSV file, ...
 - Support for [Lua](https://www.lua.org/pil/contents.html) custom functions which allows very flexible data manipulation
 - stdin/stdout support which allows get data from source -> translate -> delivery to destination. This allows easily translate data between different web services like **REST to SOAP, SOAP to REST, REST to CSV, ...**
 - Merge multiple input files in various formats into single output file formated using template
@@ -155,7 +156,7 @@ Hello {{upper .user.name}},
     - format CSV:
         - Can be defined as string e.g. -d ',' or as [hex](https://www.asciitable.com/asciifull.gif) value prefixed by **0x** e.g. 'TAB' can be defined as -f 0x09. Default delimiter is comma (**,**) 
     - format mt940:
-        - For Multiple messages in one file (e.g. Multicash). Can be defined as string e.g. -d '$'. If delimiter is set BaFi will return array of mt940 messages
+        - For Multiple messages in one file (e.g. Multicash). Can be defined as string e.g. -d "-\}\r\n" or "\r\n$" . If delimiter is set BaFi will return array of mt940 messages
 - **-v** Show current verion
 - **-?** list available command line arguments
 

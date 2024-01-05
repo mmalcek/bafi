@@ -23,7 +23,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-const version = "1.1.1"
+const version = "1.1.2"
 
 var (
 	luaData *lua.LState
@@ -86,7 +86,7 @@ func processTemplate(params tParams) error {
 	}
 	// Try identify file format by extension. Input parameter -f has priority
 	if *params.inputFormat == "" {
-		switch filepath.Ext(*params.inputFile) {
+		switch strings.ToLower(filepath.Ext(*params.inputFile)) {
 		case ".json":
 			*params.inputFormat = "json"
 		case ".bson":
@@ -251,10 +251,12 @@ func mapInputData(data []byte, params tParams) (interface{}, error) {
 		if *params.inputDelimiter == "" {
 			return mt940.Parse(data)
 		} else {
-			return mt940.ParseMultimessage(data, "\r\n"+*params.inputDelimiter+"\r\n")
+			*params.inputDelimiter = strings.Replace(*params.inputDelimiter, `\r`, "\r", -1)
+			*params.inputDelimiter = strings.Replace(*params.inputDelimiter, `\n`, "\n", -1)
+			return mt940.ParseMultimessage(data, *params.inputDelimiter)
 		}
 	default:
-		return nil, fmt.Errorf("unknown input format: use parameter -f to define input format e.g. -f json (accepted values are json, bson, yaml, csv, xml)")
+		return nil, fmt.Errorf("unknown input format: use parameter -f to define input format e.g. -f json (accepted values are json, bson, yaml, csv, mt940, xml)")
 	}
 }
 
