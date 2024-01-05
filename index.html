@@ -160,6 +160,7 @@
 <ul>
 <li>Various input formats <strong>(json, bson, yaml, csv, xml, mt940)</strong></li>
 <li>Flexible output formatting using text templates</li>
+<li>Output can be anything: HTML page, SQL Query, Shell script, CSV file, ...</li>
 <li>Support for <a href="https://www.lua.org/pil/contents.html">Lua</a> custom functions which allows very flexible data manipulation</li>
 <li>stdin/stdout support which allows get data from source -&gt; translate -&gt; delivery to destination. This allows easily translate data between different web services like <strong>REST to SOAP, SOAP to REST, REST to CSV, ...</strong></li>
 <li>Merge multiple input files in various formats into single output file formated using template</li>
@@ -309,7 +310,7 @@ Hello {{upper .user.name}},
 </ul>
 </li>
 <li>format mt940:<ul>
-<li>For Multiple messages in one file (e.g. Multicash). Can be defined as string e.g. -d '$'. If delimiter is set BaFi will return array of mt940 messages</li>
+<li>For Multiple messages in one file (e.g. Multicash). Can be defined as string e.g. -d "-}\r\n" or "\r\n$" . If delimiter is set BaFi will return array of mt940 messages</li>
 </ul>
 </li>
 </ul>
@@ -572,5 +573,5 @@ end
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2024-01-04 11:21:34.810115+00:00
+Build Date UTC : 2024-01-05 08:42:00.589428+00:00
 -->
