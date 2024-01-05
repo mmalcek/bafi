@@ -153,7 +153,7 @@ note: CSV file must be **[RFC4180](https://datatracker.ietf.org/doc/html/rfc4180
 ### mt940 to CSV
 - mt940 returns simple struct (Header,Fields,[]Transactions) of strings and additional parsing needs to be done in template. This allows full flexibility on data processing
 - Identifiers are prefixed by **"F_"** (e.g. **:20:** = **.Fields.F_20**)
-- if parameter -d (delimiter e.g. -d "-\}\r\n" or "\r\n$") is defined for files with multiple messages (e.g. - Multicash), app returns array of mt940 messages. Delimiter is automaticaly enclosed by new lines "\\r\\n\$\\r\\n".
+- if parameter -d (delimiter e.g. -d "-\}\r\n" or "\r\n$") is defined for files with multiple messages (e.g. - Multicash), app returns array of mt940 messages. 
 - Note: This is actually good place to use integrated [LUA interpreter](/bafi/#lua-custom-functions) where you can create your own set of custom functions to parse data and easily reuse them in templates.
 
 - command
