@@ -153,6 +153,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-level="3"><a href="#chatgpt-query" class="nav-link">ChatGPT query</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-level="3"><a href="#multiple-input-files" class="nav-link">Multiple input files</a>
               <ul class="nav flex-column">
               </ul>
@@ -183,7 +187,7 @@ curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 <p>note: BaFi inline template must start with <strong>?</strong> e.g. <strong>"?{{toJSON .}}"</strong>
 <a href="https://pkg.go.dev/text/template#hdr-Examples">How to format inline templates</a></p>
 <h3 id="stdinrest">Stdin/REST</h3>
-<p>Get data from REST api -&gt; convert to XML -&gt; output to Stdout. </p>
+<p>Get data from REST api -&gt; convert to XML -&gt; output to Stdout.</p>
 <pre><code class="language-sh">curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toXML .}}&quot;
 </code></pre>
 <p>More info about curl <a href="https://curl.se/">here</a> but you can of course use any tool with stdout</p>
@@ -251,7 +255,7 @@ table, th, td { border: 1px solid black; width: 400px; }
 </code></pre>
 <h3 id="json-to-custom-xml">JSON to custom XML</h3>
 <ul>
-<li>command </li>
+<li>command</li>
 </ul>
 <pre><code class="language-sh">curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.xml
 </code></pre>
@@ -270,7 +274,7 @@ table, th, td { border: 1px solid black; width: 400px; }
 </code></pre>
 <h3 id="xml-to-custom-json">XML to custom JSON</h3>
 <ul>
-<li>command </li>
+<li>command</li>
 </ul>
 <pre><code class="language-sh">bafi.exe -i testdata.xml -t myTemplate.tmpl -o output.json
 </code></pre>
@@ -319,7 +323,7 @@ Name: {{.name}}, Surname: {{.surname}}
 <ul>
 <li>mt940 returns simple struct (Header,Fields,[]Transactions) of strings and additional parsing needs to be done in template. This allows full flexibility on data processing</li>
 <li>Identifiers are prefixed by <strong>"F_"</strong> (e.g. <strong>:20:</strong> = <strong>.Fields.F_20</strong>)</li>
-<li>if parameter -d (delimiter e.g. -d "-}\r\n" or "\r\n$") is defined for files with multiple messages (e.g. - Multicash), app returns array of mt940 messages. </li>
+<li>if parameter -d (delimiter e.g. -d "-}\r\n" or "\r\n$") is defined for files with multiple messages (e.g. - Multicash), app returns array of mt940 messages.</li>
 <li>
 <p>Note: This is actually good place to use integrated <a href="/bafi/#lua-custom-functions">LUA interpreter</a> where you can create your own set of custom functions to parse data and easily reuse them in templates.</p>
 </li>
@@ -332,9 +336,9 @@ Name: {{.name}}, Surname: {{.surname}}
 <ul>
 <li>myTemplate.tmpl</li>
 </ul>
-<pre><code>Reference, balance, VS 
+<pre><code>Reference, balance, VS
 {{- $F20 := .Fields.F_20 }}{{ $F60F := .Fields.F_60F }}
-{{range .Transactions }} 
+{{range .Transactions }}
 {{- $vsS := add (indexOf .F_86 &quot;?21&quot;) 3 }} {{- $vsE := add $vsS 17 -}}
 {{- $F20}}, {{$F60F}}, {{slice .F_86 $vsS $vsE}}
 {{ end }}
@@ -365,16 +369,22 @@ Name: {{.name}}, Surname: {{.surname}}
 <pre><code>{{index . &quot;my-key&quot; &quot;subkey&quot;}}
 </code></pre>
 <h3 id="input-autoformat-to-xxx">Input autoformat to XXX</h3>
-<p>Input data can be easily fomated to oher formats by functions <strong>toXML,toJSON,toBSON,toYAML</strong>. In this case its not necesarry add template file because it's as easy as </p>
+<p>Input data can be easily fomated to oher formats by functions <strong>toXML,toJSON,toBSON,toYAML</strong>. In this case its not necesarry add template file because it's as easy as</p>
 <pre><code class="language-sh">curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toXML .}}&quot; -o output.xml
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toJSON .}}&quot; -o output.json
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toBSON .}}&quot; -o output.bson
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toYAML .}}&quot; -o output.yml
 </code></pre>
+<h3 id="chatgpt-query">ChatGPT query</h3>
+<pre><code class="language-sh">curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gk myChatGPTToken -gq &quot;What's the current CZK rate?&quot;
+curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gk myChatGPTToken -gq &quot;format rates to html&quot; -gm gpt4
+./bafi -i invoice.json -gk myChatGPTToken -gq &quot;create XML UBL format invoice&quot; -o invoice.xml
+
+</code></pre>
 <h3 id="multiple-input-files">Multiple input files</h3>
 <p>Bafi can read multiple input files and merge them into one output file. This will require aditional file with files description.
 Description file must be in YAML format as described below and prefixed by question mark <strong>"?"</strong> for examle <strong>bafi.exe -i ?files.yaml</strong></p>
-<p>Example: </p>
+<p>Example:</p>
 <ul>
 <li>batch file which gets the data from multiple sources <strong>myFiles.bat</strong></li>
 </ul>
@@ -402,7 +412,7 @@ curl -s https://goweather.herokuapp.com/weather/prague &gt; pragueWeather.json
     &lt;h3&gt; ECB Exchange rates from: {{dateFormat (index .RATES.Envelope.Cube.Cube &quot;-time&quot;) &quot;2006-01-02&quot; &quot;02.01.2006&quot; }}&lt;/h3&gt;
         &lt;table&gt;
             &lt;tr&gt;&lt;th&gt;currency&lt;/th&gt;&lt;th&gt;rate&lt;/th&gt;
-            {{- range .RATES.Envelope.Cube.Cube.Cube }} 
+            {{- range .RATES.Envelope.Cube.Cube.Cube }}
             &lt;tr&gt;&lt;td&gt;{{index . &quot;-currency&quot; }}&lt;/td&gt;&lt;td&gt;{{index . &quot;-rate&quot; }}&lt;/td&gt;
             {{- end}}
         &lt;/table&gt;

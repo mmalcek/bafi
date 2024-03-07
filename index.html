@@ -152,10 +152,14 @@
 
 <h1 id="bafi">BaFi</h1>
 <p><strong>Universal JSON, BSON, YAML, CSV, XML, mt940 translator to ANY format using templates</strong></p>
-<p><strong>Github repository</strong>
-- <a href="https://github.com/mmalcek/bafi">https://github.com/mmalcek/bafi</a></p>
-<p><strong>Releases (Windows, MAC, Linux)</strong>
-- <a href="https://github.com/mmalcek/bafi/releases">https://github.com/mmalcek/bafi/releases</a></p>
+<p><strong>Github repository</strong></p>
+<ul>
+<li><a href="https://github.com/mmalcek/bafi">https://github.com/mmalcek/bafi</a></li>
+</ul>
+<p><strong>Releases (Windows, MAC, Linux)</strong></p>
+<ul>
+<li><a href="https://github.com/mmalcek/bafi/releases">https://github.com/mmalcek/bafi/releases</a></li>
+</ul>
 <h2 id="key-features">Key features</h2>
 <ul>
 <li>Various input formats <strong>(json, bson, yaml, csv, xml, mt940)</strong></li>
@@ -164,13 +168,14 @@
 <li>Support for <a href="https://www.lua.org/pil/contents.html">Lua</a> custom functions which allows very flexible data manipulation</li>
 <li>stdin/stdout support which allows get data from source -&gt; translate -&gt; delivery to destination. This allows easily translate data between different web services like <strong>REST to SOAP, SOAP to REST, REST to CSV, ...</strong></li>
 <li>Merge multiple input files in various formats into single output file formated using template</li>
+<li>Support chatGPT queries to analyze or format data (experimental)</li>
 </ul>
 <p><img src="img/scheme.svg" style="border: 0;" height="150px" /></p>
 <p><a href="https://github.com/mmalcek/bafi/actions/workflows/go.yml"><img alt="Go" src="https://github.com/mmalcek/bafi/actions/workflows/go.yml/badge.svg" /></a>
 <a href="https://github.com/mmalcek/bafi/actions/workflows/codeql-analysis.yml"><img alt="CodeQL" src="https://github.com/mmalcek/bafi/actions/workflows/codeql-analysis.yml/badge.svg" /></a>
 <a href="https://goreportcard.com/report/github.com/mmalcek/bafi"><img alt="Go Report Card" src="https://goreportcard.com/badge/github.com/mmalcek/bafi" /></a>
 <a href="https://github.com/mmalcek/bafi/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/mmalcek/bafi" /></a>
-<a href="https://github.com/avelino/awesome-go#text-processing"><img alt="Mentioned in Awesome Go" src="https://awesome.re/mentioned-badge.svg" /></a> 
+<a href="https://github.com/avelino/awesome-go#text-processing"><img alt="Mentioned in Awesome Go" src="https://awesome.re/mentioned-badge.svg" /></a>
 <a href="https://github.com/mmalcek/bafi/releases/latest"><img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/mmalcek/bafi?label=latest%20release" /></a></p>
 <!--![GitHub All Releases Downloads](https://img.shields.io/github/downloads/mmalcek/bafi/total)-->
 
@@ -182,16 +187,16 @@
 <p>Application automaticaly parse input data into object which can be simply accessed in tamplate using dot notation where first dot represent root of object <strong>{{ . }}</strong>.</p>
 <p>For example JSON document <strong>myUser.json</strong></p>
 <pre><code class="language-json">{
-    &quot;user&quot;: {
-        &quot;name&quot;: &quot;John Doe&quot;,
-        &quot;age&quot;: 25,
-        &quot;address&quot;: {
-            &quot;street&quot;: &quot;Main Street&quot;,
-            &quot;city&quot;: &quot;New York&quot;,
-            &quot;state&quot;: &quot;NY&quot;
-        },
-        &quot;favourite_colors&quot;: [&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;]
-    }
+  &quot;user&quot;: {
+    &quot;name&quot;: &quot;John Doe&quot;,
+    &quot;age&quot;: 25,
+    &quot;address&quot;: {
+      &quot;street&quot;: &quot;Main Street&quot;,
+      &quot;city&quot;: &quot;New York&quot;,
+      &quot;state&quot;: &quot;NY&quot;
+    },
+    &quot;favourite_colors&quot;: [&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;]
+  }
 }
 </code></pre>
 <ul>
@@ -252,71 +257,64 @@ function getBAFI() {
 <p><strong>Just try it here :)</strong></p>
 <textarea type="text" id="input1" rows="13" cols="40">
 {
-  "user": {
-    "name": "John Doe",
-    "age": 25,
-    "address": {
-        "street": "Main Street",
-        "city": "New York",
-          "state": "NY"
-    },
-    "favourite_colors": ["red", "green", "blue"]
-  }
+"user": {
+"name": "John Doe",
+"age": 25,
+"address": {
+"street": "Main Street",
+"city": "New York",
+"state": "NY"
+},
+"favourite_colors": ["red", "green", "blue"]
+}
 }
 </textarea>
 
 <textarea type="text" id="input2" rows="13" cols="40">
-Hello {{upper .user.name}}, 
+Hello {{upper .user.name}},
 
-  you are {{.user.age}} years old 
-  and live in {{.user.address.city}}, {{.user.address.state}}. 
-  Your favourite colors are:
-{{range .user.favourite_colors}}  {{.}}
+you are {{.user.age}} years old
+and live in {{.user.address.city}}, {{.user.address.state}}.
+Your favourite colors are:
+{{range .user.favourite_colors}} {{.}}
 {{end}}
 </textarea>
 <p><br />
-<select name="format" id="format">
-    <option value="json">JSON</option>
-    <option value="xml">XML</option>
-    <option value="yaml">YAML</option>
-    <option value="csv">CSV</option>
-</select>
+<select name="format" id="format"></p>
+<option value="json">JSON</option>
+<option value="xml">XML</option>
+<option value="yaml">YAML</option>
+<option value="csv">CSV</option>
+<p></select>
 <button type="button" onClick="getBAFI()">Create OUTPUT</button></p>
 <pre style="max-width: 600px; min-height:200px"  id="bafiData"></pre>
 
 <h2 id="command-line-arguments">Command line arguments</h2>
 <ul>
-<li><strong>-i input.xml</strong> Input file name. <ul>
+<li><strong>-i input.xml</strong> Input file name.</li>
 <li>If not defined app tries read stdin</li>
 <li>If prefixed with "?" (<strong>-i ?files.yaml</strong>) app will expect yaml file with multiple files description. See <a href="examples/#multiple-input-files">example</a></li>
-</ul>
-</li>
-<li><strong>-o output.txt</strong> Output file name. <ul>
+<li><strong>-o output.txt</strong> Output file name.</li>
 <li>If not defined result is send to stdout</li>
-</ul>
-</li>
-<li><strong>-t template.tmpl</strong> Template file. Alternatively you can use <em>inline</em> template <ul>
+<li><strong>-t template.tmpl</strong> Template file. Alternatively you can use <em>inline</em> template</li>
 <li>inline template must start with <strong>?</strong> e.g. -t <strong>"?{{.someValue}}"</strong></li>
-</ul>
-</li>
-<li><strong>-f json</strong> Input format. <ul>
+<li><strong>-f json</strong> Input format.</li>
 <li>Supported formats: <strong>json, bson, yaml, csv, xml, mt940</strong></li>
 <li>If not defined (for file input) app tries detect input format automatically by file extension</li>
-</ul>
-</li>
-<li><strong>-d ','</strong> Data delimiter <ul>
+<li><strong>-d ','</strong> Data delimiter</li>
 <li>format CSV:<ul>
-<li>Can be defined as string e.g. -d ',' or as <a href="https://www.asciitable.com/asciifull.gif">hex</a> value prefixed by <strong>0x</strong> e.g. 'TAB' can be defined as -f 0x09. Default delimiter is comma (<strong>,</strong>) </li>
+<li>Can be defined as string e.g. -d ',' or as <a href="https://www.asciitable.com/asciifull.gif">hex</a> value prefixed by <strong>0x</strong> e.g. 'TAB' can be defined as -f 0x09. Default delimiter is comma (<strong>,</strong>)</li>
 </ul>
 </li>
 <li>format mt940:<ul>
 <li>For Multiple messages in one file (e.g. Multicash). Can be defined as string e.g. -d "-}\r\n" or "\r\n$" . If delimiter is set BaFi will return array of mt940 messages</li>
 </ul>
 </li>
-</ul>
-</li>
 <li><strong>-v</strong> Show current verion</li>
 <li><strong>-?</strong> list available command line arguments</li>
+<li><strong>-gk myChatGPTToken</strong> - ChatGPT token</li>
+<li><strong>-gq "What's the current CZK rate?"</strong> - ChatGPT query</li>
+<li><strong>-gm gpt35</strong> - ChatGPT model. Currently supportsed options "gpt35"(default), "gpt4"</li>
 </ul>
 <pre><code class="language-sh">bafi.exe -i testdata.xml -t template.tmpl -o output.txt
 </code></pre>
@@ -335,12 +333,12 @@ Hello {{upper .user.name}},
 <h3 id="accessing-data">Accessing data</h3>
 <p>Data are accessible by <em>pipline</em> which is represented by dot</p>
 <ul>
-<li>Simplest template </li>
+<li>Simplest template</li>
 </ul>
 <pre><code>{{.}}
 </code></pre>
 <ul>
-<li>Get data form inner node </li>
+<li>Get data form inner node</li>
 </ul>
 <pre><code>{{.TOP_LEVEL}}
 </code></pre>
@@ -363,23 +361,23 @@ Hello {{upper .user.name}},
 <p>Iterate over lines</p>
 <pre><code>{{range .TOP_LEVEL.DATA_LINE}}{{.val1}}{{end}}
 </code></pre>
-<p>If statement </p>
+<p>If statement</p>
 <pre><code>{{if gt (int $val1) (int $val2)}}Value1{{else}}Value2{{end}} is greater
 </code></pre>
 <h3 id="functions">Functions</h3>
 <p>In go templates all operations are done by functions where function name is followed by operands</p>
-<p>For example: </p>
+<p>For example:</p>
 <p>count val1+val2</p>
 <pre><code>{{add $val1 $val2}}
 </code></pre>
 <p>count (val1+val2)/val3</p>
 <pre><code>{{div (add $val1 $val2) $val3}}
 </code></pre>
-<p>This is called <a href="https://en.wikipedia.org/wiki/Polish_notation">Polish notation</a> or "Prefix notation" also used in another languages like <a href="https://en.wikipedia.org/wiki/Lisp_(programming_language)">Lisp</a> </p>
+<p>This is called <a href="https://en.wikipedia.org/wiki/Polish_notation">Polish notation</a> or "Prefix notation" also used in another languages like <a href="https://en.wikipedia.org/wiki/Lisp_(programming_language)">Lisp</a></p>
 <p>The key benefit of using this notation is that order of operations is clear. For example <strong>6/2*(1+2)</strong> - even diferent calculators may have different opinion on order of operations in this case. With Polish notation order of operations is strictly defined (from inside to outside) <strong>div 6 (mul 2 (add 1 2))</strong> . This brings benefits with increasing number of operations especially in templates where math and non-math operations can be mixed together.</p>
-<p><img src="img/calc.jpg" height="160px"> </p>
+<p><img src="img/calc.jpg" height="160px"></p>
 <p>For example we have json array of items numbered from <strong>0</strong></p>
-<pre><code class="language-json">{&quot;items&quot;: [&quot;item-0&quot;,&quot;item-1&quot;,&quot;item-2&quot;,&quot;item-3&quot;]}
+<pre><code class="language-json">{ &quot;items&quot;: [&quot;item-0&quot;, &quot;item-1&quot;, &quot;item-2&quot;, &quot;item-3&quot;] }
 </code></pre>
 <p>We need change items numbering to start with <strong>1</strong>. To achieve this we have to do series of operations: 1. trim prefix "item-" -&gt; 2. convert to int -&gt; 3. add 1 -&gt; 4. convert to string -&gt; 5. append "item-" for all items in range. This can be done in one line</p>
 <pre><code>{{ range .items }}{{ print &quot;item-&quot; (toString (add1 (toInt (trimPrefix . &quot;item-&quot;)))) }} {{ end }}
@@ -390,7 +388,7 @@ Hello {{upper .user.name}},
 <p>but BaFi also tries automaticaly cast variables so the shortest option is</p>
 <pre><code>{{range .items}}{{print &quot;item-&quot; (add1 (trimPrefix . &quot;item-&quot;))}} {{end}}
 </code></pre>
-<p>Expected result: <strong>item-1 item-2 item-3 item-4</strong> </p>
+<p>Expected result: <strong>item-1 item-2 item-3 item-4</strong></p>
 <p>There are 3 categories of functions</p>
 <h4 id="native-functions">Native functions</h4>
 <p>text/template integrates <a href="https://pkg.go.dev/text/template#hdr-Functions">native functions</a> to work with data</p>
@@ -418,15 +416,11 @@ Hello {{upper .user.name}},
 </ul>
 <h5 id="date-functions">Date functions</h5>
 <ul>
-<li><strong>dateFormat</strong> - {{dateFormat .Value "oldFormat" "newFormat"}} - <a href="https://programming.guide/go/format-parse-string-time-date-example.html">GO time format</a><ul>
+<li><strong>dateFormat</strong> - {{dateFormat .Value "oldFormat" "newFormat"}} - <a href="https://programming.guide/go/format-parse-string-time-date-example.html">GO time format</a></li>
 <li>{{dateFormat "2021-08-26T22:14:00" "2006-01-02T15:04:05" "02.01.2006-15:04"}}</li>
-</ul>
-</li>
-<li><strong>dateFormatTZ</strong> - {{dateFormatTZ .Value "oldFormat" "newFormat" "timeZone"}} <ul>
+<li><strong>dateFormatTZ</strong> - {{dateFormatTZ .Value "oldFormat" "newFormat" "timeZone"}}</li>
 <li>This fuction is similar to dateFormat but applies timezone offset - <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">Timezones</a></li>
 <li>{{dateFormatTZ "2021-08-26T03:35:00.000+04:00" "2006-01-02T15:04:05.000-07:00" "02.01.2006-15:04" "Europe/Prague"}}</li>
-</ul>
-</li>
 <li><strong>dateToInt</strong> - {{dateToInt .Value "dateFormat"}} - convert date to integer (unixtime, int64), usefull for comparing dates</li>
 <li><strong>intToDate</strong> - {{intToDate .Value "dateFormat"}} - convert integer (unixtime, int64) to date, usefull for comparing dates</li>
 <li><strong>now</strong> - {{now "02.01.2006"}} - GO format date (see notes below)</li>
@@ -456,12 +450,12 @@ Hello {{upper .user.name}},
 <li><strong>trimSuffix</strong> - {{trimSuffix "!Hello World!" "!"}} - returns "!HelloWorld"</li>
 <li><strong>mapJSON</strong> - convert stringified JSON to map so it can be used as object or translated to other formats (e.g. "toXML"). Check template.tmpl for example</li>
 <li><strong>mustArray</strong> - {{mustArray .Value1}} - convert to array. Useful with XML where single node is not treated as array</li>
-<li><strong>toBool</strong> - {{toBool "true"}} - string to bool </li>
+<li><strong>toBool</strong> - {{toBool "true"}} - string to bool</li>
 <li><strong>toDecimal</strong> - {{toDecimal "3.14159"}} - cast to decimal (if error return 0)</li>
 <li><strong>toDecimalString</strong> - {{toDecimalString "3.14159"}} - cast to decimal string (if error return "error message")</li>
 <li><strong>toFloat64</strong> - {{float64 "3.14159"}} - cast to float64</li>
-<li><strong>toInt</strong> - {{int true}} - cast to int. Result will be 1. If you need convert string with leading zeroes use "atoi" </li>
-<li><strong>toInt64</strong> - {{int64 "42"}} - cast to int64. Result will be 42. If you need convert string with leading zeroes use "atoi" </li>
+<li><strong>toInt</strong> - {{int true}} - cast to int. Result will be 1. If you need convert string with leading zeroes use "atoi"</li>
+<li><strong>toInt64</strong> - {{int64 "42"}} - cast to int64. Result will be 42. If you need convert string with leading zeroes use "atoi"</li>
 <li><strong>toString</strong> - {{toString 42}} - int to string</li>
 <li><strong>toJSON</strong> - convert input object to JSON</li>
 <li><strong>toBSON</strong> - convert input object to BSON</li>
@@ -485,7 +479,7 @@ Hello {{upper .user.name}},
 <p>Minimal functions.lua example</p>
 <pre><code class="language-lua">json = require './lua/json'
 
-function sum(incomingData) 
+function sum(incomingData)
     dataTable = json.decode(incomingData)
     return tostring(tonumber(dataTable[1]) + tonumber(dataTable[2]))
 end
@@ -573,5 +567,5 @@ end
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2024-01-05 14:58:22.852856+00:00
+Build Date UTC : 2024-03-07 09:39:49.299539+00:00
 -->
