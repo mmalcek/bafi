@@ -17,6 +17,10 @@ func TestProcessTemplate(t *testing.T) {
 	outputFile := ""
 	textTemplate := `?{{define content}}`
 	getVersion := false
+	chatGPTkey := ""
+	chatGPTmodel := ""
+	chatGPTquery := ""
+
 	params := tParams{
 		inputFile:      &inputFile,
 		inputFormat:    &inputFormat,
@@ -24,6 +28,9 @@ func TestProcessTemplate(t *testing.T) {
 		outputFile:     &outputFile,
 		textTemplate:   &textTemplate,
 		getVersion:     &getVersion,
+		chatGPTkey:     &chatGPTkey,
+		chatGPTmodel:   &chatGPTmodel,
+		chatGPTquery:   &chatGPTquery,
 	}
 	err := processTemplate(params)
 	if !strings.Contains(err.Error(), "stdin: Error-noPipe") {

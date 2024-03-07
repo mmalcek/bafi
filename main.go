@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"encoding/csv"
 	"encoding/hex"
 	"encoding/json"
@@ -18,12 +19,13 @@ import (
 
 	"github.com/clbanning/mxj/v2"
 	"github.com/mmalcek/mt940"
+	"github.com/sashabaranov/go-openai"
 	lua "github.com/yuin/gopher-lua"
 	"go.mongodb.org/mongo-driver/bson"
 	"gopkg.in/yaml.v3"
 )
 
-const version = "1.1.2"
+const version = "1.2.0"
 
 var (
 	luaData *lua.LState
@@ -36,6 +38,9 @@ type tParams struct {
 	inputFormat    *string
 	inputDelimiter *string
 	getVersion     *bool
+	chatGPTkey     *string
+	chatGPTmodel   *string
+	chatGPTquery   *string
 }
 
 func init() {
@@ -60,6 +65,9 @@ func main() {
 		inputFormat:    flag.String("f", "", "input format: json, bson, yaml, csv, mt940, xml(default)"),
 		inputDelimiter: flag.String("d", "", "input delimiter: CSV only, default is comma -d ';' or -d 0x09"),
 		getVersion:     flag.Bool("v", false, "show version (Project page: https://github.com/mmalcek/bafi)"),
+		chatGPTkey:     flag.String("gk", "", "OpenAI API key"),
+		chatGPTmodel:   flag.String("gm", "gpt35", "OpenAI GPT-3 model (gpt35, gpt4)"),
+		chatGPTquery:   flag.String("gq", "", "OpenAI query"),
 	}
 	flag.Parse()
 
@@ -76,7 +84,7 @@ func processTemplate(params tParams) error {
 		fmt.Printf("Version: %s\r\nProject page: https://github.com/mmalcek/bafi\r\n", version)
 		return nil
 	}
-	if *params.textTemplate == "" {
+	if *params.textTemplate == "" && *params.chatGPTkey == "" {
 		fmt.Println("template file must be defined: -t template.tmpl")
 		return nil
 	}
@@ -124,6 +132,29 @@ func processTemplate(params tParams) error {
 			return err
 		}
 	}
+
+	if *params.chatGPTkey != "" {
+		if *params.chatGPTquery == "" {
+			fmt.Println("OpenAI query must be defined: -gq \"What is the weather like?\"")
+			return nil
+		}
+		response, err := chatGPTprocess(mapData, params)
+		if err != nil {
+			return err
+		}
+		if *params.outputFile == "" {
+			fmt.Println(response.Choices[0].Message.Content)
+		} else {
+			output, err := os.Create(*params.outputFile)
+			if err != nil {
+				return fmt.Errorf("createOutputFile: %s", err.Error())
+			}
+			defer output.Close()
+			output.WriteString(response.Choices[0].Message.Content)
+		}
+		return nil
+	}
+
 	templateFile, err := readTemplate(*params.textTemplate)
 	if err != nil {
 		return err
@@ -314,6 +345,36 @@ func writeOutputData(mapData interface{}, outputFile *string, templateFile []byt
 		}
 	}
 	return nil
+}
+
+func chatGPTprocess(mapData interface{}, params tParams) (response openai.ChatCompletionResponse, err error) {
+	jsonData, err := json.Marshal(mapData)
+	if err != nil {
+		return response, fmt.Errorf("jsonMarshal: %s", err.Error())
+	}
+	model := openai.GPT3Dot5Turbo
+	switch *params.chatGPTmodel {
+	case "gpt35":
+		model = openai.GPT3Dot5Turbo
+	case "gpt4":
+		model = openai.GPT4
+	default:
+		model = openai.GPT3Dot5Turbo
+	}
+
+	client := openai.NewClient(*params.chatGPTkey)
+	return client.CreateChatCompletion(
+		context.Background(),
+		openai.ChatCompletionRequest{
+			Model: model,
+			Messages: []openai.ChatCompletionMessage{
+				{
+					Role:    openai.ChatMessageRoleUser,
+					Content: *params.chatGPTquery + "\n" + string(jsonData),
+				},
+			},
+		},
+	)
 }
 
 // cleanBOM remove UTF-8 Byte Order Mark if present
