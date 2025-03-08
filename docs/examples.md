@@ -276,6 +276,7 @@ curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t "?{{toY
 ```sh
 curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gk myChatGPTToken -gq "What's the current CZK rate?"
 curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gk myChatGPTToken -gq "format rates to html" -gm gpt4
+curl -s "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m&past_days=7&forecast_days=0" | ./bafi -f json -gk "myChatGPTToken" -gm gpt4o-mini -gq "Create forecast for next 2 days based on provided data"
 ./bafi -i invoice.json -gk myChatGPTToken -gq "create XML UBL format invoice" -o invoice.xml
 
 ```

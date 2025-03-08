@@ -38,6 +38,7 @@ type tParams struct {
 	inputFormat    *string
 	inputDelimiter *string
 	getVersion     *bool
+	getHelp        *bool
 	chatGPTkey     *string
 	chatGPTmodel   *string
 	chatGPTquery   *string
@@ -65,6 +66,7 @@ func main() {
 		inputFormat:    flag.String("f", "", "input format: json, bson, yaml, csv, mt940, xml(default)"),
 		inputDelimiter: flag.String("d", "", "input delimiter: CSV only, default is comma -d ';' or -d 0x09"),
 		getVersion:     flag.Bool("v", false, "show version (Project page: https://github.com/mmalcek/bafi)"),
+		getHelp:        flag.Bool("h", false, "show help"),
 		chatGPTkey:     flag.String("gk", "", "OpenAI API key"),
 		chatGPTmodel:   flag.String("gm", "gpt35", "OpenAI GPT-3 model (gpt35, gpt4)"),
 		chatGPTquery:   flag.String("gq", "", "OpenAI query"),
@@ -82,6 +84,11 @@ func main() {
 func processTemplate(params tParams) error {
 	if *params.getVersion {
 		fmt.Printf("Version: %s\r\nProject page: https://github.com/mmalcek/bafi\r\n", version)
+		return nil
+	}
+	if *params.getHelp {
+		fmt.Println("Usage: bafi -i input.json -t template.tmpl -o output.txt")
+		flag.PrintDefaults()
 		return nil
 	}
 	if *params.textTemplate == "" && *params.chatGPTkey == "" {
@@ -358,6 +365,10 @@ func chatGPTprocess(mapData interface{}, params tParams) (response openai.ChatCo
 		model = openai.GPT3Dot5Turbo
 	case "gpt4":
 		model = openai.GPT4
+	case "gpt4o":
+		model = openai.GPT4o
+	case "gpt4o-mini":
+		model = openai.GPT4oMini
 	default:
 		model = openai.GPT3Dot5Turbo
 	}

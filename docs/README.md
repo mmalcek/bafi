@@ -180,10 +180,10 @@ Your favourite colors are:
   - format mt940:
     - For Multiple messages in one file (e.g. Multicash). Can be defined as string e.g. -d "-\}\r\n" or "\r\n$" . If delimiter is set BaFi will return array of mt940 messages
 - **-v** Show current verion
-- **-?** list available command line arguments
+- **-h** list available command line arguments
 - **-gk myChatGPTToken** - ChatGPT token
 - **-gq "What's the current CZK rate?"** - ChatGPT query
-- **-gm gpt35** - ChatGPT model. Currently supportsed options "gpt35"(default), "gpt4"
+- **-gm gpt35** - ChatGPT model. Currently supportsed options "gpt35"(default), "gpt4", "gpt4o", "gpt4o-mini"
 
 ```sh
 bafi.exe -i testdata.xml -t template.tmpl -o output.txt
