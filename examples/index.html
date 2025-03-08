@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,9 +10,13 @@
         <link rel="shortcut icon" href="../img/favicon.ico">
         <title>Examples - BaFi</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
-        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/lua.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/powershell.min.js"></script>
@@ -32,7 +36,7 @@
             <div class="container">
                 <a class="navbar-brand" href="..">BaFi</a>
                 <!-- Expander button -->
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -40,20 +44,20 @@
                 <div id="navbar-collapse" class="navbar-collapse collapse">
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
-                            <li class="navitem">
+                            <li class="nav-item">
                                 <a href=".." class="nav-link">Application</a>
                             </li>
-                            <li class="navitem active">
-                                <a href="./" class="nav-link">Examples</a>
+                            <li class="nav-item">
+                                <a href="./" class="nav-link active" aria-current="page">Examples</a>
                             </li>
-                            <li class="navitem">
+                            <li class="nav-item">
                                 <a href="../about/" class="nav-link">About</a>
                             </li>
                         </ul>
 
-                    <ul class="nav navbar-nav ml-auto">
+                    <ul class="nav navbar-nav ms-md-auto">
                         <li class="nav-item">
-                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
@@ -74,90 +78,90 @@
 
         <div class="container">
             <div class="row">
-                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
             <span class="fa fa-angle-down"></span>
         </button>
     </div>
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#examples" class="nav-link">Examples</a>
+            <li class="nav-item" data-bs-level="1"><a href="#examples" class="nav-link">Examples</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#command-line" class="nav-link">Command line</a>
+            <li class="nav-item" data-bs-level="2"><a href="#command-line" class="nav-link">Command line</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="3"><a href="#basic" class="nav-link">Basic</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="3"><a href="#inline-template" class="nav-link">Inline template</a>
+            <li class="nav-item" data-bs-level="3"><a href="#basic" class="nav-link">Basic</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="3"><a href="#stdinrest" class="nav-link">Stdin/REST</a>
+            <li class="nav-item" data-bs-level="3"><a href="#inline-template" class="nav-link">Inline template</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="3"><a href="#append-output-file" class="nav-link">Append output file</a>
+            <li class="nav-item" data-bs-level="3"><a href="#stdinrest" class="nav-link">Stdin/REST</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#append-output-file" class="nav-link">Append output file</a>
               <ul class="nav flex-column">
               </ul>
             </li>
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#template" class="nav-link">Template</a>
+            <li class="nav-item" data-bs-level="2"><a href="#template" class="nav-link">Template</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-level="3"><a href="#xml-to-csv" class="nav-link">XML to CSV</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="3"><a href="#json-to-csv" class="nav-link">JSON to CSV</a>
+            <li class="nav-item" data-bs-level="3"><a href="#xml-to-csv" class="nav-link">XML to CSV</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="3"><a href="#json-to-html" class="nav-link">JSON to HTML</a>
+            <li class="nav-item" data-bs-level="3"><a href="#json-to-csv" class="nav-link">JSON to CSV</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="3"><a href="#json-to-custom-xml" class="nav-link">JSON to custom XML</a>
+            <li class="nav-item" data-bs-level="3"><a href="#json-to-html" class="nav-link">JSON to HTML</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="3"><a href="#xml-to-custom-json" class="nav-link">XML to custom JSON</a>
+            <li class="nav-item" data-bs-level="3"><a href="#json-to-custom-xml" class="nav-link">JSON to custom XML</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="3"><a href="#csv-to-text" class="nav-link">CSV to text</a>
+            <li class="nav-item" data-bs-level="3"><a href="#xml-to-custom-json" class="nav-link">XML to custom JSON</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="3"><a href="#mt940-to-csv" class="nav-link">mt940 to CSV</a>
+            <li class="nav-item" data-bs-level="3"><a href="#csv-to-text" class="nav-link">CSV to text</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="3"><a href="#any-sql-to-xml" class="nav-link">Any SQL to XML</a>
+            <li class="nav-item" data-bs-level="3"><a href="#mt940-to-csv" class="nav-link">mt940 to CSV</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="3"><a href="#mongodump-to-csv" class="nav-link">MongoDump to CSV</a>
+            <li class="nav-item" data-bs-level="3"><a href="#any-sql-to-xml" class="nav-link">Any SQL to XML</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="3"><a href="#dashes-in-key-names" class="nav-link">Dashes in key names</a>
+            <li class="nav-item" data-bs-level="3"><a href="#mongodump-to-csv" class="nav-link">MongoDump to CSV</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="3"><a href="#input-autoformat-to-xxx" class="nav-link">Input autoformat to XXX</a>
+            <li class="nav-item" data-bs-level="3"><a href="#dashes-in-key-names" class="nav-link">Dashes in key names</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="3"><a href="#chatgpt-query" class="nav-link">ChatGPT query</a>
+            <li class="nav-item" data-bs-level="3"><a href="#input-autoformat-to-xxx" class="nav-link">Input autoformat to XXX</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="3"><a href="#multiple-input-files" class="nav-link">Multiple input files</a>
+            <li class="nav-item" data-bs-level="3"><a href="#chatgpt-query" class="nav-link">ChatGPT query</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#multiple-input-files" class="nav-link">Multiple input files</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -378,6 +382,7 @@ curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?
 <h3 id="chatgpt-query">ChatGPT query</h3>
 <pre><code class="language-sh">curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gk myChatGPTToken -gq &quot;What's the current CZK rate?&quot;
 curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gk myChatGPTToken -gq &quot;format rates to html&quot; -gm gpt4
+curl -s &quot;https://api.open-meteo.com/v1/forecast?latitude=52.52&amp;longitude=13.41&amp;hourly=temperature_2m&amp;past_days=7&amp;forecast_days=0&quot; | ./bafi -f json -gk &quot;myChatGPTToken&quot; -gm gpt4o-mini -gq &quot;Create forecast for next 2 days based on provided data&quot;
 ./bafi -i invoice.json -gk myChatGPTToken -gq &quot;create XML UBL format invoice&quot; -o invoice.xml
 
 </code></pre>
@@ -435,8 +440,7 @@ table, th, td { border: 1px solid black; width: 400px; }
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
-        <script src="../js/jquery-3.6.0.min.js"></script>
-        <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/bootstrap.bundle.min.js"></script>
         <script>
             var base_url = "..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
@@ -449,7 +453,7 @@ table, th, td { border: 1px solid black; width: 400px; }
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p>From here you can search these documents. Enter your search terms below.</p>
@@ -469,7 +473,7 @@ table, th, td { border: 1px solid black; width: 400px; }
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <table class="table">
