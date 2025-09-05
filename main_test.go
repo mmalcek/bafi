@@ -17,6 +17,7 @@ func TestProcessTemplate(t *testing.T) {
 	outputFile := ""
 	textTemplate := `?{{define content}}`
 	getVersion := false
+	getHelp := false
 	chatGPTkey := ""
 	chatGPTmodel := ""
 	chatGPTquery := ""
@@ -28,6 +29,7 @@ func TestProcessTemplate(t *testing.T) {
 		outputFile:     &outputFile,
 		textTemplate:   &textTemplate,
 		getVersion:     &getVersion,
+		getHelp:        &getHelp,
 		chatGPTkey:     &chatGPTkey,
 		chatGPTmodel:   &chatGPTmodel,
 		chatGPTquery:   &chatGPTquery,
@@ -200,6 +202,11 @@ func TestMapInputData(t *testing.T) {
 	_, err = mapInputData(input, params)
 	if !strings.Contains(err.Error(), "wrong number of fields") {
 		t.Errorf("result: %v", err.Error())
+	}
+	input = []byte("")
+	_, err = mapInputData(input, params)
+	if err == nil || !strings.Contains(err.Error(), "CSV has no rows") {
+		t.Errorf("result: %v", err)
 	}
 
 	// Test map xml
