@@ -262,11 +262,14 @@ func mapInputData(data []byte, params tParams) (interface{}, error) {
 		return mapData, nil
 	case "csv":
 		var mapData []map[string]interface{}
-		r := csv.NewReader(strings.NewReader(string(data)))
+		r := csv.NewReader(bytes.NewReader(data))
 		r.Comma = prepareDelimiter(*params.inputDelimiter)
 		lines, err := r.ReadAll()
 		if err != nil {
 			return nil, fmt.Errorf("mapCSV: %s", err.Error())
+		}
+		if len(lines) == 0 {
+			return nil, fmt.Errorf("mapCSV: CSV has no rows")
 		}
 		mapData = make([]map[string]interface{}, len(lines[1:]))
 		headers := make([]string, len(lines[0]))
