@@ -146,7 +146,12 @@ func mulf(a interface{}, v ...interface{}) float64 {
 }
 
 // randInt returns random integer in defined range {{randInt min max}} e.g. {{randInt 1 10}}
-func randInt(min, max int) int { return rand.Intn(max-min) + min }
+func randInt(min, max int) int {
+	if max <= min {
+		return min
+	}
+	return rand.Intn(max-min+1) + min
+}
 
 // round float {{round .val 2}} -> 2 decimals or {{round .val 1 0.4}} 0.4 round point
 func round(a interface{}, p int, rOpt ...float64) float64 {

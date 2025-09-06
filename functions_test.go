@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"math/rand"
 	"regexp"
 	"strings"
 	"testing"
@@ -111,9 +112,18 @@ func TestMulf(t *testing.T) {
 }
 
 func TestRandInt(t *testing.T) {
-	result := randInt(50, 55)
-	if result < 50 || result > 55 {
-		t.Errorf("result: %v", result)
+	rand.Seed(1)
+	for i := 0; i < 1000; i++ {
+		result := randInt(50, 55)
+		if result < 50 || result > 55 {
+			t.Errorf("result: %v", result)
+		}
+	}
+	if randInt(5, 5) != 5 {
+		t.Errorf("expected 5, got: %v", randInt(5, 5))
+	}
+	if randInt(10, 5) != 10 {
+		t.Errorf("expected 10, got: %v", randInt(10, 5))
 	}
 }
 
