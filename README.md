@@ -17,6 +17,7 @@
 - stdin/stdout support which allows get data from source -> translate -> delivery to destination. This allows easily translate data between different web services like **REST to SOAP, SOAP to REST, REST to CSV, ...**
 - Merge multiple input files in various formats into single output file formated using template
 - Support chatGPT queries to analyze or format data (experimental)
+- Support Encode to TOON (Token Oriented Object Notation) format. As easy as `./bafi -i input.json -t "?{{ toTOON . }}"`
 
 ## Documentation [https://mmalcek.github.io/bafi/](https://mmalcek.github.io/bafi/)
 
@@ -45,5 +46,5 @@ More examples and description in [documentation](https://mmalcek.github.io/bafi/
 **If you like this app you can buy me a coffe ;)**
 
 <a href='https://ko-fi.com/mmalcek' target='_blank'>
-	<img height='30' style='border:0px;height:40px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' />
+	<img height='20' style='border:0;height:40px;' src='https://storage.ko-fi.com/cdn/brandasset/kofi_button_blue.png' alt='Buy Me a Coffee at ko-fi.com' />
 </a>

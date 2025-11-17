@@ -17,6 +17,7 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/alpkeskin/gotoon"
 	"github.com/clbanning/mxj/v2"
 	"github.com/mmalcek/mt940"
 	"github.com/sashabaranov/go-openai"
@@ -261,27 +262,7 @@ func mapInputData(data []byte, params tParams) (interface{}, error) {
 		}
 		return mapData, nil
 	case "csv":
-		var mapData []map[string]interface{}
-		r := csv.NewReader(bytes.NewReader(data))
-		r.Comma = prepareDelimiter(*params.inputDelimiter)
-		lines, err := r.ReadAll()
-		if err != nil {
-			return nil, fmt.Errorf("mapCSV: %s", err.Error())
-		}
-		if len(lines) == 0 {
-			return nil, fmt.Errorf("mapCSV: CSV has no rows")
-		}
-		mapData = make([]map[string]interface{}, len(lines[1:]))
-		headers := make([]string, len(lines[0]))
-		copy(headers, lines[0])
-		for i, line := range lines[1:] {
-			x := make(map[string]interface{})
-			for j, value := range line {
-				x[headers[j]] = value
-			}
-			mapData[i] = x
-		}
-		return mapData, nil
+		return parseCSV(data, *params.inputDelimiter)
 	case "xml":
 		mapData, err := mxj.NewMapXml(data)
 		if err != nil {
@@ -301,13 +282,37 @@ func mapInputData(data []byte, params tParams) (interface{}, error) {
 	}
 }
 
+func parseCSV(data []byte, delimiter string) ([]map[string]interface{}, error) {
+	var mapData []map[string]interface{}
+	r := csv.NewReader(bytes.NewReader(data))
+	r.Comma = prepareDelimiter(delimiter)
+	lines, err := r.ReadAll()
+	if err != nil {
+		return nil, fmt.Errorf("mapCSV: %s", err.Error())
+	}
+	if len(lines) == 0 {
+		return nil, fmt.Errorf("mapCSV: CSV has no rows")
+	}
+	mapData = make([]map[string]interface{}, len(lines[1:]))
+	headers := make([]string, len(lines[0]))
+	copy(headers, lines[0])
+	for i, line := range lines[1:] {
+		x := make(map[string]interface{})
+		for j, value := range line {
+			x[headers[j]] = value
+		}
+		mapData[i] = x
+	}
+	return mapData, nil
+}
+
 // Delimiter can be defined as string or as HEX value eg. 0x09
 func prepareDelimiter(inputString string) rune {
 	if inputString != "" {
 		if len(inputString) == 4 && inputString[0:2] == "0x" {
 			bytes, err := hex.DecodeString(inputString[2:4])
 			if err != nil {
-				log.Fatalf(fmt.Sprintf("error CSV delimiter: %s", err.Error()))
+				log.Fatalf("error CSV delimiter: %s", err.Error())
 			}
 			return rune(string(bytes)[0])
 		}
@@ -358,7 +363,7 @@ func writeOutputData(mapData interface{}, outputFile *string, templateFile []byt
 }
 
 func chatGPTprocess(mapData interface{}, params tParams) (response openai.ChatCompletionResponse, err error) {
-	jsonData, err := json.Marshal(mapData)
+	jsonData, err := gotoon.Encode(mapData)
 	if err != nil {
 		return response, fmt.Errorf("jsonMarshal: %s", err.Error())
 	}
@@ -372,6 +377,12 @@ func chatGPTprocess(mapData interface{}, params tParams) (response openai.ChatCo
 		model = openai.GPT4o
 	case "gpt4o-mini":
 		model = openai.GPT4oMini
+	case "gpt5":
+		model = openai.GPT5
+	case "gpt5mini":
+		model = openai.GPT5Mini
+	case "gpt5nano":
+		model = openai.GPT5Nano
 	default:
 		model = openai.GPT3Dot5Turbo
 	}

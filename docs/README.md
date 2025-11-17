@@ -19,6 +19,7 @@
 - stdin/stdout support which allows get data from source -> translate -> delivery to destination. This allows easily translate data between different web services like **REST to SOAP, SOAP to REST, REST to CSV, ...**
 - Merge multiple input files in various formats into single output file formated using template
 - Support chatGPT queries to analyze or format data (experimental)
+- Support Encode to TOON (Token Oriented Object Notation) format. As easy as `./bafi -i input.json -t "?{{ toTOON . }}"`
 
 <img src="img/scheme.svg" style="border: 0;" height="150px" />
 
@@ -34,7 +35,7 @@
 **If you like this app you can buy me a coffe ;)**
 
 <a href='https://ko-fi.com/mmalcek' target='_blank'>
-	<img height='40' style='border:0px;height:50px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' />
+	<img height='20' style='border:0;height:40px;' src='https://storage.ko-fi.com/cdn/brandasset/kofi_button_blue.png' alt='Buy Me a Coffee at ko-fi.com' />
 </a>
 
 ## How does it work?
@@ -183,7 +184,7 @@ Your favourite colors are:
 - **-h** list available command line arguments
 - **-gk myChatGPTToken** - ChatGPT token
 - **-gq "What's the current CZK rate?"** - ChatGPT query
-- **-gm gpt35** - ChatGPT model. Currently supportsed options "gpt35"(default), "gpt4", "gpt4o", "gpt4o-mini"
+- **-gm gpt35** - ChatGPT model. Currently supportsed options "gpt35"(default), "gpt4", "gpt4o", "gpt4o-mini, gpt5, gpt5mini, gpt5nano"
 
 ```sh
 bafi.exe -i testdata.xml -t template.tmpl -o output.txt
@@ -391,6 +392,7 @@ Asside of integated functions bafi contains additional common functions
 - **toBSON** - convert input object to BSON
 - **toYAML** - convert input object to YAML
 - **toXML** - convert input object to XML
+- **toTOON** - convert input object to TOON (Token Oriented Object Notation)
 - **trimAll** - {{trimAll "!Hello World!" "!"}} - returns "Hello World"
 - **upper** - to uppercase
 - **uuid** - generate UUID

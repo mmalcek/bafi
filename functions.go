@@ -15,6 +15,7 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/alpkeskin/gotoon"
 	"github.com/clbanning/mxj/v2"
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
@@ -78,6 +79,7 @@ func templateFunctions() template.FuncMap {
 		"toBSON":          toBSON,
 		"toYAML":          toYAML,
 		"toXML":           toXML,
+		"toTOON":          toTOON,
 		"isBool":          isBool,
 		"isInt":           isInt,
 		"isFloat64":       isFloat64,
@@ -451,6 +453,14 @@ func toXML(data interface{}) string {
 
 	}
 	out, err = mxj.AnyXmlIndent(data, "", "  ", "doc")
+	if err != nil {
+		return fmt.Sprintf("err: %s", err.Error())
+	}
+	return string(out)
+}
+
+func toTOON(data interface{}) string {
+	out, err := gotoon.Encode(data)
 	if err != nil {
 		return fmt.Sprintf("err: %s", err.Error())
 	}

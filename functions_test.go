@@ -454,6 +454,14 @@ func TestToXML(t *testing.T) {
 
 }
 
+func TestToTOON(t *testing.T) {
+	testData := map[string]interface{}{"Hello": "World"}
+	result := toTOON(testData)
+	if result != "Hello: World" {
+		t.Fatalf("result: %q", result)
+	}
+}
+
 func TestIsBool(t *testing.T) {
 	if !isBool(true) {
 		t.Errorf("result: %v", true)
