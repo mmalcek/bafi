@@ -19,7 +19,7 @@
 - stdin/stdout support which allows get data from source -> translate -> delivery to destination. This allows easily translate data between different web services like **REST to SOAP, SOAP to REST, REST to CSV, ...**
 - Merge multiple input files in various formats into single output file formated using template
 - Support chatGPT queries to analyze or format data (experimental)
-- Support Encode to TOON (Token Oriented Object Notation) format. As easy as `./bafi -i input.json -t "?{{ toTOON . }}"`
+- Support Encode to **TOON** (Token Oriented Object Notation) format. As easy as `./bafi -i input.json -t "?{{ toTOON . }}"`
 
 <img src="img/scheme.svg" style="border: 0;" height="150px" />
 
