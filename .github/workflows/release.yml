@@ -1,6 +1,8 @@
 name: releaseBuild
 
-on: release
+on:
+  release:
+    types: [published]
 
 jobs:
   update-mkdocs:
