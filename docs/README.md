@@ -177,7 +177,8 @@ Your favourite colors are:
   - If not defined (for file input) app tries detect input format automatically by file extension
 - **-d ','** Data delimiter
   - format CSV:
-    - Can be defined as string e.g. -d ',' or as [hex](https://www.asciitable.com/asciifull.gif) value prefixed by **0x** e.g. 'TAB' can be defined as -f 0x09. Default delimiter is comma (**,**)
+    - Can be defined as a single character e.g. -d ',' or -d '§' (any Unicode character is accepted) or as [hex](https://www.asciitable.com/asciifull.gif) value prefixed by **0x** e.g. 'TAB' can be defined as -d 0x09. Default delimiter is comma (**,**)
+    - If a longer string is passed, only the first character is used
   - format mt940:
     - For Multiple messages in one file (e.g. Multicash). Can be defined as string e.g. -d "-\}\r\n" or "\r\n$" . If delimiter is set BaFi will return array of mt940 messages
 - **-v** Show current verion

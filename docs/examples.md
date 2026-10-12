@@ -195,7 +195,7 @@ Name: {{.name}}, Surname: {{.surname}}
 {{- end}}
 ```
 
-note: CSV file must be **[RFC4180](https://datatracker.ietf.org/doc/html/rfc4180)** compliant, file must have header line and separator must be **comma ( , )**. Or you can use command line argument -d ( e.g. **-d ';'** or **-d 0x09** ) to define separator(delimiter).
+note: CSV file must be **[RFC4180](https://datatracker.ietf.org/doc/html/rfc4180)** compliant and must have a header line. Default separator is **comma ( , )**. Use command line argument -d to define a different separator (delimiter): any single Unicode character, e.g. **-d ';'**, **-d '§'**, or a hex value, e.g. **-d 0x09** for TAB.
 
 ### mt940 to CSV
 
