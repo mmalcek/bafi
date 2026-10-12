@@ -51,6 +51,9 @@
                                 <a href="examples/" class="nav-link">Examples</a>
                             </li>
                             <li class="nav-item">
+                                <a href="changelog/" class="nav-link">Changelog</a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="about/" class="nav-link">About</a>
                             </li>
                         </ul>
@@ -145,6 +148,10 @@
             </li>
               </ul>
             </li>
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#security-notes" class="nav-link">Security notes</a>
+              <ul class="nav flex-column">
               </ul>
             </li>
               </ul>
@@ -308,7 +315,8 @@ Your favourite colors are:
 <li>If not defined (for file input) app tries detect input format automatically by file extension</li>
 <li><strong>-d ','</strong> Data delimiter</li>
 <li>format CSV:<ul>
-<li>Can be defined as string e.g. -d ',' or as <a href="https://www.asciitable.com/asciifull.gif">hex</a> value prefixed by <strong>0x</strong> e.g. 'TAB' can be defined as -f 0x09. Default delimiter is comma (<strong>,</strong>)</li>
+<li>Can be defined as a single character e.g. -d ',' or -d '§' (any Unicode character is accepted) or as <a href="https://www.asciitable.com/asciifull.gif">hex</a> value prefixed by <strong>0x</strong> e.g. 'TAB' can be defined as -d 0x09. Default delimiter is comma (<strong>,</strong>)</li>
+<li>If a longer string is passed, only the first character is used</li>
 </ul>
 </li>
 <li>format mt940:<ul>
@@ -317,10 +325,13 @@ Your favourite colors are:
 </li>
 <li><strong>-v</strong> Show current verion</li>
 <li><strong>-h</strong> list available command line arguments</li>
-<li><strong>-gk myChatGPTToken</strong> - ChatGPT token</li>
-<li><strong>-gq "What's the current CZK rate?"</strong> - ChatGPT query</li>
-<li><strong>-gm gpt35</strong> - ChatGPT model. Currently supportsed options "gpt35"(default), "gpt4", "gpt4o", "gpt4o-mini, gpt5, gpt5mini, gpt5nano"</li>
+<li><strong>-gk myChatGPTToken</strong> - OpenAI API key. Prefer the environment variable <strong>OPENAI_API_KEY</strong> instead: command-line arguments are visible to other local users (<code>ps</code>) and end up in shell history. <code>-gk</code> overrides the environment variable when both are set.</li>
+<li><strong>-gq "What's the current CZK rate?"</strong> - OpenAI query. Enables OpenAI mode (no template needed). The query <strong>and the whole parsed input</strong> are sent to OpenAI, so do not use it with data that must not leave your machine. Fails with an error when no key is available from <code>-gk</code> or <code>OPENAI_API_KEY</code>.</li>
+<li><strong>-gm gpt35</strong> - OpenAI model. Currently supportsed options "gpt35"(default), "gpt4", "gpt4o", "gpt4o-mini, gpt5, gpt5mini, gpt5nano"</li>
 </ul>
+<pre><code class="language-sh">export OPENAI_API_KEY=sk-...
+curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gq &quot;What's the current CZK rate?&quot;
+</code></pre>
 <pre><code class="language-sh">bafi.exe -i testdata.xml -t template.tmpl -o output.txt
 </code></pre>
 <p>More examples <a href="examples/#command-line">here</a></p>
@@ -407,7 +418,7 @@ Your favourite colors are:
 <li><strong>div</strong> - divide</li>
 <li><strong>mod</strong> - modulo</li>
 <li><strong>mul</strong> - multiply</li>
-<li><strong>randInt</strong> - return random integer {{randInt .Min .Max}}</li>
+<li><strong>randInt</strong> - return random integer {{randInt .Min .Max}} (both bounds inclusive). Not cryptographically secure - fine for sampling or test data, never for tokens, passwords or IDs (use <strong>uuid</strong> for identifiers)</li>
 <li><strong>add1f</strong> - "...f" functions parse float but provide <strong>decimal</strong> operations using <a href="https://github.com/shopspring/decimal">shopspring decimal</a></li>
 <li><strong>addf</strong></li>
 <li><strong>subf</strong></li>
@@ -439,6 +450,7 @@ Your favourite colors are:
 <li><strong>b32enc</strong> - oncode to base32</li>
 <li><strong>b32dec</strong> - decode from base32</li>
 <li><strong>contains</strong> - check if string contains substring e.g. {{contains "aaxbb" "xb"}}</li>
+<li><strong>csvSafe</strong> - {{csvSafe .Value}} - protect generated CSV against spreadsheet formula injection: a value starting with <strong>=</strong>, <strong>+</strong>, <strong>-</strong>, <strong>@</strong>, TAB or CR is prefixed with a single quote (<code>'</code>) so Excel/LibreOffice treat it as text, e.g. {{csvSafe "=HYPERLINK(...)"}} -&gt; <code>'=HYPERLINK(...)</code>. Plain numbers such as <code>-5</code> or <code>+3.14</code> are left untouched. See <a href="#security-notes">Security notes</a></li>
 <li><strong>indexOf</strong> - {{indexOf "aaxbb" "xb"}} - returns indexOf first char of substring in string</li>
 <li><strong>isArray</strong> - {{isArray .Value1}} - check if value is array</li>
 <li><strong>isBool</strong> - {{isBool .Value1}} - check if value is bool</li>
@@ -448,7 +460,7 @@ Your favourite colors are:
 <li><strong>isMap</strong> - {{isMap .Value1}} - check if value is map</li>
 <li><strong>regexMatch</strong> - {{regexMatch pattern .Value1}} more about go <a href="https://gobyexample.com/regular-expressions">regex</a></li>
 <li><strong>replaceAll</strong> - {{replaceAll "oldValue" "newValue" .Value}} - replace all occurences of "oldValue" with "newValue" e.g. {{replaceAll "x" "Z" "aaxbb"}} -&gt; "aaZbb"</li>
-<li><strong>replaceAllRegex</strong> - {{replaceAllRegex "regex" "newValue" .Value}} - replace all occurences of "regex" with "newValue" e.g. {{replaceAllRegex "[a-d]", "Z" "aaxbb"}} -&gt; "ZZxZZ"</li>
+<li><strong>replaceAllRegex</strong> - {{replaceAllRegex "regex" "newValue" .Value}} - replace all occurences of "regex" with "newValue" e.g. {{replaceAllRegex "[a-d]", "Z" "aaxbb"}} -&gt; "ZZxZZ". An invalid regex aborts the template with <code>error calling replaceAllRegex: ...</code></li>
 <li><strong>lower</strong> - to lowercase</li>
 <li><strong>trim</strong> - remove leading and trailing whitespace</li>
 <li><strong>trimPrefix</strong> - {{trimPrefix "!Hello World!" "!"}} - returns "Hello World!"</li>
@@ -481,6 +493,7 @@ Your favourite colors are:
 <li>Output must be passed as string</li>
 <li>lua table array starts with 1</li>
 <li>Lua <a href="http://www.lua.org/manual/5.1/">documentation</a></li>
+<li><strong>Security note:</strong> <code>./lua/functions.lua</code> is executable code. It is loaded from the current working directory the first time a template calls <code>lua</code>, and runs with the permissions of the bafi process. Only use a <code>lua/</code> directory and templates you trust. Process-level functions are not available (<code>os.execute</code>, <code>os.exit</code>, <code>os.remove</code>, <code>os.rename</code>, <code>os.tmpname</code>, <code>io.popen</code>); the rest of the Lua standard library (<code>os.date</code>, <code>os.time</code>, <code>io.open</code>, <code>require</code>, ...) works normally.</li>
 </ul>
 <p>Minimal functions.lua example</p>
 <pre><code class="language-lua">json = require './lua/json'
@@ -490,7 +503,17 @@ function sum(incomingData)
     return tostring(tonumber(dataTable[1]) + tonumber(dataTable[2]))
 end
 </code></pre>
-<p>Check <a href="examples/">examples</a> and <strong>template.tmpl</strong> and <strong>testdata.xml</strong> for advanced examples</p></div>
+<p>Check <a href="examples/">examples</a> and <strong>template.tmpl</strong> and <strong>testdata.xml</strong> for advanced examples</p>
+<h2 id="security-notes">Security notes</h2>
+<p>BaFi is a local formatter: whoever controls the template controls the output. Keep these points in mind when you embed it in automation.</p>
+<ul>
+<li><strong>Templates and <code>./lua/functions.lua</code> are trusted code.</strong> A template can call any built-in function and any Lua function, so never run templates or a <code>lua/</code> directory from an untrusted source. Only input data is treated as data: values from the input can never inject template directives. See the Lua note above for what the Lua sandbox does and does not restrict.</li>
+<li><strong>No output escaping.</strong> BaFi uses Go <code>text/template</code>, which writes values verbatim. If the output is HTML, SQL, shell, XML or JSON, a value containing quotes, <code>&lt;</code> or <code>;</code> goes straight through. Use <strong>toJSON</strong>, <strong>toXML</strong>, <strong>toYAML</strong> or <strong>toTOON</strong> to produce structured output from data instead of building it by string concatenation, and escape values yourself for any other target format.</li>
+<li><strong>CSV formula injection.</strong> Spreadsheet software evaluates cells starting with <code>=</code>, <code>+</code>, <code>-</code>, <code>@</code>, TAB or CR. If your CSV output is opened in Excel/LibreOffice and the input is not under your control, wrap the values with <strong>csvSafe</strong>.</li>
+<li><strong>OpenAI mode sends your data away.</strong> With <code>-gq</code> the query and the <strong>entire parsed input</strong> are sent to OpenAI. Pass the key through the <code>OPENAI_API_KEY</code> environment variable rather than <code>-gk</code>, so it does not show up in process listings and shell history.</li>
+<li><strong>randInt is not a secure random source.</strong> Use <strong>uuid</strong> (backed by <code>crypto/rand</code>) for identifiers; never derive secrets from <code>randInt</code>.</li>
+<li><strong>Error messages are verbose on purpose.</strong> They include file paths and parser details (e.g. the offending YAML snippet) to make debugging easy. Keep that in mind if stderr ends up in shared logs.</li>
+</ul></div>
             </div>
         </div>
 
@@ -572,5 +595,5 @@ end
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2025-11-17 20:39:39.677348+00:00
+Build Date UTC : 2026-10-12 13:04:07.197721+00:00
 -->

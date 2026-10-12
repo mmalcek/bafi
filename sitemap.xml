@@ -2,14 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://mmalcek.github.io/bafi/</loc>
-         <lastmod>2025-11-17</lastmod>
+         <lastmod>2026-10-12</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/about/</loc>
-         <lastmod>2025-11-17</lastmod>
+         <lastmod>2026-10-12</lastmod>
+    </url>
+    <url>
+         <loc>https://mmalcek.github.io/bafi/changelog/</loc>
+         <lastmod>2026-10-12</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/examples/</loc>
-         <lastmod>2025-11-17</lastmod>
+         <lastmod>2026-10-12</lastmod>
     </url>
 </urlset>

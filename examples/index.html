@@ -51,6 +51,9 @@
                                 <a href="./" class="nav-link active" aria-current="page">Examples</a>
                             </li>
                             <li class="nav-item">
+                                <a href="../changelog/" class="nav-link">Changelog</a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="../about/" class="nav-link">About</a>
                             </li>
                         </ul>
@@ -67,7 +70,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../about/" class="nav-link">
+                                <a rel="next" href="../changelog/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -322,7 +325,7 @@ John,&quot;Jack Doe&quot;
 Name: {{.name}}, Surname: {{.surname}}
 {{- end}}
 </code></pre>
-<p>note: CSV file must be <strong><a href="https://datatracker.ietf.org/doc/html/rfc4180">RFC4180</a></strong> compliant, file must have header line and separator must be <strong>comma ( , )</strong>. Or you can use command line argument -d ( e.g. <strong>-d ';'</strong> or <strong>-d 0x09</strong> ) to define separator(delimiter).</p>
+<p>note: CSV file must be <strong><a href="https://datatracker.ietf.org/doc/html/rfc4180">RFC4180</a></strong> compliant and must have a header line. Default separator is <strong>comma ( , )</strong>. Use command line argument -d to define a different separator (delimiter): any single Unicode character, e.g. <strong>-d ';'</strong>, <strong>-d '§'</strong>, or a hex value, e.g. <strong>-d 0x09</strong> for TAB.</p>
 <h3 id="mt940-to-csv">mt940 to CSV</h3>
 <ul>
 <li>mt940 returns simple struct (Header,Fields,[]Transactions) of strings and additional parsing needs to be done in template. This allows full flexibility on data processing</li>
@@ -380,6 +383,12 @@ curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?
 curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toYAML .}}&quot; -o output.yml
 </code></pre>
 <h3 id="chatgpt-query">ChatGPT query</h3>
+<p>The API key can come from the <strong>OPENAI_API_KEY</strong> environment variable (recommended, keeps the key out of <code>ps</code> output and shell history) or from <code>-gk</code>. The query and the whole parsed input are sent to OpenAI.</p>
+<pre><code class="language-sh">export OPENAI_API_KEY=sk-...
+curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gq &quot;What's the current CZK rate?&quot;
+./bafi -i invoice.json -gq &quot;create XML UBL format invoice&quot; -o invoice.xml
+</code></pre>
+<p>or with the key on the command line:</p>
 <pre><code class="language-sh">curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gk myChatGPTToken -gq &quot;What's the current CZK rate?&quot;
 curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gk myChatGPTToken -gq &quot;format rates to html&quot; -gm gpt4
 curl -s &quot;https://api.open-meteo.com/v1/forecast?latitude=52.52&amp;longitude=13.41&amp;hourly=temperature_2m&amp;past_days=7&amp;forecast_days=0&quot; | ./bafi -f json -gk &quot;myChatGPTToken&quot; -gm gpt4o-mini -gq &quot;Create forecast for next 2 days based on provided data&quot;
@@ -399,13 +408,13 @@ curl -s https://goweather.herokuapp.com/weather/prague &gt; pragueWeather.json
 <ul>
 <li>Files description <strong>myFiles.yaml</strong></li>
 </ul>
-<pre><code class="language-yaml">- file: ./ecbRates.xml # file path
-  format: xml # File format
-  label: RATES # Label which will be used in the template {{ .RATES }}
+<pre><code class="language-yaml">- file: ./ecbRates.xml # file path (required)
+  format: xml # File format (optional - detected from the file extension when omitted)
+  label: RATES # Label which will be used in the template {{ .RATES }} (required)
 - file: ./pragueWeather.json
-  format: json
-  label: WEATHER
+  label: WEATHER # format omitted -&gt; &quot;json&quot; from the .json extension
 </code></pre>
+<p>A record with a missing or wrongly typed key (e.g. <code>file: 123</code>) is reported as <code>fileList[&lt;index&gt;]: ...</code> instead of aborting with a stack trace.</p>
 <ul>
 <li>Template file <strong>myTemplate.tmpl</strong> which will generate simple HTML page with data</li>
 </ul>
