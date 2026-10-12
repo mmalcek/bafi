@@ -462,6 +462,38 @@ JSON numbers are numbers (`float64`), while CSV and XML values are always text. 
 function expects something else: `{{upper (toString .count)}}`, `{{add (toInt .qty) 1}}`. `range` needs a
 list: an XML element that occurs once is not a list, wrap it with `mustArray`.
 
+The same applies to comparisons, where it is easy to miss: a number written in the template is an
+integer, a JSON or YAML number is a `float64`, and the two cannot be compared directly.
+
+<!-- test:cmd -->
+```sh
+bafi -i data.json -t '?{{if gt .count 2}}many{{end}}'
+```
+
+<!-- test:stderr -->
+```
+bafi: template error in the inline template (line 1, column 6)
+
+  1 | {{if gt .count 2}}many{{end}}
+    |      ^
+  error calling gt: incompatible types for comparison: float64 and int (at <gt .count 2>)
+
+hint: numbers from JSON and YAML are float64, numbers written in the template are int; write the number with a decimal point (2.0) or convert the value: (toInt .count)
+docs: https://mmalcek.github.io/bafi/troubleshooting/#wrong-type
+```
+
+Write the number with a decimal point, or convert the value:
+
+<!-- test:cmd -->
+```sh
+bafi -i data.json -t '?{{if gt .count 2.0}}many{{end}} / {{if gt (toInt .count) 2}}many{{end}}'
+```
+
+<!-- test:output -->
+```
+many / many
+```
+
 ### Missing keys and `<no value>`
 
 A key that is not in the input prints `<no value>`. bafi keeps the output but warns:

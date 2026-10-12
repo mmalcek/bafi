@@ -30,8 +30,12 @@ Rows marked `*` change on every run.
 | **maxf** - largest number | `{{maxf 1.5 2.25}}` | `2.25` |
 | **minf** - smallest number | `{{minf 1.5 2.25}}` | `1.5` |
 | **randInt** - random integer, both bounds included | `{{randInt 1 6}}` | * |
+| **mul** on a decimal value - the decimals are dropped | `{{mul "12.50" 2}}` | `24` |
+| **mulf** on the same value | `{{mulf "12.50" 2}}` | `25` |
 
-The `...f` functions calculate with exact decimals ([shopspring/decimal](https://github.com/shopspring/decimal)),
+`add`, `add1`, `sub`, `mul`, `div`, `mod`, `max` and `min` work with whole numbers and silently drop
+decimals, as the `mul` row shows; use them for counts and IDs. For prices, rates and anything else with
+decimals use the `...f` functions. The `...f` functions calculate with exact decimals ([shopspring/decimal](https://github.com/shopspring/decimal)),
 so `addf 0.1 0.2` is `0.3`, not `0.30000000000000004`. `randInt` is not cryptographically secure; never
 use it for tokens or passwords (use `uuid` for identifiers).
 

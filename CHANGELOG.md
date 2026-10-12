@@ -4,6 +4,19 @@ Release notes for bafi. Each release is a level-2 heading (`## X.Y.Z`) matching
 `version.txt`. `task release` extracts the matching section as the GitHub release
 body and refuses to tag if the section is missing. Newest release first.
 
+## 1.5.1
+
+### Fixed
+
+- Comparing values of different types, the classic `{{if gt .count 2}}` with a
+  JSON number (`float64` against the template's `int`) or a CSV text value
+  against a number, now explains the cause and the fix (`2.0` or
+  `(toInt .count)`) instead of a generic hint. Comparing a list or an object,
+  and a comparison with a missing argument, get their own hints too.
+- The function reference shows that `add`, `sub`, `mul`, `div`, `mod`, `max`
+  and `min` drop decimals (`{{mul "12.50" 2}}` is `24`) and points to the
+  `...f` functions for decimal values.
+
 ## 1.5.0
 
 ### Added

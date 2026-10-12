@@ -595,9 +595,11 @@ var (
 	tmplUnknownFuncRe = regexp.MustCompile(`function "([^"]+)" not defined`)
 	tmplWrongTypeRe   = regexp.MustCompile(`wrong type for value; expected (\S+); got (\S+)`)
 	tmplArgCountRe    = regexp.MustCompile(`wrong number of args for (\S+): want (\d+) got (\d+)`)
-	tmplMissingKeyRe  = regexp.MustCompile(`map has no entry for key "([^"]*)"`)
-	tmplNoFieldRe     = regexp.MustCompile(`can't evaluate field (\S+) in type`)
-	tmplErrCallingRe  = regexp.MustCompile(`^error calling (\S+): `)
+	// The types may contain spaces ("map[string]interface {}"); the detail ends with " (at <...>)".
+	tmplCompareTypesRe = regexp.MustCompile(`incompatible types for comparison: (.+?) and (.+?)(?: \(at <.*)?$`)
+	tmplMissingKeyRe   = regexp.MustCompile(`map has no entry for key "([^"]*)"`)
+	tmplNoFieldRe      = regexp.MustCompile(`can't evaluate field (\S+) in type`)
+	tmplErrCallingRe   = regexp.MustCompile(`^error calling (\S+): `)
 )
 
 // builtinTemplateFunctions are the text/template built-ins, used for "did you mean" suggestions.
@@ -773,6 +775,16 @@ func execHint(detail string) (hint, anchor string) {
 		}
 		return "convert the value to the expected type first (toString, toInt, toFloat64, toBool)", "wrong-type"
 	}
+	if m := tmplCompareTypesRe.FindStringSubmatch(detail); m != nil {
+		return compareHint(m[1], m[2]), "wrong-type"
+	}
+	if strings.Contains(detail, "invalid type for comparison") {
+		return "eq, ne, lt, le, gt and ge compare single values (text, numbers, true/false), not lists or objects; " +
+			"pick a field, or compare the length: (len .items)", "wrong-type"
+	}
+	if strings.Contains(detail, "missing argument for comparison") {
+		return "comparisons need two values, e.g. {{if eq .status \"paid\"}}", "wrong-type"
+	}
 	if m := tmplArgCountRe.FindStringSubmatch(detail); m != nil {
 		return fmt.Sprintf("%s takes %s argument(s), %s were given; see the function reference", m[1], m[2], m[3]), "unknown-function"
 	}
@@ -789,6 +801,27 @@ func execHint(detail string) (hint, anchor string) {
 		return fmt.Sprintf("the function %s rejected its arguments; see the function reference", m[1]), "unknown-function"
 	}
 	return "", "template-syntax-error"
+}
+
+// compareHint explains "incompatible types for comparison: A and B". The common case: JSON and YAML
+// numbers are float64 while a number written in the template is an int, so {{gt .count 2}} fails.
+func compareHint(a, b string) string {
+	isNumber := func(t string) bool {
+		switch t {
+		case "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64", "float32", "float64":
+			return true
+		}
+		return false
+	}
+	switch {
+	case isNumber(a) && isNumber(b):
+		return "numbers from JSON and YAML are float64, numbers written in the template are int; " +
+			"write the number with a decimal point (2.0) or convert the value: (toInt .count)"
+	case (a == "string" && isNumber(b)) || (isNumber(a) && b == "string"):
+		return "one side is text (CSV and XML values always are); convert it first: (toInt .value) or (toFloat64 .value), " +
+			"or compare text with text: (eq .status \"paid\")"
+	}
+	return fmt.Sprintf("a %s cannot be compared with a %s; convert one side with toString, toInt or toFloat64", a, b)
 }
 
 // templateFunctionNames lists bafi's and text/template's functions, sorted, for suggestions.

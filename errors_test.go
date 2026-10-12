@@ -57,11 +57,14 @@ func TestFriendlyErrors(t *testing.T) {
 		{name: "tmpl index nil", tmpl: `{{index .nope "x"}}`, wantLine: 1, wantCol: 3, wantHint: "{{toJSON .}}", wantAnchor: "missing-keys-and-no-value"},
 		{name: "tmpl arg count", tmpl: "{{upper .s .s}}", wantLine: 1, wantCol: 3, wantHint: "upper takes 1 argument(s), 2 were given", wantAnchor: "unknown-function"},
 		{name: "tmpl range over number", tmpl: "{{range .n}}x{{end}}", wantLine: 1, wantCol: 9, wantHint: "mustArray", wantAnchor: "wrong-type"},
+		{name: "tmpl compare float64 with int", tmpl: "{{if gt .n 2}}x{{end}}", wantLine: 1, wantCol: 6, wantHint: "decimal point (2.0) or convert the value: (toInt .count)", wantAnchor: "wrong-type"},
+		{name: "tmpl compare text with number", tmpl: "{{eq .s 3}}", wantLine: 1, wantCol: 3, wantHint: "one side is text", wantAnchor: "wrong-type"},
+		{name: "tmpl compare object", tmpl: "{{lt .m 1}}", wantLine: 1, wantCol: 3, wantHint: "compare single values", wantAnchor: "wrong-type"},
 		{name: "tmpl function error", tmpl: `{{replaceAllRegex "[a" "b" "c"}}`, wantLine: 1, wantCol: 3, wantHint: "replaceAllRegex rejected its arguments", wantAnchor: "unknown-function"},
 		{name: "tmpl strict missing key", tmpl: "Hello {{.nmae}}", strict: true, wantLine: 1, wantCol: 9, wantHint: `{{with index . "nmae"}}`, wantAnchor: "missing-keys-and-no-value"},
 		{name: "tmpl strict nested missing key", tmpl: "{{.m.nope}}", strict: true, wantLine: 1, wantCol: 3, wantHint: `no key "nope"`, wantAnchor: "missing-keys-and-no-value"},
 	}
-	data := map[string]interface{}{"n": float64(1), "s": "text", "m": map[string]interface{}{"k": "v"}, "l": []interface{}{"a"}}
+	data := map[string]any{"n": float64(1), "s": "text", "m": map[string]any{"k": "v"}, "l": []any{"a"}}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			var err error
@@ -96,7 +99,7 @@ func TestFriendlyErrors(t *testing.T) {
 // TestFormatErrorExact pins the complete rendering of three representative errors.
 func TestFormatErrorExact(t *testing.T) {
 	_, jsonErr := parseJSON([]byte("{\n  \"a\": 1,\n  \"b\": oops\n}\n"), "stdin")
-	_, tmplErr := render(&bytes.Buffer{}, map[string]interface{}{"a": float64(1)}, []byte("Value: {{upper .a}}"), "report.tmpl", false)
+	_, tmplErr := render(&bytes.Buffer{}, map[string]any{"a": float64(1)}, []byte("Value: {{upper .a}}"), "report.tmpl", false)
 	usage := usageError("no template given", `pass a template file with -t report.tmpl`, "")
 	cases := map[string]struct {
 		err  error
