@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"context"
+	_ "embed"
 	"encoding/csv"
 	"encoding/hex"
 	"encoding/json"
@@ -22,16 +23,15 @@ import (
 	"github.com/clbanning/mxj/v2"
 	"github.com/mmalcek/mt940"
 	"github.com/sashabaranov/go-openai"
-	lua "github.com/yuin/gopher-lua"
 	"go.mongodb.org/mongo-driver/bson"
 	"gopkg.in/yaml.v3"
 )
 
-const version = "1.2.1"
+//go:embed version.txt
+var versionFile string
 
-var (
-	luaData *lua.LState
-)
+// version is the release version, trimmed from version.txt (single source of truth, also read by Taskfile.yml).
+var version = strings.TrimSpace(versionFile)
 
 type tParams struct {
 	inputFile      *string
@@ -48,12 +48,6 @@ type tParams struct {
 
 func init() {
 	rand.Seed(time.Now().UTC().UnixNano())
-	if _, err := os.Stat("./lua/functions.lua"); !os.IsNotExist(err) {
-		luaData = lua.NewState()
-		if err := luaData.DoFile("./lua/functions.lua"); err != nil {
-			log.Fatal("loadLuaFunctions", err.Error())
-		}
-	}
 }
 
 func main() {

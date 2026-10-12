@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/base64"
 	"reflect"
+	"regexp"
 	"strings"
 	"testing"
 
@@ -10,6 +11,13 @@ import (
 )
 
 const bsonDump = `JgAAAAdfaWQAYQAVOXB0lMEH42tuAm5hbWUABgAAAEhlbGxvAAAmAAAAB19pZABhCmAZAkO5o4cVWbsCbmFtZQAGAAAAV29ybGQAAA==`
+
+// TestVersionFormat guards version.txt: an empty or malformed file must not ship.
+func TestVersionFormat(t *testing.T) {
+	if !regexp.MustCompile(`^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$`).MatchString(version) {
+		t.Errorf("version.txt must contain N.N.N or N.N.N-suffix, got %q", version)
+	}
+}
 
 func TestProcessTemplate(t *testing.T) {
 	inputFile := ""

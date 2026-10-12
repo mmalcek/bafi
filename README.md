@@ -23,6 +23,8 @@
 
 ## Releases (Windows, MAC, Linux) [https://github.com/mmalcek/bafi/releases](https://github.com/mmalcek/bafi/releases)
 
+Release notes: [CHANGELOG.md](CHANGELOG.md)
+
 usage:
 
 ```

@@ -5,7 +5,9 @@ import (
 	"encoding/base32"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"io/fs"
 	"math"
 	"math/rand"
 	"reflect"
@@ -526,24 +528,39 @@ func mapJSON(input string) map[string]interface{} {
 }
 
 // luaF Call LUA function {{lua "functionName" input1 input2 input3 ...}
-// 1. Functions must be placed in ./lua/functions, 2. Inputs are passed as stringified json 3. Output of lua function must be string
+// 1. Functions must be placed in ./lua/functions.lua, 2. Inputs are passed as stringified json 3. Output of lua function must be string
+// The Lua state is loaded lazily on the first call (see lua.go); every failure is reported inline
+// as a string so a broken or missing functions.lua never aborts the whole template.
 func luaF(i ...interface{}) string {
-	if luaData == nil {
-		return "error: ./lua/functions.lua file missing)"
+	L, err := luaState()
+	if err != nil {
+		if errors.Is(err, fs.ErrNotExist) {
+			return "error: ./lua/functions.lua file missing)"
+		}
+		return fmt.Sprintf("luaError: %s\r\n", err.Error())
+	}
+	if len(i) == 0 {
+		return "luaError: function name must be a string"
+	}
+	fnName, ok := i[0].(string)
+	if !ok {
+		return "luaError: function name must be a string"
 	}
 	strData, err := json.Marshal(i[1:])
 	if err != nil {
 		return fmt.Sprintf("luaInputError: %s\r\n", err.Error())
 	}
-	if err := luaData.CallByParam(
-		lua.P{Fn: luaData.GetGlobal(i[0].(string)), NRet: 1, Protect: true}, lua.LString(string(strData))); err != nil {
+	if err := L.CallByParam(
+		lua.P{Fn: L.GetGlobal(fnName), NRet: 1, Protect: true}, lua.LString(string(strData))); err != nil {
 		return fmt.Sprintf("luaError: %s\r\n", err.Error())
 	}
-	if str, ok := luaData.Get(-1).(lua.LString); ok {
-		luaData.Pop(1)
+	// Always pop the single return value so repeated calls (e.g. inside a range) keep the stack balanced.
+	ret := L.Get(-1)
+	L.Pop(1)
+	if str, ok := ret.(lua.LString); ok {
 		return str.String()
 	}
-	return "luaError: getResult"
+	return fmt.Sprintf("luaError: getResult (function returned %s, expected string)", ret.Type())
 }
 
 // execDecimalOp convert float to decimal

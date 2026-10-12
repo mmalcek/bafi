@@ -412,6 +412,7 @@ Call Lua function in template ("sum" - Lua function name)
 - Output must be passed as string
 - lua table array starts with 1
 - Lua [documentation](http://www.lua.org/manual/5.1/)
+- **Security note:** `./lua/functions.lua` is executable code. It is loaded from the current working directory the first time a template calls `lua`, and runs with the permissions of the bafi process. Only use a `lua/` directory and templates you trust. Process-level functions are not available (`os.execute`, `os.exit`, `os.remove`, `os.rename`, `os.tmpname`, `io.popen`); the rest of the Lua standard library (`os.date`, `os.time`, `io.open`, `require`, ...) works normally.
 
 Minimal functions.lua example
 

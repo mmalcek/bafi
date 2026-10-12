@@ -1,0 +1,86 @@
+version: "3"
+
+vars:
+  BINARY: bafi
+  # version.txt is the single source of truth; main.go embeds the same file.
+  VERSION:
+    sh: tr -d '[:space:]' < version.txt
+  TAG: v{{.VERSION}}
+
+tasks:
+  default:
+    desc: Build binary
+    aliases: [build]
+    cmds:
+      - CGO_ENABLED=0 go build -o {{.BINARY}} .
+
+  test:
+    desc: Run unit tests
+    cmds:
+      - go test ./...
+
+  vet:
+    desc: gofmt check + go vet
+    cmds:
+      - |
+        files="$(gofmt -l .)"
+        if [ -n "$files" ]; then echo "gofmt needed for:"; echo "$files"; exit 1; fi
+      - go vet ./...
+
+  check:
+    desc: vet + tests + docs build (run before every commit)
+    cmds:
+      - task: vet
+      - task: test
+      - task: docs
+
+  vuln:
+    desc: Scan for known vulnerabilities
+    cmds:
+      - go run golang.org/x/vuln/cmd/govulncheck@latest ./...
+
+  docs:
+    desc: Build the mkdocs site into ./site (ignored by git)
+    cmds:
+      - mkdocs build -q
+
+  docs:serve:
+    desc: Serve docs locally with live reload
+    cmds:
+      - mkdocs serve
+
+  release:
+    desc: Tag, push and publish a GitHub release from version.txt + CHANGELOG.md (CI builds binaries)
+    preconditions:
+      - sh: printf "%s" "{{.VERSION}}" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-.+)?$'
+        msg: 'version.txt must contain N.N.N or N.N.N-suffix (got "{{.VERSION}}")'
+      - sh: '[ -z "$(git status --porcelain)" ]'
+        msg: 'Working tree must be clean (commit version.txt + CHANGELOG.md first)'
+      - sh: '[ "$(git rev-parse --abbrev-ref HEAD)" = "main" ]'
+        msg: 'Releases are cut from main'
+      - sh: '! git rev-parse "{{.TAG}}" >/dev/null 2>&1'
+        msg: 'Tag {{.TAG}} already exists locally — bump version.txt'
+      - sh: '! git ls-remote --exit-code --tags origin "{{.TAG}}" >/dev/null 2>&1'
+        msg: 'Tag {{.TAG}} already exists on origin — bump version.txt'
+      - sh: grep -Eq '^## {{.VERSION}}$' CHANGELOG.md
+        msg: 'CHANGELOG.md has no "## {{.VERSION}}" section — write the release notes first'
+      - sh: gh auth status >/dev/null 2>&1
+        msg: 'gh is not logged in — run "gh auth login"'
+    cmds:
+      - task: check
+      # Release notes = the CHANGELOG section for this version, up to the next "## " heading.
+      - awk -v hdr="## {{.VERSION}}" '$0 == hdr {found=1; next} found && /^## / {exit} found {print}' CHANGELOG.md > .release-notes.md
+      - test -s .release-notes.md
+      - git tag {{.TAG}}
+      - git push origin HEAD
+      - git push origin {{.TAG}}
+      # Publishing the release is what triggers .github/workflows/release.yml (binaries + mkdocs gh-deploy).
+      - gh release create {{.TAG}} --verify-tag --title {{.TAG}} --notes-file .release-notes.md {{if contains "-" .VERSION}}--prerelease{{end}}
+      - rm -f .release-notes.md
+      - 'echo "Published {{.TAG}}. Build: https://github.com/mmalcek/bafi/actions"'
+
+  clean:
+    desc: Remove build artifacts
+    cmds:
+      - rm -f {{.BINARY}} {{.BINARY}}.exe .release-notes.md
+      - rm -rf site/
