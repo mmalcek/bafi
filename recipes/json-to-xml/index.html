@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://mmalcek.github.io/bafi/recipes/json-to-xml/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>JSON to XML - BaFi</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/lua.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/powershell.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-GE1PDVJERL"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', "G-GE1PDVJERL");
+        </script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="../..">BaFi</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../../install/" class="nav-link">Install</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Recipes</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../" class="dropdown-item">Recipes</a>
+</li>
+                                    
+<li>
+    <a href="../xml-to-json/" class="dropdown-item">XML to JSON</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">JSON to XML</a>
+</li>
+                                    
+<li>
+    <a href="../csv-to-json/" class="dropdown-item">CSV to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../json-to-csv/" class="dropdown-item">JSON to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../xml-to-csv/" class="dropdown-item">XML to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../convert-formats/" class="dropdown-item">JSON, YAML, TOON, BSON</a>
+</li>
+                                    
+<li>
+    <a href="../rest-to-soap/" class="dropdown-item">REST to SOAP</a>
+</li>
+                                    
+<li>
+    <a href="../soap-to-json/" class="dropdown-item">SOAP to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../sql-database/" class="dropdown-item">SQL database to XML/JSON</a>
+</li>
+                                    
+<li>
+    <a href="../bson-to-csv/" class="dropdown-item">MongoDB dump to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../json-to-html/" class="dropdown-item">HTML report</a>
+</li>
+                                    
+<li>
+    <a href="../csv-to-sql/" class="dropdown-item">CSV to SQL</a>
+</li>
+                                    
+<li>
+    <a href="../merge-files/" class="dropdown-item">Merge several files</a>
+</li>
+                                    
+<li>
+    <a href="../mt940-to-csv/" class="dropdown-item">MT940 to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../lua/" class="dropdown-item">Lua functions</a>
+</li>
+                                    
+<li>
+    <a href="../openai/" class="dropdown-item">Ask OpenAI</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Guide</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../cli/" class="dropdown-item">Command line</a>
+</li>
+                                    
+<li>
+    <a href="../../templates/" class="dropdown-item">Templates</a>
+</li>
+                                    
+<li>
+    <a href="../../functions/" class="dropdown-item">Function reference</a>
+</li>
+                                    
+<li>
+    <a href="../../troubleshooting/" class="dropdown-item">Troubleshooting</a>
+</li>
+                                    
+<li>
+    <a href="../../security/" class="dropdown-item">Security notes</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../../changelog/" class="nav-link">Changelog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../../about/" class="nav-link">About</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../xml-to-json/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../csv-to-json/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/mmalcek/bafi/edit/master/docs/recipes/json-to-xml.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#convert-json-to-xml" class="nav-link">Convert JSON to XML</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#sample-input" class="nav-link">Sample input</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#one-line-conversion" class="nav-link">One-line conversion</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#your-own-xml-layout" class="nav-link">Your own XML layout</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#from-an-api" class="nav-link">From an API</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="convert-json-to-xml">Convert JSON to XML</h1>
+<p>Turn JSON, for example a REST API response, into XML: generic XML in one line, or the exact XML layout
+another system expects.</p>
+<h2 id="sample-input">Sample input</h2>
+<!-- test:file users.json -->
+
+<pre><code class="language-json">{
+  &quot;users&quot;: [
+    {&quot;id&quot;: 1, &quot;name&quot;: &quot;Alice Smith&quot;, &quot;email&quot;: &quot;alice@example.com&quot;},
+    {&quot;id&quot;: 2, &quot;name&quot;: &quot;Tom &amp; Jerry&quot;, &quot;email&quot;: &quot;tj@example.com&quot;}
+  ]
+}
+</code></pre>
+<h2 id="one-line-conversion">One-line conversion</h2>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i users.json -t '?{{toXML .}}'
+</code></pre>
+<!-- test:output -->
+
+<pre><code class="language-xml">&lt;doc&gt;
+  &lt;users&gt;
+    &lt;email&gt;alice@example.com&lt;/email&gt;
+    &lt;id&gt;1&lt;/id&gt;
+    &lt;name&gt;Alice Smith&lt;/name&gt;
+  &lt;/users&gt;
+  &lt;users&gt;
+    &lt;email&gt;tj@example.com&lt;/email&gt;
+    &lt;id&gt;2&lt;/id&gt;
+    &lt;name&gt;Tom &amp;amp; Jerry&lt;/name&gt;
+  &lt;/users&gt;
+&lt;/doc&gt;
+</code></pre>
+<p><code>toXML</code> wraps everything in <code>&lt;doc&gt;</code>; a top-level JSON array becomes a list of <code>&lt;record&gt;</code> elements.
+Special characters such as <code>&amp;</code> are escaped for you.</p>
+<h2 id="your-own-xml-layout">Your own XML layout</h2>
+<p>When the receiving system expects specific element names, write them in the template. Use the
+built-in <code>html</code> function on every value: it escapes <code>&amp;</code>, <code>&lt;</code>, <code>&gt;</code> and quotes, which is exactly what XML
+text and attributes need.</p>
+<!-- test:file users-xml.tmpl -->
+
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;Customers&gt;
+{{- range .users}}
+  &lt;Customer id=&quot;{{.id}}&quot;&gt;
+    &lt;Name&gt;{{html .name}}&lt;/Name&gt;
+    &lt;Email&gt;{{html .email}}&lt;/Email&gt;
+  &lt;/Customer&gt;
+{{- end}}
+&lt;/Customers&gt;
+</code></pre>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i users.json -t users-xml.tmpl
+</code></pre>
+<!-- test:output -->
+
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;Customers&gt;
+  &lt;Customer id=&quot;1&quot;&gt;
+    &lt;Name&gt;Alice Smith&lt;/Name&gt;
+    &lt;Email&gt;alice@example.com&lt;/Email&gt;
+  &lt;/Customer&gt;
+  &lt;Customer id=&quot;2&quot;&gt;
+    &lt;Name&gt;Tom &amp;amp; Jerry&lt;/Name&gt;
+    &lt;Email&gt;tj@example.com&lt;/Email&gt;
+  &lt;/Customer&gt;
+&lt;/Customers&gt;
+</code></pre>
+<p>JSON numbers are printed without decimals when they are whole (<code>1</code>, not <code>1.0</code>).</p>
+<h2 id="from-an-api">From an API</h2>
+<pre><code class="language-sh">curl -fs https://example.com/api/users | bafi -f json -t users-xml.tmpl -o customers.xml
+</code></pre>
+<p>Related: <a href="../xml-to-json/">XML to JSON</a> · <a href="../rest-to-soap/">REST response to SOAP request</a></p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

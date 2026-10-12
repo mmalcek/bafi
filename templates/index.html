@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://mmalcek.github.io/bafi/templates/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Templates - BaFi</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/lua.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/powershell.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-GE1PDVJERL"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', "G-GE1PDVJERL");
+        </script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="..">BaFi</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../install/" class="nav-link">Install</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Recipes</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../recipes/" class="dropdown-item">Recipes</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/xml-to-json/" class="dropdown-item">XML to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/json-to-xml/" class="dropdown-item">JSON to XML</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/csv-to-json/" class="dropdown-item">CSV to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/json-to-csv/" class="dropdown-item">JSON to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/xml-to-csv/" class="dropdown-item">XML to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/convert-formats/" class="dropdown-item">JSON, YAML, TOON, BSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/rest-to-soap/" class="dropdown-item">REST to SOAP</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/soap-to-json/" class="dropdown-item">SOAP to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/sql-database/" class="dropdown-item">SQL database to XML/JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/bson-to-csv/" class="dropdown-item">MongoDB dump to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/json-to-html/" class="dropdown-item">HTML report</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/csv-to-sql/" class="dropdown-item">CSV to SQL</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/merge-files/" class="dropdown-item">Merge several files</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/mt940-to-csv/" class="dropdown-item">MT940 to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/lua/" class="dropdown-item">Lua functions</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/openai/" class="dropdown-item">Ask OpenAI</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Guide</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../cli/" class="dropdown-item">Command line</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Templates</a>
+</li>
+                                    
+<li>
+    <a href="../functions/" class="dropdown-item">Function reference</a>
+</li>
+                                    
+<li>
+    <a href="../troubleshooting/" class="dropdown-item">Troubleshooting</a>
+</li>
+                                    
+<li>
+    <a href="../security/" class="dropdown-item">Security notes</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../changelog/" class="nav-link">Changelog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../about/" class="nav-link">About</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../cli/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../functions/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/mmalcek/bafi/edit/master/docs/templates.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#template-guide" class="nav-link">Template guide</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#accessing-data" class="nav-link">Accessing data</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="3"><a href="#xml-specifics" class="nav-link">XML specifics</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#loops-and-conditions" class="nav-link">Loops and conditions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#whitespace-control" class="nav-link">Whitespace control</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#variables" class="nav-link">Variables</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#functions" class="nav-link">Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#comments" class="nav-link">Comments</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#reusing-parts-of-a-template" class="nav-link">Reusing parts of a template</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#escaping-for-the-output-format" class="nav-link">Escaping for the output format</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="template-guide">Template guide</h1>
+<p>bafi templates are Go <a href="https://pkg.go.dev/text/template">text/template</a> templates: plain text with
+actions in <code>{{ }}</code>. Everything outside the braces is copied to the output as it is. The examples below
+use this input:</p>
+<!-- test:file users.json -->
+
+<pre><code class="language-json">{
+  &quot;company&quot;: &quot;Example Ltd&quot;,
+  &quot;users&quot;: [
+    {&quot;name&quot;: &quot;Alice&quot;, &quot;age&quot;: 34, &quot;roles&quot;: [&quot;admin&quot;, &quot;dev&quot;], &quot;my-id&quot;: &quot;A1&quot;},
+    {&quot;name&quot;: &quot;Bob&quot;, &quot;age&quot;: 19, &quot;roles&quot;: [&quot;dev&quot;], &quot;my-id&quot;: &quot;B2&quot;}
+  ]
+}
+</code></pre>
+<p>In VS Code the <a href="https://marketplace.visualstudio.com/items?itemName=casualjim.gotemplate">gotemplate-syntax</a>
+extension adds highlighting.</p>
+<h2 id="accessing-data">Accessing data</h2>
+<p>The dot <code>.</code> is the current data; at the start it is the whole input. Follow keys with more dots:</p>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i users.json -t '?{{.company}} has {{len .users}} users'
+</code></pre>
+<!-- test:output -->
+
+<pre><code>Example Ltd has 2 users
+</code></pre>
+<ul>
+<li><code>{{index .users 0}}</code> - an item of a list (counting from 0).</li>
+<li><code>{{index . "my-id"}}</code> - keys containing <code>-</code>, spaces or other special characters need <code>index</code>.</li>
+<li><code>{{toJSON .users}}</code> - print any part of the data, which is the quickest way to find a path.</li>
+<li><code>$</code> is always the root, even inside <code>range</code> or <code>with</code>: <code>{{$.company}}</code>.</li>
+</ul>
+<h3 id="xml-specifics">XML specifics</h3>
+<p>XML becomes data like this:</p>
+<ul>
+<li>attributes are keys with a <code>-</code> prefix: <code>&lt;order id="7"&gt;</code> → <code>{{index .order "-id"}}</code>;</li>
+<li>the text of an element that also has attributes is under <code>#text</code>: <code>{{index .total "#text"}}</code>;</li>
+<li>namespace prefixes are dropped: <code>&lt;soap:Body&gt;</code> → <code>.Envelope.Body</code>;</li>
+<li>an element that occurs once is a single value, several occurrences are a list. Use <code>mustArray</code> before
+  <code>range</code> when it can be either: <code>{{range mustArray .orders.order}}</code>;</li>
+<li>all values are text; convert with <code>toInt</code>, <code>toFloat64</code> or the <code>...f</code> math functions.</li>
+</ul>
+<p>See <a href="../recipes/xml-to-json/">XML to JSON</a> for a complete example.</p>
+<h2 id="loops-and-conditions">Loops and conditions</h2>
+<!-- test:file list.tmpl -->
+
+<pre><code>{{range .users -}}
+{{.name}} ({{index . &quot;my-id&quot;}}): {{if ge .age 21.0}}adult{{else}}junior{{end}}, roles: {{range $i, $r := .roles}}{{if $i}}, {{end}}{{$r}}{{end}}
+{{end -}}
+</code></pre>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i users.json -t list.tmpl
+</code></pre>
+<!-- test:output -->
+
+<pre><code>Alice (A1): adult, roles: admin, dev
+Bob (B2): junior, roles: dev
+</code></pre>
+<ul>
+<li><code>{{range .list}}...{{end}}</code> repeats for every item; inside, <code>.</code> is the item.
+  <code>{{range $i, $item := .list}}</code> also gives the position.</li>
+<li><code>{{if condition}}...{{else if other}}...{{else}}...{{end}}</code>.</li>
+<li><code>{{with .value}}...{{end}}</code> runs only when the value exists and sets <code>.</code> to it.</li>
+<li>Comparisons: <code>eq</code>, <code>ne</code>, <code>lt</code>, <code>le</code>, <code>gt</code>, <code>ge</code>; combine with <code>and</code>, <code>or</code>, <code>not</code>. Compare values of the
+  same kind: JSON numbers are <code>float64</code>, so compare with <code>21.0</code> or convert (<code>{{if ge (toInt .age) 21}}</code>).</li>
+</ul>
+<h2 id="whitespace-control">Whitespace control</h2>
+<p>A dash inside the braces removes whitespace and line breaks on that side: <code>{{-</code> trims before, <code>-}}</code>
+trims after. In the loop above, <code>{{range .users -}}</code> drops the line break after the <code>range</code> line and
+<code>{{end -}}</code> the one after <code>end</code>, so each user produces exactly one line.</p>
+<pre><code>{{- .name -}}
+</code></pre>
+<h2 id="variables">Variables</h2>
+<pre><code>{{$total := 0.0}}
+{{range .items}}{{$total = addf $total .price}}{{end}}
+Total: {{$total}}
+</code></pre>
+<p><code>:=</code> creates a variable, <code>=</code> changes it. Variables live until the <code>{{end}}</code> of the block they were
+created in.</p>
+<h2 id="functions">Functions</h2>
+<p>Functions are written before their arguments ("prefix" or Polish notation):</p>
+<p><img src="img/calc.jpg" height="160px" alt="calculator"></p>
+<table>
+<thead>
+<tr>
+<th>Math</th>
+<th>Template</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 + 2</td>
+<td><code>{{add 1 2}}</code></td>
+</tr>
+<tr>
+<td>(1 + 2) * 3</td>
+<td><code>{{mul (add 1 2) 3}}</code></td>
+</tr>
+<tr>
+<td>6 / 2 * (1 + 2)</td>
+<td><code>{{div 6 (mul 2 (add 1 2))}}</code> → 1, <code>{{mul (div 6 2) (add 1 2)}}</code> → 9</td>
+</tr>
+</tbody>
+</table>
+<p>The order of operations is always explicit, inside out, so there is no doubt about precedence. Values
+are converted automatically where possible:</p>
+<!-- test:file items.json -->
+
+<pre><code class="language-json">{&quot;items&quot;: [&quot;item-0&quot;, &quot;item-1&quot;, &quot;item-2&quot;]}
+</code></pre>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i items.json -t '?{{range .items}}{{print &quot;item-&quot; (add1 (trimPrefix . &quot;item-&quot;))}} {{end}}'
+</code></pre>
+<!-- test:output -->
+
+<pre><code>item-1 item-2 item-3 
+</code></pre>
+<p>The pipe <code>|</code> passes a value as the last argument of the next function: <code>{{.name | upper}}</code> equals
+<code>{{upper .name}}</code>.</p>
+<p>All functions with examples: <a href="../functions/">Function reference</a>. Your own functions: <a href="../recipes/lua/">Lua</a>.</p>
+<h2 id="comments">Comments</h2>
+<pre><code>{{/* a comment */}}
+{{- /* a comment that also trims the whitespace around it */ -}}
+</code></pre>
+<h2 id="reusing-parts-of-a-template">Reusing parts of a template</h2>
+<pre><code>{{define &quot;user&quot;}}{{.name}} &lt;{{.email}}&gt;{{end}}
+{{range .users}}{{template &quot;user&quot; .}}
+{{end}}
+</code></pre>
+<h2 id="escaping-for-the-output-format">Escaping for the output format</h2>
+<p>bafi writes values exactly as they are; it does not know whether the output is HTML, XML, CSV, SQL or a
+shell script. Escape where the format needs it:</p>
+<table>
+<thead>
+<tr>
+<th>Output</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JSON</td>
+<td><code>toJSON</code> for text values, or <code>toJSON</code> on the whole structure</td>
+</tr>
+<tr>
+<td>XML, HTML</td>
+<td><code>html</code> on every value, or <code>toXML</code></td>
+</tr>
+<tr>
+<td>CSV</td>
+<td>quotes around values, <code>replaceAll "\"" "\"\""</code> inside, <code>csvSafe</code> against formulas</td>
+</tr>
+<tr>
+<td>SQL</td>
+<td><code>replaceAll "'" "''"</code> inside single-quoted values</td>
+</tr>
+</tbody>
+</table>
+<p>See <a href="../security/#no-output-escaping">Security notes</a>.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

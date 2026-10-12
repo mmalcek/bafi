@@ -20,6 +20,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/lua.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/powershell.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
         <script>hljs.highlightAll();</script>
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-GE1PDVJERL"></script>
         <script>
@@ -45,10 +46,108 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li class="nav-item">
-                                <a href=".." class="nav-link">Application</a>
+                                <a href=".." class="nav-link">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a href="./" class="nav-link active" aria-current="page">Examples</a>
+                                <a href="../install/" class="nav-link">Install</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Recipes</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../recipes/" class="dropdown-item">Recipes</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/xml-to-json/" class="dropdown-item">XML to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/json-to-xml/" class="dropdown-item">JSON to XML</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/csv-to-json/" class="dropdown-item">CSV to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/json-to-csv/" class="dropdown-item">JSON to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/xml-to-csv/" class="dropdown-item">XML to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/convert-formats/" class="dropdown-item">JSON, YAML, TOON, BSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/rest-to-soap/" class="dropdown-item">REST to SOAP</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/soap-to-json/" class="dropdown-item">SOAP to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/sql-database/" class="dropdown-item">SQL database to XML/JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/bson-to-csv/" class="dropdown-item">MongoDB dump to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/json-to-html/" class="dropdown-item">HTML report</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/csv-to-sql/" class="dropdown-item">CSV to SQL</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/merge-files/" class="dropdown-item">Merge several files</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/mt940-to-csv/" class="dropdown-item">MT940 to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/lua/" class="dropdown-item">Lua functions</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/openai/" class="dropdown-item">Ask OpenAI</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Guide</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../cli/" class="dropdown-item">Command line</a>
+</li>
+                                    
+<li>
+    <a href="../templates/" class="dropdown-item">Templates</a>
+</li>
+                                    
+<li>
+    <a href="../functions/" class="dropdown-item">Function reference</a>
+</li>
+                                    
+<li>
+    <a href="../troubleshooting/" class="dropdown-item">Troubleshooting</a>
+</li>
+                                    
+<li>
+    <a href="../security/" class="dropdown-item">Security notes</a>
+</li>
+                                </ul>
                             </li>
                             <li class="nav-item">
                                 <a href="../changelog/" class="nav-link">Changelog</a>
@@ -65,14 +164,7 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href=".." class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" href="../changelog/" class="nav-link">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
+                                <a href="https://github.com/mmalcek/bafi/edit/master/docs/examples.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -178,270 +270,46 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="examples">Examples</h1>
+<p>The examples moved to task-oriented <a href="../recipes/">recipes</a>, each with a tested command and its
+exact output. The sections below keep old links working.</p>
 <h2 id="command-line">Command line</h2>
-<p>note: in Powershell you must use <span style="color:red; font-weight: bold;">.\</span>bafi.exe e.g.</p>
-<pre><code class="language-powershell">.\bafi.exe -i input.csv -t &quot;?{{toXML .}}&quot;
-curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
-</code></pre>
+<p>See <a href="../cli/">Command line</a>.</p>
 <h3 id="basic">Basic</h3>
-<p>Get data from <em>testdata.xml</em> -&gt; process using <em>template.tmpl</em> -&gt; save output as <em>output.txt</em></p>
-<pre><code class="language-sh">bafi.exe -i testdata.xml -t template.tmpl -o output.txt
-</code></pre>
+<p>See <a href="../cli/#input">Command line: input</a>.</p>
 <h3 id="inline-template">Inline template</h3>
-<p>Get data from <em>testdata.xml</em> -&gt; process using inline template -&gt; save output as <em>output.json</em></p>
-<pre><code class="language-sh">bafi.exe -i testdata.xml -o output.json -t &quot;?{{toJSON .}}&quot;
-</code></pre>
-<p>note: BaFi inline template must start with <strong>?</strong> e.g. <strong>"?{{toJSON .}}"</strong>
-<a href="https://pkg.go.dev/text/template#hdr-Examples">How to format inline templates</a></p>
+<p>See <a href="../cli/#templates-on-the-command-line">Templates on the command line</a>.</p>
 <h3 id="stdinrest">Stdin/REST</h3>
-<p>Get data from REST api -&gt; convert to XML -&gt; output to Stdout.</p>
-<pre><code class="language-sh">curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toXML .}}&quot;
-</code></pre>
-<p>More info about curl <a href="https://curl.se/">here</a> but you can of course use any tool with stdout</p>
+<p>See <a href="../cli/#input">Command line: input</a> and <a href="../recipes/rest-to-soap/">REST response to SOAP request</a>.</p>
 <h3 id="append-output-file">Append output file</h3>
-<p>Redirect stdout to file and append ( &gt; = replace, &gt;&gt; = apppend )</p>
-<pre><code class="language-sh">bafi.exe -i testdata.xml -t template.tmpl &gt;&gt; output.txt
-</code></pre>
+<p>See <a href="../cli/#output">Command line: output</a>.</p>
 <h2 id="template">Template</h2>
-<p>Examples are based on testdata.tmpl included in project</p>
+<p>See the <a href="../templates/">template guide</a>.</p>
 <h3 id="xml-to-csv">XML to CSV</h3>
-<ul>
-<li>command</li>
-</ul>
-<pre><code class="language-sh">bafi.exe -i testdata.xml -t myTemplate.tmpl -o output.csv
-</code></pre>
-<ul>
-<li>myTemplate.tmpl</li>
-</ul>
-<pre><code>Employee,Date,val1,val2,val3,SUM,LuaMultiply,linkedText
-{{- range .TOP_LEVEL.DATA_LINE}}
-{{index .Employee &quot;-ID&quot;}},
-{{- dateFormat .Trans_Date &quot;2006-01-02&quot; &quot;02.01.2006&quot;}},
-{{- .val1}},{{.val2}},{{.val3}},
-{{- add .val1 .val2}},
-{{- lua &quot;mul&quot; .val1 .val2}},&quot;{{index .Linked_Text &quot;-VALUE&quot;}}&quot;
-{{- end}}
-</code></pre>
+<p>See <a href="../recipes/xml-to-csv/">Convert XML to CSV</a>.</p>
 <h3 id="json-to-csv">JSON to CSV</h3>
-<ul>
-<li>command</li>
-</ul>
-<pre><code class="language-sh">curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.html
-</code></pre>
-<ul>
-<li>myTemplate.tmpl</li>
-</ul>
-<pre><code>name,surname
-{{- range .customers}}
-&quot;{{.firstname}}&quot;,&quot;{{.lastname}}&quot;
-{{- end}}
-</code></pre>
+<p>See <a href="../recipes/json-to-csv/">Convert JSON to CSV</a>.</p>
 <h3 id="json-to-html">JSON to HTML</h3>
-<ul>
-<li>command</li>
-</ul>
-<pre><code class="language-sh">curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.html
-</code></pre>
-<ul>
-<li>myTemplate.tmpl</li>
-</ul>
-<pre><code>&lt;html&gt;
-    &lt;body&gt;
-        &lt;table&gt;
-            &lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Surname&lt;/th&gt;&lt;/tr&gt;
-            {{- range .customers}}
-            &lt;tr&gt;&lt;td&gt;{{.firstname}}&lt;/td&gt;&lt;td&gt;{{.lastname}}&lt;/td&gt;&lt;/tr&gt;
-            {{- end }}
-        &lt;/table&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-
-&lt;style&gt;
-table, th, td { border: 1px solid black; width: 400px; }
-&lt;/style&gt;
-</code></pre>
+<p>See <a href="../recipes/json-to-html/">Generate an HTML report from JSON</a>.</p>
 <h3 id="json-to-custom-xml">JSON to custom XML</h3>
-<ul>
-<li>command</li>
-</ul>
-<pre><code class="language-sh">curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t myTemplate.tmpl -o output.xml
-</code></pre>
-<ul>
-<li>myTemplate.tmpl</li>
-</ul>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;MY_DATA&gt;
-    {{- range .customers}}
-    &lt;CUSTOMMER&gt;
-        &lt;NAME&gt;{{.firstname}}&lt;/NAME&gt;
-        &lt;SURNAME&gt;{{.lastname}}&lt;/SURNAME&gt;
-    &lt;/CUSTOMMER&gt;
-    {{- end }}
-&lt;/MY_DATA&gt;
-</code></pre>
+<p>See <a href="../recipes/json-to-xml/#your-own-xml-layout">Convert JSON to XML</a>.</p>
 <h3 id="xml-to-custom-json">XML to custom JSON</h3>
-<ul>
-<li>command</li>
-</ul>
-<pre><code class="language-sh">bafi.exe -i testdata.xml -t myTemplate.tmpl -o output.json
-</code></pre>
-<ul>
-<li>myTemplate.tmpl</li>
-</ul>
-<pre><code>{{- $new := &quot;{\&quot;employees\&quot;: [&quot; }}
-{{- range .TOP_LEVEL.DATA_LINE}}
-{{- $new = print $new &quot;{\&quot;employeeID\&quot;:\&quot;&quot; (index .Employee &quot;-ID&quot;) &quot;\&quot;, \&quot;val1\&quot;:&quot; .val1 &quot;},&quot; }}
-{{- end}}
-{{- /* Trim trailing comma, alternatively you can remove last char by &quot;(slice $new 0 (sub (len $new) 1))&quot; */}}
-{{- $new = print (trimSuffix $new &quot;,&quot; ) &quot;]}&quot;}}
-{{ $new}}
-</code></pre>
-<p>JSON in $new variable can be mapped to struct and autoformatted to other formats like:</p>
-<ul>
-<li>Transform $new to YAML</li>
-</ul>
-<pre><code>{{toYAML (mapJSON $new) -}}
-</code></pre>
-<ul>
-<li>Transform $new to XML</li>
-</ul>
-<pre><code>{{toXML (mapJSON $new) -}}
-</code></pre>
+<p>See <a href="../recipes/xml-to-json/#reshape-into-your-own-json">Convert XML to JSON</a>.</p>
 <h3 id="csv-to-text">CSV to text</h3>
-<ul>
-<li>command</li>
-</ul>
-<pre><code class="language-sh">bafi.exe -i users.csv -t myTemplate.tmpl -o output.txt
-</code></pre>
-<p>users.csv</p>
-<pre><code>name,surname
-John,&quot;Jack Doe&quot;
-</code></pre>
-<ul>
-<li>myTemplate.tmpl</li>
-</ul>
-<pre><code>Users:
-{{- range .}}
-Name: {{.name}}, Surname: {{.surname}}
-{{- end}}
-</code></pre>
-<p>note: CSV file must be <strong><a href="https://datatracker.ietf.org/doc/html/rfc4180">RFC4180</a></strong> compliant and must have a header line. Default separator is <strong>comma ( , )</strong>. Use command line argument -d to define a different separator (delimiter): any single Unicode character, e.g. <strong>-d ';'</strong>, <strong>-d '§'</strong>, or a hex value, e.g. <strong>-d 0x09</strong> for TAB.</p>
+<p>See <a href="../recipes/csv-to-json/">Convert CSV to JSON</a>.</p>
 <h3 id="mt940-to-csv">mt940 to CSV</h3>
-<ul>
-<li>mt940 returns simple struct (Header,Fields,[]Transactions) of strings and additional parsing needs to be done in template. This allows full flexibility on data processing</li>
-<li>Identifiers are prefixed by <strong>"F_"</strong> (e.g. <strong>:20:</strong> = <strong>.Fields.F_20</strong>)</li>
-<li>if parameter -d (delimiter e.g. -d "-}\r\n" or "\r\n$") is defined for files with multiple messages (e.g. - Multicash), app returns array of mt940 messages.</li>
-<li>
-<p>Note: This is actually good place to use integrated <a href="/bafi/#lua-custom-functions">LUA interpreter</a> where you can create your own set of custom functions to parse data and easily reuse them in templates.</p>
-</li>
-<li>
-<p>command</p>
-</li>
-</ul>
-<pre><code class="language-sh">bafi.exe -i message.sta -t myTemplate.tmpl -o output.csv
-</code></pre>
-<ul>
-<li>myTemplate.tmpl</li>
-</ul>
-<pre><code>Reference, balance, VS
-{{- $F20 := .Fields.F_20 }}{{ $F60F := .Fields.F_60F }}
-{{range .Transactions }}
-{{- $vsS := add (indexOf .F_86 &quot;?21&quot;) 3 }} {{- $vsE := add $vsS 17 -}}
-{{- $F20}}, {{$F60F}}, {{slice .F_86 $vsS $vsE}}
-{{ end }}
-</code></pre>
+<p>See <a href="../recipes/mt940-to-csv/">Convert an MT940 bank statement to CSV</a>.</p>
 <h3 id="any-sql-to-xml">Any SQL to XML</h3>
-<p>Bafi can be used in combination with very interesting tool <strong>USQL</strong> <a href="https://github.com/xo/usql">https://github.com/xo/usql</a>. USQL allows query almost any SQL like database (MSSQL,MySQL,postgres, ...) and get result in various formats. In this example we use -J for JSON. Output can be further processed by BaFi and templates</p>
-<pre><code class="language-sh">usql.exe mssql://user:password@server/instance/database -c &quot;SELECT * FROM USERS&quot; -J -q | bafi.exe -f json -t &quot;?{{toXML .}}&quot;
-</code></pre>
+<p>See <a href="../recipes/sql-database/">Query any SQL database into XML or JSON</a>.</p>
 <h3 id="mongodump-to-csv">MongoDump to CSV</h3>
-<ul>
-<li>command</li>
-</ul>
-<pre><code class="language-sh">bafi.exe -i users.bson -t myTemplate.tmpl -o output.html
-</code></pre>
-<ul>
-<li>myTemplate.tmpl</li>
-</ul>
-<pre><code>name,surname
-{{- range .}}
-&quot;{{.firstname}}&quot;,&quot;{{.lastname}}&quot;
-{{- end}}
-</code></pre>
+<p>See <a href="../recipes/bson-to-csv/">Convert a MongoDB dump (BSON) to CSV</a>.</p>
 <h3 id="dashes-in-key-names">Dashes in key names</h3>
-<p>If key name contains dashes ( - ) bafi will fail with error "bad character U+002D '-'" for example:</p>
-<pre><code>{{.my-key.subkey}}
-</code></pre>
-<p>This is known limitation of go templates which can be solved by workaround</p>
-<pre><code>{{index . &quot;my-key&quot; &quot;subkey&quot;}}
-</code></pre>
+<p>See <a href="../troubleshooting/#keys-with-dashes">Troubleshooting: keys with dashes</a>.</p>
 <h3 id="input-autoformat-to-xxx">Input autoformat to XXX</h3>
-<p>Input data can be easily fomated to oher formats by functions <strong>toXML,toJSON,toBSON,toYAML</strong>. In this case its not necesarry add template file because it's as easy as</p>
-<pre><code class="language-sh">curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toXML .}}&quot; -o output.xml
-curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toJSON .}}&quot; -o output.json
-curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toBSON .}}&quot; -o output.bson
-curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t &quot;?{{toYAML .}}&quot; -o output.yml
-</code></pre>
+<p>See <a href="../recipes/convert-formats/">Convert between JSON, YAML, TOON and BSON</a>.</p>
 <h3 id="chatgpt-query">ChatGPT query</h3>
-<p>The API key can come from the <strong>OPENAI_API_KEY</strong> environment variable (recommended, keeps the key out of <code>ps</code> output and shell history) or from <code>-gk</code>. The query and the whole parsed input are sent to OpenAI.</p>
-<pre><code class="language-sh">export OPENAI_API_KEY=sk-...
-curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gq &quot;What's the current CZK rate?&quot;
-./bafi -i invoice.json -gq &quot;create XML UBL format invoice&quot; -o invoice.xml
-</code></pre>
-<p>or with the key on the command line:</p>
-<pre><code class="language-sh">curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gk myChatGPTToken -gq &quot;What's the current CZK rate?&quot;
-curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gk myChatGPTToken -gq &quot;format rates to html&quot; -gm gpt4
-curl -s &quot;https://api.open-meteo.com/v1/forecast?latitude=52.52&amp;longitude=13.41&amp;hourly=temperature_2m&amp;past_days=7&amp;forecast_days=0&quot; | ./bafi -f json -gk &quot;myChatGPTToken&quot; -gm gpt4o-mini -gq &quot;Create forecast for next 2 days based on provided data&quot;
-./bafi -i invoice.json -gk myChatGPTToken -gq &quot;create XML UBL format invoice&quot; -o invoice.xml
-
-</code></pre>
+<p>See <a href="../recipes/openai/">Ask OpenAI about your data</a>.</p>
 <h3 id="multiple-input-files">Multiple input files</h3>
-<p>Bafi can read multiple input files and merge them into one output file. This will require aditional file with files description.
-Description file must be in YAML format as described below and prefixed by question mark <strong>"?"</strong> for examle <strong>bafi.exe -i ?files.yaml</strong></p>
-<p>Example:</p>
-<ul>
-<li>batch file which gets the data from multiple sources <strong>myFiles.bat</strong></li>
-</ul>
-<pre><code class="language-sh">curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml &gt; ecbRates.xml
-curl -s https://goweather.herokuapp.com/weather/prague &gt; pragueWeather.json
-</code></pre>
-<ul>
-<li>Files description <strong>myFiles.yaml</strong></li>
-</ul>
-<pre><code class="language-yaml">- file: ./ecbRates.xml # file path (required)
-  format: xml # File format (optional - detected from the file extension when omitted)
-  label: RATES # Label which will be used in the template {{ .RATES }} (required)
-- file: ./pragueWeather.json
-  label: WEATHER # format omitted -&gt; &quot;json&quot; from the .json extension
-</code></pre>
-<p>A record with a missing or wrongly typed key (e.g. <code>file: 123</code>) is reported as <code>fileList[&lt;index&gt;]: ...</code> instead of aborting with a stack trace.</p>
-<ul>
-<li>Template file <strong>myTemplate.tmpl</strong> which will generate simple HTML page with data</li>
-</ul>
-<pre><code class="language-html">&lt;html&gt;
-    &lt;body&gt;
-    &lt;h3&gt; Weather in Prague &lt;/h3&gt;
-    &lt;h4&gt; Temperatre: {{.WEATHER.temperature}} &lt;/h4&gt;
-    &lt;h4&gt; Wind: {{.WEATHER.wind}} &lt;/h4&gt;
-    &lt;h3&gt; ECB Exchange rates from: {{dateFormat (index .RATES.Envelope.Cube.Cube &quot;-time&quot;) &quot;2006-01-02&quot; &quot;02.01.2006&quot; }}&lt;/h3&gt;
-        &lt;table&gt;
-            &lt;tr&gt;&lt;th&gt;currency&lt;/th&gt;&lt;th&gt;rate&lt;/th&gt;
-            {{- range .RATES.Envelope.Cube.Cube.Cube }}
-            &lt;tr&gt;&lt;td&gt;{{index . &quot;-currency&quot; }}&lt;/td&gt;&lt;td&gt;{{index . &quot;-rate&quot; }}&lt;/td&gt;
-            {{- end}}
-        &lt;/table&gt;
-    &lt;body&gt;
-&lt;/html&gt;
-
-&lt;style&gt;
-table, th, td { border: 1px solid black; width: 400px; }
-&lt;/style&gt;
-</code></pre>
-<ul>
-<li>Finally run bafi</li>
-</ul>
-<pre><code class="language-sh">bafi.exe -t myTemplate.tmpl -i ?myFiles.yaml -o output.html
-</code></pre></div>
+<p>See <a href="../recipes/merge-files/">Merge several files into one output</a>.</p></div>
             </div>
         </div>
 

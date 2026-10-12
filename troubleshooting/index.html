@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://mmalcek.github.io/bafi/troubleshooting/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Troubleshooting - BaFi</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/lua.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/powershell.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-GE1PDVJERL"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', "G-GE1PDVJERL");
+        </script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="..">BaFi</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../install/" class="nav-link">Install</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Recipes</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../recipes/" class="dropdown-item">Recipes</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/xml-to-json/" class="dropdown-item">XML to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/json-to-xml/" class="dropdown-item">JSON to XML</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/csv-to-json/" class="dropdown-item">CSV to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/json-to-csv/" class="dropdown-item">JSON to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/xml-to-csv/" class="dropdown-item">XML to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/convert-formats/" class="dropdown-item">JSON, YAML, TOON, BSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/rest-to-soap/" class="dropdown-item">REST to SOAP</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/soap-to-json/" class="dropdown-item">SOAP to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/sql-database/" class="dropdown-item">SQL database to XML/JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/bson-to-csv/" class="dropdown-item">MongoDB dump to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/json-to-html/" class="dropdown-item">HTML report</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/csv-to-sql/" class="dropdown-item">CSV to SQL</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/merge-files/" class="dropdown-item">Merge several files</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/mt940-to-csv/" class="dropdown-item">MT940 to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/lua/" class="dropdown-item">Lua functions</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/openai/" class="dropdown-item">Ask OpenAI</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Guide</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../cli/" class="dropdown-item">Command line</a>
+</li>
+                                    
+<li>
+    <a href="../templates/" class="dropdown-item">Templates</a>
+</li>
+                                    
+<li>
+    <a href="../functions/" class="dropdown-item">Function reference</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Troubleshooting</a>
+</li>
+                                    
+<li>
+    <a href="../security/" class="dropdown-item">Security notes</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../changelog/" class="nav-link">Changelog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../about/" class="nav-link">About</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../functions/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../security/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/mmalcek/bafi/edit/master/docs/troubleshooting.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#troubleshooting" class="nav-link">Troubleshooting</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#command-line" class="nav-link">Command line</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="3"><a href="#no-input" class="nav-link">No input</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#unexpected-argument" class="nav-link">Unexpected argument</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#unknown-input-format" class="nav-link">Unknown input format</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#file-not-found" class="nav-link">File not found</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#cannot-create-output-file" class="nav-link">Cannot create output file</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#input-data" class="nav-link">Input data</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="3"><a href="#input-is-empty" class="nav-link">Input is empty</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#invalid-json" class="nav-link">Invalid JSON</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#invalid-yaml" class="nav-link">Invalid YAML</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#invalid-xml" class="nav-link">Invalid XML</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#invalid-csv" class="nav-link">Invalid CSV</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#csv-wrong-number-of-fields" class="nav-link">CSV: wrong number of fields</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#csv-in-one-column" class="nav-link">CSV in one column</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#invalid-file-list" class="nav-link">Invalid file list</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#invalid-input" class="nav-link">Invalid input</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#templates" class="nav-link">Templates</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="3"><a href="#template-syntax-error" class="nav-link">Template syntax error</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#unknown-function" class="nav-link">Unknown function</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#keys-with-dashes" class="nav-link">Keys with dashes</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#wrong-type" class="nav-link">Wrong type</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#missing-keys-and-no-value" class="nav-link">Missing keys and &lt;no value&gt;</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#installation" class="nav-link">Installation</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="3"><a href="#macos-bafi-cannot-be-opened" class="nav-link">macOS: bafi cannot be opened</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#powershell-bafi-is-not-recognized" class="nav-link">PowerShell: bafi is not recognized</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="3"><a href="#lua-errors-in-the-output" class="nav-link">Lua errors in the output</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="troubleshooting">Troubleshooting</h1>
+<p>Every bafi error names the file, the line and usually the column, shows the offending line, and ends
+with a hint and a link to the matching section below. The examples on this page are real output of the
+current version.</p>
+<p>Exit codes: <code>0</code> success, <code>1</code> the input, template or output failed, <code>2</code> the command line is wrong.</p>
+<h2 id="command-line">Command line</h2>
+<h3 id="no-input">No input</h3>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -t '?{{toJSON .}}'
+</code></pre>
+<!-- test:stderr exit=2 -->
+
+<pre><code>bafi: no input
+
+hint: read a file with -i data.json, or pipe data in: cat data.json | bafi -f json -t '?{{toXML .}}'
+docs: https://mmalcek.github.io/bafi/troubleshooting/#no-input
+
+usage: bafi -i INPUT -t TEMPLATE [-o OUTPUT]   (bafi -h for help and examples)
+</code></pre>
+<p>Without <code>-i</code>, bafi reads standard input, and nothing was piped in. Give a file with <code>-i data.json</code>, or
+pipe data: <code>cat data.json | bafi -f json -t ...</code>. Redirecting works as well: <code>bafi -f json -t ... &lt; data.json</code>.</p>
+<h3 id="unexpected-argument">Unexpected argument</h3>
+<p>The shell splits an inline template at spaces unless it is quoted:</p>
+<!-- test:file data.json -->
+
+<pre><code class="language-json">{&quot;name&quot;: &quot;Alice&quot;, &quot;count&quot;: 3}
+</code></pre>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i data.json -t ?{{toJSON .}}
+</code></pre>
+<!-- test:stderr exit=2 -->
+
+<pre><code>bafi: unexpected argument &quot;.}}&quot;
+
+hint: flags must come first and inline templates with spaces must be quoted: -t '?{{toJSON .}}'
+docs: https://mmalcek.github.io/bafi/troubleshooting/#unexpected-argument
+
+usage: bafi -i INPUT -t TEMPLATE [-o OUTPUT]   (bafi -h for help and examples)
+</code></pre>
+<p>Quote inline templates: single quotes in bash/zsh (<code>-t '?{{toJSON .}}'</code>), double quotes in PowerShell
+and cmd.exe (<code>-t "?{{toJSON .}}"</code>). All flags must come before any other argument. The output above is
+from bash; zsh, the macOS default shell, stops even earlier with <code>zsh: no matches found</code>, because it
+treats the unquoted <code>?</code> as a wildcard. The fix is the same: quote the template.</p>
+<h3 id="unknown-input-format">Unknown input format</h3>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">echo '{&quot;a&quot;: 1}' | bafi -t '?{{.a}}'
+</code></pre>
+<!-- test:stderr exit=2 -->
+
+<pre><code>bafi: cannot tell the input format of stdin
+
+hint: add -f json (the input looks like JSON); supported formats: json, bson, yaml, csv, xml, mt940
+docs: https://mmalcek.github.io/bafi/troubleshooting/#unknown-input-format
+
+usage: bafi -i INPUT -t TEMPLATE [-o OUTPUT]   (bafi -h for help and examples)
+</code></pre>
+<p>Standard input has no file name, so bafi cannot guess the format: add <code>-f json</code>, <code>-f xml</code>, <code>-f csv</code>,
+<code>-f yaml</code>, <code>-f bson</code> or <code>-f mt940</code>. For files, the extension decides (<code>.json</code>, <code>.xml</code>, <code>.csv</code>, <code>.yaml</code>/<code>.yml</code>,
+<code>.bson</code>, <code>.sta</code>); <code>-f</code> overrides it. A misspelled <code>-f</code> value gets a suggestion.</p>
+<h3 id="file-not-found">File not found</h3>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i data.jsn -t '?{{.name}}'
+</code></pre>
+<!-- test:stderr -->
+
+<pre><code>bafi: cannot read input file &quot;data.jsn&quot;
+  no such file or directory
+
+hint: check the path; relative paths are resolved from the current directory
+docs: https://mmalcek.github.io/bafi/troubleshooting/#file-not-found
+</code></pre>
+<p>Relative paths start in the current directory, not where bafi is installed. The same error for <code>-t</code>
+usually means the inline template is missing its leading <code>?</code>.</p>
+<h3 id="cannot-create-output-file">Cannot create output file</h3>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i data.json -t '?{{.name}}' -o reports/today.txt
+</code></pre>
+<!-- test:stderr -->
+
+<pre><code>bafi: cannot create output file &quot;reports/today.txt&quot;
+  no such file or directory
+
+hint: the directory does not exist; create it first
+docs: https://mmalcek.github.io/bafi/troubleshooting/#cannot-create-output-file
+</code></pre>
+<p>bafi does not create directories; create <code>reports</code> first.</p>
+<h2 id="input-data">Input data</h2>
+<h3 id="input-is-empty">Input is empty</h3>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">echo '' | bafi -f json -t '?{{.name}}'
+</code></pre>
+<!-- test:stderr -->
+
+<pre><code>bafi: JSON input from stdin is empty
+
+hint: nothing arrived on stdin - did the previous command in the pipe fail? (with curl use -f so HTTP errors are reported)
+docs: https://mmalcek.github.io/bafi/troubleshooting/#input-is-empty
+</code></pre>
+<p>Usually the command before bafi failed and printed its error to the terminal instead of the pipe. With
+curl, add <code>-f</code> so HTTP errors are reported, and <code>-s</code> to hide the progress bar: <code>curl -fs URL | bafi ...</code>.</p>
+<h3 id="invalid-json">Invalid JSON</h3>
+<!-- test:file broken.json -->
+
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;Alice&quot;,
+  &quot;tags&quot;: [&quot;a&quot;, &quot;b&quot;,],
+}
+</code></pre>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i broken.json -t '?{{.name}}'
+</code></pre>
+<!-- test:stderr -->
+
+<pre><code>bafi: cannot parse JSON input from &quot;broken.json&quot; (line 3, column 21)
+
+  3 |   &quot;tags&quot;: [&quot;a&quot;, &quot;b&quot;,],
+    |                     ^
+  invalid character ']' looking for beginning of value
+
+hint: remove the trailing comma before ] - JSON does not allow it
+docs: https://mmalcek.github.io/bafi/troubleshooting/#invalid-json
+</code></pre>
+<p>The most common causes: a trailing comma, single quotes instead of double quotes, keys or text values
+without quotes, or a file cut off in the middle. bafi expects an object <code>{...}</code> or a list of objects
+<code>[{...}, ...]</code> at the top level.</p>
+<h3 id="invalid-yaml">Invalid YAML</h3>
+<!-- test:file broken.yaml -->
+
+<pre><code class="language-yaml">name: Alice
+ role: admin
+</code></pre>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i broken.yaml -t '?{{.name}}'
+</code></pre>
+<!-- test:stderr -->
+
+<pre><code>bafi: cannot parse YAML input from &quot;broken.yaml&quot; (near line 2)
+
+  1 | name: Alice
+  2 |  role: admin
+  mapping values are not allowed in this context
+
+hint: check the indentation; a value containing &quot;: &quot; must be quoted, e.g. title: &quot;Note: read me&quot;
+docs: https://mmalcek.github.io/bafi/troubleshooting/#invalid-yaml
+</code></pre>
+<p>YAML reports problems at or just before the line where it got confused, so check the line above as well.
+Indent with spaces only; quote values that contain <code>:</code> or start with special characters.</p>
+<h3 id="invalid-xml">Invalid XML</h3>
+<!-- test:file broken.xml -->
+
+<pre><code class="language-xml">&lt;order&gt;
+  &lt;customer&gt;Tom &amp; Jerry&lt;/customer&gt;
+&lt;/order&gt;
+</code></pre>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i broken.xml -t '?{{.order.customer}}'
+</code></pre>
+<!-- test:stderr -->
+
+<pre><code>bafi: cannot parse XML input from &quot;broken.xml&quot; (line 2, column 17)
+
+  2 |   &lt;customer&gt;Tom &amp; Jerry&lt;/customer&gt;
+    |                 ^
+  XML syntax error on line 2: invalid character entity &amp; (no semicolon)
+
+hint: a bare &amp; must be written as &amp;amp; (and &lt; as &amp;lt;) inside XML text
+docs: https://mmalcek.github.io/bafi/troubleshooting/#invalid-xml
+</code></pre>
+<p>Inside XML text <code>&amp;</code> must be written <code>&amp;amp;</code> and <code>&lt;</code> must be <code>&amp;lt;</code>. Other frequent causes are a closing
+tag that does not match (<code>&lt;b&gt;...&lt;/c&gt;</code>) and a document that was cut off. Only UTF-8 XML is supported.</p>
+<h3 id="invalid-csv">Invalid CSV</h3>
+<!-- test:file quotes.csv -->
+
+<pre><code>name,comment
+Alice,said &quot;hi&quot;
+</code></pre>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i quotes.csv -t '?{{len .}}'
+</code></pre>
+<!-- test:stderr -->
+
+<pre><code>bafi: cannot parse CSV input from &quot;quotes.csv&quot; (line 2, column 12)
+
+  2 | Alice,said &quot;hi&quot;
+    |            ^
+  bare &quot; in non-quoted-field
+
+hint: a quote inside an unquoted field: quote the whole field and double the inner quotes, e.g. &quot;He said &quot;&quot;hi&quot;&quot;&quot;
+docs: https://mmalcek.github.io/bafi/troubleshooting/#invalid-csv
+</code></pre>
+<p>A field that contains quotes must itself be quoted, with the inner quotes doubled:
+<code>Alice,"said ""hi"""</code>.</p>
+<h3 id="csv-wrong-number-of-fields">CSV: wrong number of fields</h3>
+<!-- test:file fields.csv -->
+
+<pre><code>name,city
+Alice,Prague
+Bob,Brno,CZ
+</code></pre>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i fields.csv -t '?{{len .}}'
+</code></pre>
+<!-- test:stderr -->
+
+<pre><code>bafi: cannot parse CSV input from &quot;fields.csv&quot; (line 3)
+
+  3 | Bob,Brno,CZ
+  wrong number of fields: the header has 2, this record has 3
+
+hint: every row needs as many fields as the header; quote values that contain the delimiter (&quot;Smith, John&quot;), or set the delimiter with -d
+docs: https://mmalcek.github.io/bafi/troubleshooting/#csv-wrong-number-of-fields
+</code></pre>
+<p>Every row needs as many values as the header line. Values containing the delimiter must be quoted
+(<code>"Brno, CZ"</code>).</p>
+<h3 id="csv-in-one-column">CSV in one column</h3>
+<!-- test:file semicolon.csv -->
+
+<pre><code>name;city
+Alice;Prague
+</code></pre>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i semicolon.csv -t '?{{range .}}{{.name}}{{end}}'
+</code></pre>
+<!-- test:stderr exit=0 -->
+
+<pre><code>bafi: warning: the CSV header has a single column containing ';' - did you mean -d ';'?
+bafi: warning: output contains &lt;no value&gt; 1 time(s) - a key used in the template is missing from the input (or is null); run with -strict to see which one
+</code></pre>
+<p>The file uses <code>;</code>, but bafi split at commas, so the whole line became one column named <code>name;city</code>.
+Set the delimiter: <code>-d ';'</code>, or <code>-d 0x09</code> for TAB-separated files.</p>
+<h3 id="invalid-file-list">Invalid file list</h3>
+<!-- test:file files.yaml -->
+
+<pre><code class="language-yaml">- file: data.json
+  label: DATA
+- file: 42
+  label: OTHER
+</code></pre>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i '?files.yaml' -t '?{{toJSON .}}'
+</code></pre>
+<!-- test:stderr -->
+
+<pre><code>bafi: invalid entry in file list &quot;files.yaml&quot;
+  fileList[1]: &quot;file&quot; must be a string (got int)
+
+hint: every entry needs file and label as text, format is optional: - file: rates.xml / label: RATES
+docs: https://mmalcek.github.io/bafi/troubleshooting/#invalid-file-list
+</code></pre>
+<p>Each entry of a <a href="../recipes/merge-files/">file list</a> needs <code>file</code> and <code>label</code> as text; <code>format</code> is
+optional when the extension is known.</p>
+<h3 id="invalid-input">Invalid input</h3>
+<p>Errors in BSON and MT940 input have no line numbers.</p>
+<!-- test:file statement.sta -->
+
+<pre><code>this is not a SWIFT message
+</code></pre>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i statement.sta -t '?{{.Fields.F_20}}'
+</code></pre>
+<!-- test:stderr -->
+
+<pre><code>bafi: cannot parse MT940 input from &quot;statement.sta&quot;
+  no {1: header block found (headerStartNotFound)
+
+hint: an MT940 message starts with the {1:...}{2:...}{4: header, uses CRLF line endings and ends with -}; for files with several messages (e.g. Multicash) set the separator, e.g. -d &quot;-}\r\n&quot;
+docs: https://mmalcek.github.io/bafi/troubleshooting/#invalid-input
+</code></pre>
+<p>MT940 files need the <code>{1:...}{2:...}{4:</code> header, CRLF line endings and <code>-}</code> at the end. BSON input must
+be a BSON document or a <code>mongodump</code> file; MongoDB extended JSON is JSON (<code>-f json</code>).</p>
+<h2 id="templates">Templates</h2>
+<h3 id="template-syntax-error">Template syntax error</h3>
+<!-- test:file report.tmpl -->
+
+<pre><code>Users:
+{{range .users}}
+- {{.name}}
+</code></pre>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i data.json -t report.tmpl
+</code></pre>
+<!-- test:stderr -->
+
+<pre><code>bafi: template error in report.tmpl (line 2)
+
+  2 | {{range .users}}
+  unexpected EOF: the {{range}} started here has no {{end}}
+
+hint: a {{if}}, {{range}} or {{with}} block is missing its {{end}}
+docs: https://mmalcek.github.io/bafi/troubleshooting/#template-syntax-error
+</code></pre>
+<p>Every <code>{{if}}</code>, <code>{{range}}</code> and <code>{{with}}</code> needs its <code>{{end}}</code>, and every <code>{{</code> needs <code>}}</code>.</p>
+<h3 id="unknown-function">Unknown function</h3>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i data.json -t '?{{uper .name}}'
+</code></pre>
+<!-- test:stderr -->
+
+<pre><code>bafi: template error in the inline template (line 1)
+
+  1 | {{uper .name}}
+  function &quot;uper&quot; not defined
+
+hint: there is no function &quot;uper&quot; - did you mean &quot;upper&quot;?
+docs: https://mmalcek.github.io/bafi/troubleshooting/#unknown-function
+</code></pre>
+<p>Function names are case-sensitive. See the <a href="../functions/">function reference</a>.</p>
+<h3 id="keys-with-dashes">Keys with dashes</h3>
+<!-- test:file dashes.json -->
+
+<pre><code class="language-json">{&quot;order-id&quot;: 1001}
+</code></pre>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i dashes.json -t '?{{.order-id}}'
+</code></pre>
+<!-- test:stderr -->
+
+<pre><code>bafi: template error in the inline template (line 1)
+
+  1 | {{.order-id}}
+  bad character U+002D '-'
+
+hint: keys containing &quot;-&quot; cannot be used with a dot; use index: {{index . &quot;my-key&quot;}} (XML attributes are &quot;-name&quot;)
+docs: https://mmalcek.github.io/bafi/troubleshooting/#keys-with-dashes
+</code></pre>
+<p>A dot path cannot contain <code>-</code> (or spaces). Use <code>index</code>, which also reaches XML attributes, because those
+are stored with a leading <code>-</code>:</p>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i dashes.json -t '?{{index . &quot;order-id&quot;}}'
+</code></pre>
+<!-- test:output -->
+
+<pre><code>1001
+</code></pre>
+<h3 id="wrong-type">Wrong type</h3>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i data.json -t '?{{upper .count}}'
+</code></pre>
+<!-- test:stderr -->
+
+<pre><code>bafi: template error in the inline template (line 1, column 9)
+
+  1 | {{upper .count}}
+    |         ^
+  wrong type for value; expected string; got float64 (at &lt;.count&gt;)
+
+hint: the value is a float64, the function needs text; convert it first, e.g. (toString .value)
+docs: https://mmalcek.github.io/bafi/troubleshooting/#wrong-type
+</code></pre>
+<p>JSON numbers are numbers (<code>float64</code>), while CSV and XML values are always text. Convert where the
+function expects something else: <code>{{upper (toString .count)}}</code>, <code>{{add (toInt .qty) 1}}</code>. <code>range</code> needs a
+list: an XML element that occurs once is not a list, wrap it with <code>mustArray</code>.</p>
+<h3 id="missing-keys-and-no-value">Missing keys and <code>&lt;no value&gt;</code></h3>
+<p>A key that is not in the input prints <code>&lt;no value&gt;</code>. bafi keeps the output but warns:</p>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i data.json -t '?Hello {{.nmae}}'
+</code></pre>
+<!-- test:stderr exit=0 -->
+
+<pre><code>bafi: warning: output contains &lt;no value&gt; 1 time(s) - a key used in the template is missing from the input (or is null); run with -strict to see which one
+</code></pre>
+<p><code>-strict</code> turns it into an error that names the key and the line:</p>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i data.json -strict -t '?Hello {{.nmae}}'
+</code></pre>
+<!-- test:stderr -->
+
+<pre><code>bafi: template error in the inline template (line 1, column 9)
+
+  1 | Hello {{.nmae}}
+    |         ^
+  map has no entry for key &quot;nmae&quot; (at &lt;.nmae&gt;)
+
+hint: the input has no key &quot;nmae&quot; here (-strict is on); check spelling and case - XML attributes start with &quot;-&quot; (index . &quot;-id&quot;); for keys that may be absent use {{with index . &quot;nmae&quot;}}...{{end}}
+docs: https://mmalcek.github.io/bafi/troubleshooting/#missing-keys-and-no-value
+</code></pre>
+<p>Check spelling and case (<code>Name</code> and <code>name</code> are different keys); XML attributes start with <code>-</code>. To see
+what bafi parsed, print it: <code>bafi -i data.json -t '?{{toJSON .}}'</code>.</p>
+<p>Under <code>-strict</code>, keys that may legitimately be absent need <code>index</code>, which returns nothing instead of
+failing: <code>{{with index . "nickname"}}({{.}}){{end}}</code>.</p>
+<h2 id="installation">Installation</h2>
+<h3 id="macos-bafi-cannot-be-opened">macOS: bafi cannot be opened</h3>
+<p>macOS blocks programs downloaded with a browser that are not signed by an Apple developer
+("cannot be opened because the developer cannot be verified"). Remove the quarantine flag once:</p>
+<pre><code class="language-sh">xattr -d com.apple.quarantine ./bafi
+</code></pre>
+<p>Files downloaded with <code>curl</code> are not quarantined. See <a href="../install/">Install</a>.</p>
+<h3 id="powershell-bafi-is-not-recognized">PowerShell: bafi is not recognized</h3>
+<p>PowerShell does not run programs from the current directory by name. Use <code>.\bafi.exe</code>, or put bafi in a
+directory listed in <code>PATH</code>. Windows SmartScreen may warn the first time; choose <strong>More info</strong>, then
+<strong>Run anyway</strong>.</p>
+<h3 id="lua-errors-in-the-output">Lua errors in the output</h3>
+<p>Lua problems do not stop bafi; the output contains <code>luaError: ...</code> where the function's result should
+be. See <a href="../recipes/lua/#errors">Custom logic with Lua</a>.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

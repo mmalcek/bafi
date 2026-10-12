@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://mmalcek.github.io/bafi/recipes/xml-to-csv/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>XML to CSV - BaFi</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/lua.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/powershell.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-GE1PDVJERL"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', "G-GE1PDVJERL");
+        </script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="../..">BaFi</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../../install/" class="nav-link">Install</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Recipes</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../" class="dropdown-item">Recipes</a>
+</li>
+                                    
+<li>
+    <a href="../xml-to-json/" class="dropdown-item">XML to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../json-to-xml/" class="dropdown-item">JSON to XML</a>
+</li>
+                                    
+<li>
+    <a href="../csv-to-json/" class="dropdown-item">CSV to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../json-to-csv/" class="dropdown-item">JSON to CSV</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">XML to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../convert-formats/" class="dropdown-item">JSON, YAML, TOON, BSON</a>
+</li>
+                                    
+<li>
+    <a href="../rest-to-soap/" class="dropdown-item">REST to SOAP</a>
+</li>
+                                    
+<li>
+    <a href="../soap-to-json/" class="dropdown-item">SOAP to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../sql-database/" class="dropdown-item">SQL database to XML/JSON</a>
+</li>
+                                    
+<li>
+    <a href="../bson-to-csv/" class="dropdown-item">MongoDB dump to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../json-to-html/" class="dropdown-item">HTML report</a>
+</li>
+                                    
+<li>
+    <a href="../csv-to-sql/" class="dropdown-item">CSV to SQL</a>
+</li>
+                                    
+<li>
+    <a href="../merge-files/" class="dropdown-item">Merge several files</a>
+</li>
+                                    
+<li>
+    <a href="../mt940-to-csv/" class="dropdown-item">MT940 to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../lua/" class="dropdown-item">Lua functions</a>
+</li>
+                                    
+<li>
+    <a href="../openai/" class="dropdown-item">Ask OpenAI</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Guide</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../cli/" class="dropdown-item">Command line</a>
+</li>
+                                    
+<li>
+    <a href="../../templates/" class="dropdown-item">Templates</a>
+</li>
+                                    
+<li>
+    <a href="../../functions/" class="dropdown-item">Function reference</a>
+</li>
+                                    
+<li>
+    <a href="../../troubleshooting/" class="dropdown-item">Troubleshooting</a>
+</li>
+                                    
+<li>
+    <a href="../../security/" class="dropdown-item">Security notes</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../../changelog/" class="nav-link">Changelog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../../about/" class="nav-link">About</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../json-to-csv/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../convert-formats/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/mmalcek/bafi/edit/master/docs/recipes/xml-to-csv.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#convert-xml-to-csv" class="nav-link">Convert XML to CSV</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#sample-input" class="nav-link">Sample input</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#template" class="nav-link">Template</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="convert-xml-to-csv">Convert XML to CSV</h1>
+<p>Flatten repeating XML records into CSV rows, including values stored in attributes.</p>
+<h2 id="sample-input">Sample input</h2>
+<p>This is <code>testdata.xml</code>, shipped with every bafi release:</p>
+<!-- test:file data.xml -->
+
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;TOP_LEVEL description=&quot;employeeData&quot;&gt;
+  &lt;DATA_LINE&gt;
+    &lt;Employee ID=&quot;0021&quot;&gt;&lt;/Employee&gt;
+    &lt;Trans_Date&gt;2021-05-21&lt;/Trans_Date&gt;
+    &lt;val1&gt;5&lt;/val1&gt;
+    &lt;val2&gt;12&lt;/val2&gt;
+    &lt;Linked_Text VALUE=&quot;Magic Bus Company&quot;&gt;&lt;/Linked_Text&gt;
+  &lt;/DATA_LINE&gt;
+  &lt;DATA_LINE&gt;
+    &lt;Employee ID=&quot;0023&quot;&gt;&lt;/Employee&gt;
+    &lt;Trans_Date&gt;2021-05-23&lt;/Trans_Date&gt;
+    &lt;val1&gt;43&lt;/val1&gt;
+    &lt;val2&gt;9&lt;/val2&gt;
+    &lt;Linked_Text VALUE=&quot;Baltimore Grand&quot;&gt;&lt;/Linked_Text&gt;
+  &lt;/DATA_LINE&gt;
+&lt;/TOP_LEVEL&gt;
+</code></pre>
+<h2 id="template">Template</h2>
+<!-- test:file employees-csv.tmpl -->
+
+<pre><code>Employee,Date,val1,val2,SUM,LinkedText
+{{- range mustArray .TOP_LEVEL.DATA_LINE}}
+{{index .Employee &quot;-ID&quot;}},{{dateFormat .Trans_Date &quot;2006-01-02&quot; &quot;02.01.2006&quot;}},{{.val1}},{{.val2}},{{add .val1 .val2}},&quot;{{index .Linked_Text &quot;-VALUE&quot;}}&quot;
+{{- end}}
+</code></pre>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i data.xml -t employees-csv.tmpl
+</code></pre>
+<!-- test:output -->
+
+<pre><code>Employee,Date,val1,val2,SUM,LinkedText
+0021,21.05.2021,5,12,17,&quot;Magic Bus Company&quot;
+0023,23.05.2021,43,9,52,&quot;Baltimore Grand&quot;
+</code></pre>
+<ul>
+<li><code>index .Employee "-ID"</code> reads the <code>ID</code> attribute; attributes are prefixed with <code>-</code>, and keys with a
+  <code>-</code> need <code>index</code> instead of a dot.</li>
+<li><code>mustArray</code> keeps the template working when the file contains only one <code>DATA_LINE</code>.</li>
+<li><code>dateFormat</code> converts dates using Go's <a href="../../functions/#date-functions">reference layout</a>
+  (<code>2006-01-02</code> means YYYY-MM-DD).</li>
+<li><code>add</code> converts the text values to numbers before adding.</li>
+</ul>
+<p>Related: <a href="../xml-to-json/">XML to JSON</a> · <a href="../json-to-csv/">JSON to CSV</a></p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

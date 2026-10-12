@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="None">
+        <meta name="description" content="bafi converts JSON, XML, CSV, YAML, BSON and MT940 into any text format with Go templates: XML to JSON, JSON to CSV, REST to SOAP, HTML reports, SQL statements. Free command line tool for Windows, macOS and Linux.">
         
         <link rel="canonical" href="https://mmalcek.github.io/bafi/">
         <link rel="shortcut icon" href="img/favicon.ico">
@@ -20,6 +20,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/lua.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/powershell.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
         <script>hljs.highlightAll();</script>
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-GE1PDVJERL"></script>
         <script>
@@ -45,10 +46,108 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li class="nav-item">
-                                <a href="." class="nav-link active" aria-current="page">Application</a>
+                                <a href="." class="nav-link active" aria-current="page">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a href="examples/" class="nav-link">Examples</a>
+                                <a href="install/" class="nav-link">Install</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Recipes</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="recipes/" class="dropdown-item">Recipes</a>
+</li>
+                                    
+<li>
+    <a href="recipes/xml-to-json/" class="dropdown-item">XML to JSON</a>
+</li>
+                                    
+<li>
+    <a href="recipes/json-to-xml/" class="dropdown-item">JSON to XML</a>
+</li>
+                                    
+<li>
+    <a href="recipes/csv-to-json/" class="dropdown-item">CSV to JSON</a>
+</li>
+                                    
+<li>
+    <a href="recipes/json-to-csv/" class="dropdown-item">JSON to CSV</a>
+</li>
+                                    
+<li>
+    <a href="recipes/xml-to-csv/" class="dropdown-item">XML to CSV</a>
+</li>
+                                    
+<li>
+    <a href="recipes/convert-formats/" class="dropdown-item">JSON, YAML, TOON, BSON</a>
+</li>
+                                    
+<li>
+    <a href="recipes/rest-to-soap/" class="dropdown-item">REST to SOAP</a>
+</li>
+                                    
+<li>
+    <a href="recipes/soap-to-json/" class="dropdown-item">SOAP to JSON</a>
+</li>
+                                    
+<li>
+    <a href="recipes/sql-database/" class="dropdown-item">SQL database to XML/JSON</a>
+</li>
+                                    
+<li>
+    <a href="recipes/bson-to-csv/" class="dropdown-item">MongoDB dump to CSV</a>
+</li>
+                                    
+<li>
+    <a href="recipes/json-to-html/" class="dropdown-item">HTML report</a>
+</li>
+                                    
+<li>
+    <a href="recipes/csv-to-sql/" class="dropdown-item">CSV to SQL</a>
+</li>
+                                    
+<li>
+    <a href="recipes/merge-files/" class="dropdown-item">Merge several files</a>
+</li>
+                                    
+<li>
+    <a href="recipes/mt940-to-csv/" class="dropdown-item">MT940 to CSV</a>
+</li>
+                                    
+<li>
+    <a href="recipes/lua/" class="dropdown-item">Lua functions</a>
+</li>
+                                    
+<li>
+    <a href="recipes/openai/" class="dropdown-item">Ask OpenAI</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Guide</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="cli/" class="dropdown-item">Command line</a>
+</li>
+                                    
+<li>
+    <a href="templates/" class="dropdown-item">Templates</a>
+</li>
+                                    
+<li>
+    <a href="functions/" class="dropdown-item">Function reference</a>
+</li>
+                                    
+<li>
+    <a href="troubleshooting/" class="dropdown-item">Troubleshooting</a>
+</li>
+                                    
+<li>
+    <a href="security/" class="dropdown-item">Security notes</a>
+</li>
+                                </ul>
                             </li>
                             <li class="nav-item">
                                 <a href="changelog/" class="nav-link">Changelog</a>
@@ -70,9 +169,12 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="examples/" class="nav-link">
+                                <a rel="next" href="install/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/mmalcek/bafi/edit/master/docs/README.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -94,63 +196,19 @@
             
             <li class="nav-item" data-bs-level="1"><a href="#bafi" class="nav-link">BaFi</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#key-features" class="nav-link">Key features</a>
+            <li class="nav-item" data-bs-level="2"><a href="#what-do-you-want-to-do" class="nav-link">What do you want to do?</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#how-does-it-work" class="nav-link">How does it work?</a>
+            <li class="nav-item" data-bs-level="2"><a href="#in-thirty-seconds" class="nav-link">In thirty seconds</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#online-demo-wasm" class="nav-link">Online demo (WASM)</a>
+            <li class="nav-item" data-bs-level="2"><a href="#try-it-online" class="nav-link">Try it online</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#command-line-arguments" class="nav-link">Command line arguments</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#templates" class="nav-link">Templates</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="3"><a href="#comments" class="nav-link">Comments</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="3"><a href="#trim-new-line" class="nav-link">Trim new line</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="3"><a href="#accessing-data" class="nav-link">Accessing data</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="3"><a href="#variables" class="nav-link">Variables</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="3"><a href="#actions" class="nav-link">Actions</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="3"><a href="#functions" class="nav-link">Functions</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="4"><a href="#native-functions" class="nav-link">Native functions</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="4"><a href="#additional-functions" class="nav-link">Additional functions</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="4"><a href="#lua-custom-functions" class="nav-link">Lua custom functions</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#security-notes" class="nav-link">Security notes</a>
+            <li class="nav-item" data-bs-level="2"><a href="#why-bafi" class="nav-link">Why bafi</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -162,358 +220,183 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="bafi">BaFi</h1>
-<p><strong>Universal JSON, BSON, YAML, CSV, XML, mt940 translator to ANY format using templates</strong></p>
-<p><strong>Github repository</strong></p>
+<p><strong>Convert JSON, XML, CSV, YAML, BSON and MT940 into any text format with templates.</strong></p>
+<p>bafi reads structured data from a file or a pipe and renders it through a template into whatever text
+the next system needs: JSON, XML, CSV, HTML, SQL, a SOAP request. One small program without
+dependencies for Windows, macOS and Linux.</p>
+<p><a href="install/">Install</a> · <a href="recipes/">Recipes</a> · <a href="functions/">Function reference</a> · <a href="troubleshooting/">Troubleshooting</a> · <a href="https://github.com/mmalcek/bafi">GitHub</a></p>
+<p><img src="img/scheme.svg" style="border: 0;" height="150px" alt="input formats to any output" /></p>
+<h2 id="what-do-you-want-to-do">What do you want to do?</h2>
+<table>
+<thead>
+<tr>
+<th>I want to...</th>
+<th>Recipe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>turn XML into JSON</td>
+<td><a href="recipes/xml-to-json/">Convert XML to JSON</a></td>
+</tr>
+<tr>
+<td>turn JSON (e.g. a REST response) into XML</td>
+<td><a href="recipes/json-to-xml/">Convert JSON to XML</a></td>
+</tr>
+<tr>
+<td>turn a CSV export into JSON</td>
+<td><a href="recipes/csv-to-json/">Convert CSV to JSON</a></td>
+</tr>
+<tr>
+<td>get JSON or XML into Excel</td>
+<td><a href="recipes/json-to-csv/">Convert JSON to CSV</a> · <a href="recipes/xml-to-csv/">XML to CSV</a></td>
+</tr>
+<tr>
+<td>call a SOAP service with data from a REST API</td>
+<td><a href="recipes/rest-to-soap/">REST response to SOAP request</a></td>
+</tr>
+<tr>
+<td>give a SOAP response to a REST client</td>
+<td><a href="recipes/soap-to-json/">SOAP response to JSON</a></td>
+</tr>
+<tr>
+<td>produce an HTML report</td>
+<td><a href="recipes/json-to-html/">HTML report from JSON</a></td>
+</tr>
+<tr>
+<td>load a CSV into a database</td>
+<td><a href="recipes/csv-to-sql/">SQL INSERT statements from CSV</a></td>
+</tr>
+<tr>
+<td>process MT940 bank statements</td>
+<td><a href="recipes/mt940-to-csv/">MT940 to CSV</a></td>
+</tr>
+<tr>
+<td>combine several files into one document</td>
+<td><a href="recipes/merge-files/">Merge several files</a></td>
+</tr>
+<tr>
+<td>convert YAML, JSON, TOON, BSON</td>
+<td><a href="recipes/convert-formats/">Convert between formats</a></td>
+</tr>
+</tbody>
+</table>
+<p><a href="recipes/">All recipes</a></p>
+<h2 id="in-thirty-seconds">In thirty seconds</h2>
+<!-- test:file users.json -->
+
+<pre><code class="language-json">{&quot;users&quot;: [{&quot;name&quot;: &quot;Alice&quot;, &quot;city&quot;: &quot;Prague&quot;}, {&quot;name&quot;: &quot;Bob&quot;, &quot;city&quot;: &quot;Brno&quot;}]}
+</code></pre>
+<p>Convert the whole document with one function:</p>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i users.json -t '?{{toYAML .}}'
+</code></pre>
+<!-- test:output -->
+
+<pre><code class="language-yaml">users:
+    - city: Prague
+      name: Alice
+    - city: Brno
+      name: Bob
+</code></pre>
+<p>Or describe the output yourself. Text outside <code>{{ }}</code> is copied as it is; <code>range</code> repeats a block for
+every item:</p>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i users.json -t '?{{range .users}}{{.name}} lives in {{upper .city}}{{&quot;\n&quot;}}{{end}}'
+</code></pre>
+<!-- test:output -->
+
+<pre><code>Alice lives in PRAGUE
+Bob lives in BRNO
+</code></pre>
+<p>Works in pipes too: <code>curl -fs https://example.com/api/users | bafi -f json -t report.tmpl -o report.html</code>.
+Next: the <a href="templates/">template guide</a> and the <a href="cli/">command line</a>.</p>
+<h2 id="try-it-online">Try it online</h2>
+<p>Runs entirely in your browser; nothing is uploaded. The demo (a few megabytes) loads on the first click.</p>
+<div class="bafi-demo">
+<p>
+<button type="button" onclick="bafiExample('json')">JSON to text</button>
+<button type="button" onclick="bafiExample('csv')">CSV to JSON</button>
+<button type="button" onclick="bafiExample('xml')">XML to CSV</button>
+</p>
+<p>Input format:
+<select id="bafiFormat"><option value="json">JSON</option><option value="xml">XML</option><option value="yaml">YAML</option><option value="csv">CSV</option></select>
+</p>
+<textarea id="bafiInput" rows="12" cols="44" spellcheck="false" aria-label="input data"></textarea>
+<textarea id="bafiTemplate" rows="12" cols="44" spellcheck="false" aria-label="template"></textarea>
+<p><button type="button" onclick="bafiRun()"><b>Run</b></button></p>
+<pre id="bafiOutput" style="max-width: 720px; min-height: 120px; white-space: pre-wrap;"></pre>
+</div>
+
+<script src="js/wasm_exec.js"></script>
+<script>
+var bafiExamples = {
+  json: {format: "json",
+    input: '{\n  "user": {\n    "name": "John Doe",\n    "age": 25,\n    "address": {"city": "New York", "state": "NY"},\n    "favourite_colors": ["red", "green", "blue"]\n  }\n}',
+    template: 'Hello {{upper .user.name}},\n\nyou are {{.user.age}} years old\nand live in {{.user.address.city}}, {{.user.address.state}}.\nYour favourite colors are:\n{{range .user.favourite_colors}} - {{.}}\n{{end}}'},
+  csv: {format: "csv",
+    input: 'id,name,city\n1,Alice,Prague\n2,"Brown, Bob",Brno',
+    template: '{{toJSON .}}'},
+  xml: {format: "xml",
+    input: '<orders>\n  <order id="1001"><customer>Alice</customer><total>120.50</total></order>\n  <order id="1002"><customer>Bob</customer><total>80.00</total></order>\n</orders>',
+    template: 'id,customer,total\n{{- range mustArray .orders.order}}\n{{index . "-id"}},{{.customer}},{{.total}}\n{{- end}}'}
+};
+function bafiExample(name) {
+  var e = bafiExamples[name];
+  document.getElementById("bafiFormat").value = e.format;
+  document.getElementById("bafiInput").value = e.input;
+  document.getElementById("bafiTemplate").value = e.template;
+  document.getElementById("bafiOutput").textContent = "";
+}
+var bafiLoading = null;
+function bafiLoad() {
+  if (!bafiLoading) {
+    var go = new Go();
+    bafiLoading = WebAssembly.instantiateStreaming(fetch("js/bafi.wasm"), go.importObject)
+      .then(function (result) { go.run(result.instance); });
+  }
+  return bafiLoading;
+}
+function bafiRun() {
+  var out = document.getElementById("bafiOutput");
+  if (typeof bafiRender !== "function") { out.textContent = "Loading the demo..."; }
+  bafiLoad().then(function () {
+    out.textContent = bafiRender(document.getElementById("bafiInput").value,
+      document.getElementById("bafiTemplate").value,
+      document.getElementById("bafiFormat").value);
+  }).catch(function (err) {
+    bafiLoading = null;
+    out.textContent = "The demo could not be loaded: " + err;
+  });
+}
+bafiExample("json");
+</script>
+
+<h2 id="why-bafi">Why bafi</h2>
 <ul>
-<li><a href="https://github.com/mmalcek/bafi">https://github.com/mmalcek/bafi</a></li>
+<li><strong>Many inputs:</strong> JSON, BSON, YAML, CSV (any delimiter), XML and MT940 bank statements, from a file
+  or standard input.</li>
+<li><strong>Any output:</strong> the template decides. HTML, SQL, shell scripts, SOAP envelopes, fixed-width text.</li>
+<li><strong>Pipes:</strong> read from <code>curl</code>, write to the next command. Bridges REST and SOAP services, databases
+  and spreadsheets.</li>
+<li><strong>Several inputs at once:</strong> merge files of different formats into one output.</li>
+<li><strong>Helpful errors:</strong> problems are reported with the file, line and column, and a hint how to fix them.</li>
+<li><strong>Extensible:</strong> 60+ template functions, plus your own in <a href="recipes/lua/">Lua</a>.</li>
+<li><strong>TOON and OpenAI:</strong> encode data compactly for LLM prompts, or <a href="recipes/openai/">ask OpenAI</a> about
+  your data (experimental).</li>
 </ul>
-<p><strong>Releases (Windows, MAC, Linux)</strong></p>
-<ul>
-<li><a href="https://github.com/mmalcek/bafi/releases">https://github.com/mmalcek/bafi/releases</a></li>
-</ul>
-<h2 id="key-features">Key features</h2>
-<ul>
-<li>Various input formats <strong>(json, bson, yaml, csv, xml, mt940)</strong></li>
-<li>Flexible output formatting using text templates</li>
-<li>Output can be anything: HTML page, SQL Query, Shell script, CSV file, ...</li>
-<li>Support for <a href="https://www.lua.org/pil/contents.html">Lua</a> custom functions which allows very flexible data manipulation</li>
-<li>stdin/stdout support which allows get data from source -&gt; translate -&gt; delivery to destination. This allows easily translate data between different web services like <strong>REST to SOAP, SOAP to REST, REST to CSV, ...</strong></li>
-<li>Merge multiple input files in various formats into single output file formated using template</li>
-<li>Support chatGPT queries to analyze or format data (experimental)</li>
-<li>Support Encode to <strong>TOON</strong> (Token Oriented Object Notation) format. As easy as <code>./bafi -i input.json -t "?{{ toTOON . }}"</code></li>
-</ul>
-<p><img src="img/scheme.svg" style="border: 0;" height="150px" /></p>
 <p><a href="https://github.com/mmalcek/bafi/actions/workflows/go.yml"><img alt="Go" src="https://github.com/mmalcek/bafi/actions/workflows/go.yml/badge.svg" /></a>
 <a href="https://github.com/mmalcek/bafi/actions/workflows/codeql-analysis.yml"><img alt="CodeQL" src="https://github.com/mmalcek/bafi/actions/workflows/codeql-analysis.yml/badge.svg" /></a>
 <a href="https://goreportcard.com/report/github.com/mmalcek/bafi"><img alt="Go Report Card" src="https://goreportcard.com/badge/github.com/mmalcek/bafi" /></a>
 <a href="https://github.com/mmalcek/bafi/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/mmalcek/bafi" /></a>
 <a href="https://github.com/avelino/awesome-go#text-processing"><img alt="Mentioned in Awesome Go" src="https://awesome.re/mentioned-badge.svg" /></a>
 <a href="https://github.com/mmalcek/bafi/releases/latest"><img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/mmalcek/bafi?label=latest%20release" /></a></p>
-<!--![GitHub All Releases Downloads](https://img.shields.io/github/downloads/mmalcek/bafi/total)-->
-
-<p><strong>If you like this app you can buy me a coffe ;)</strong></p>
+<p><strong>If you like this app you can buy me a coffee ;)</strong></p>
 <p><a href='https://ko-fi.com/mmalcek' target='_blank'>
     <img height='20' style='border:0;height:40px;' src='https://storage.ko-fi.com/cdn/brandasset/kofi_button_blue.png' alt='Buy Me a Coffee at ko-fi.com' />
-</a></p>
-<h2 id="how-does-it-work">How does it work?</h2>
-<p>Application automaticaly parse input data into object which can be simply accessed in tamplate using dot notation where first dot represent root of object <strong>{{ . }}</strong>.</p>
-<p>For example JSON document <strong>myUser.json</strong></p>
-<pre><code class="language-json">{
-  &quot;user&quot;: {
-    &quot;name&quot;: &quot;John Doe&quot;,
-    &quot;age&quot;: 25,
-    &quot;address&quot;: {
-      &quot;street&quot;: &quot;Main Street&quot;,
-      &quot;city&quot;: &quot;New York&quot;,
-      &quot;state&quot;: &quot;NY&quot;
-    },
-    &quot;favourite_colors&quot;: [&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;]
-  }
-}
-</code></pre>
-<ul>
-<li>Get user name:</li>
-</ul>
-<pre><code class="language-sh">bafi.exe -i myUser.json -t '?{{.user.name}}'
-</code></pre>
-<ul>
-<li>Use function to change all letters to uppercase:</li>
-</ul>
-<pre><code class="language-sh">bafi.exe -i myUser.json -t '?{{upper .user.name}}'
-</code></pre>
-<ul>
-<li>Use IF statement to compare user age to 20:</li>
-</ul>
-<pre><code class="language-sh">bafi.exe -i myUser.json -t '?User is {{if gt (toInt .user.age) 20}}old{{else}}young{{end}}.'
-</code></pre>
-<ul>
-<li>List favourite colors:</li>
-</ul>
-<pre><code class="language-sh">bafi.exe -i myUser.json -t '?{{range .user.favourite_colors}}{{.}},{{end}}'
-</code></pre>
-<ul>
-<li>Format data using template file <strong>myTemplate.tmpl</strong> and save output to <strong>myUser.txt</strong>:</li>
-</ul>
-<pre><code class="language-sh">bafi.exe -i myUser.json -t myTemplate.tmpl -o myUser.txt
-</code></pre>
-<pre><code>{{- /* Content of myTemplate.tmpl file */ -}}
-User: {{.user.name}}
-Age: {{.user.age}}
-Address: {{.user.address.street}}, {{.user.address.city}} - {{.user.address.state}}
-{{- /* Create list of colors and remove comma at the end */ -}}
-{{- $colors := &quot;&quot;}}{{range .user.favourite_colors}}{{$colors = print $colors . &quot;, &quot;}}{{end}}
-{{- $colors = print (trimSuffix $colors &quot;, &quot; )}}
-Favourite colors: {{$colors}}
-</code></pre>
-<p>note: in Powershell you must use <span style="color:red; font-weight: bold;">.\</span>bafi.exe e.g.</p>
-<pre><code class="language-powershell">.\bafi.exe -i input.csv -t &quot;?{{toXML .}}&quot;
-curl.exe -s someurl.com/api/xxx | .\bafi.exe -f json -t &quot;?{{toXML .}}&quot;
-</code></pre>
-<p>More examples <a href="examples/#template">here</a></p>
-<script src="js/wasm_exec.js"></script>
-<script>
-const go = new Go();
-WebAssembly
-  .instantiateStreaming(fetch('js/bafi.wasm'), go.importObject)
-  .then((result) => { go.run(result.instance)});
-function getBAFI() {
-    let input1 = document.getElementById("input1").value;
-    let input2 = document.getElementById("input2").value;
-    let format = document.getElementById("format").value;
-    var element = document.getElementById("bafiData");
-    element.innerHTML = bafi(input1,input2,format); 
-}
-</script>
-
-<h2 id="online-demo-wasm">Online demo (WASM)</h2>
-<p><strong>Just try it here :)</strong></p>
-<textarea type="text" id="input1" rows="13" cols="40">
-{
-"user": {
-"name": "John Doe",
-"age": 25,
-"address": {
-"street": "Main Street",
-"city": "New York",
-"state": "NY"
-},
-"favourite_colors": ["red", "green", "blue"]
-}
-}
-</textarea>
-
-<textarea type="text" id="input2" rows="13" cols="40">
-Hello {{upper .user.name}},
-
-you are {{.user.age}} years old
-and live in {{.user.address.city}}, {{.user.address.state}}.
-Your favourite colors are:
-{{range .user.favourite_colors}} {{.}}
-{{end}}
-</textarea>
-<p><br />
-<select name="format" id="format"></p>
-<option value="json">JSON</option>
-<option value="xml">XML</option>
-<option value="yaml">YAML</option>
-<option value="csv">CSV</option>
-<p></select>
-<button type="button" onClick="getBAFI()">Create OUTPUT</button></p>
-<pre style="max-width: 600px; min-height:200px"  id="bafiData"></pre>
-
-<h2 id="command-line-arguments">Command line arguments</h2>
-<ul>
-<li><strong>-i input.xml</strong> Input file name.</li>
-<li>If not defined app tries read stdin</li>
-<li>If prefixed with "?" (<strong>-i ?files.yaml</strong>) app will expect yaml file with multiple files description. See <a href="examples/#multiple-input-files">example</a></li>
-<li><strong>-o output.txt</strong> Output file name.</li>
-<li>If not defined result is send to stdout</li>
-<li><strong>-t template.tmpl</strong> Template file. Alternatively you can use <em>inline</em> template</li>
-<li>inline template must start with <strong>?</strong> e.g. -t <strong>"?{{.someValue}}"</strong></li>
-<li><strong>-f json</strong> Input format.</li>
-<li>Supported formats: <strong>json, bson, yaml, csv, xml, mt940</strong></li>
-<li>If not defined (for file input) app tries detect input format automatically by file extension</li>
-<li><strong>-d ','</strong> Data delimiter</li>
-<li>format CSV:<ul>
-<li>Can be defined as a single character e.g. -d ',' or -d '§' (any Unicode character is accepted) or as <a href="https://www.asciitable.com/asciifull.gif">hex</a> value prefixed by <strong>0x</strong> e.g. 'TAB' can be defined as -d 0x09. Default delimiter is comma (<strong>,</strong>)</li>
-<li>If a longer string is passed, only the first character is used</li>
-</ul>
-</li>
-<li>format mt940:<ul>
-<li>For Multiple messages in one file (e.g. Multicash). Can be defined as string e.g. -d "-}\r\n" or "\r\n$" . If delimiter is set BaFi will return array of mt940 messages</li>
-</ul>
-</li>
-<li><strong>-v</strong> Show current verion</li>
-<li><strong>-h</strong> list available command line arguments</li>
-<li><strong>-gk myChatGPTToken</strong> - OpenAI API key. Prefer the environment variable <strong>OPENAI_API_KEY</strong> instead: command-line arguments are visible to other local users (<code>ps</code>) and end up in shell history. <code>-gk</code> overrides the environment variable when both are set.</li>
-<li><strong>-gq "What's the current CZK rate?"</strong> - OpenAI query. Enables OpenAI mode (no template needed). The query <strong>and the whole parsed input</strong> are sent to OpenAI, so do not use it with data that must not leave your machine. Fails with an error when no key is available from <code>-gk</code> or <code>OPENAI_API_KEY</code>.</li>
-<li><strong>-gm gpt35</strong> - OpenAI model. Currently supportsed options "gpt35"(default), "gpt4", "gpt4o", "gpt4o-mini, gpt5, gpt5mini, gpt5nano"</li>
-</ul>
-<pre><code class="language-sh">export OPENAI_API_KEY=sk-...
-curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gq &quot;What's the current CZK rate?&quot;
-</code></pre>
-<pre><code class="language-sh">bafi.exe -i testdata.xml -t template.tmpl -o output.txt
-</code></pre>
-<p>More examples <a href="examples/#command-line">here</a></p>
-<h2 id="templates">Templates</h2>
-<p>Bafi uses <a href="https://pkg.go.dev/text/template">text/template</a>. Here is a quick summary how to use. Examples are based on <em>testdata.xml</em> included in project</p>
-<p>note: in <strong>vscode</strong> you can use <a href="https://marketplace.visualstudio.com/items?itemName=casualjim.gotemplate">gotemplate-syntax</a> for syntax highlighting</p>
-<h3 id="comments">Comments</h3>
-<pre><code>{{/* a comment */}}
-{{- /* a comment with white space trimmed from preceding and following text */ -}}
-</code></pre>
-<h3 id="trim-new-line">Trim new line</h3>
-<p>New line before or after text can be trimmed by adding dash</p>
-<pre><code>{{- .TOP_LEVEL}}, {{.TOP_LEVEL -}}
-</code></pre>
-<h3 id="accessing-data">Accessing data</h3>
-<p>Data are accessible by <em>pipline</em> which is represented by dot</p>
-<ul>
-<li>Simplest template</li>
-</ul>
-<pre><code>{{.}}
-</code></pre>
-<ul>
-<li>Get data form inner node</li>
-</ul>
-<pre><code>{{.TOP_LEVEL}}
-</code></pre>
-<ul>
-<li>Get data from XML tag. XML tags are autoprefixed by dash and accessible as index</li>
-</ul>
-<pre><code>{{index .TOP_LEVEL &quot;-description&quot;}}
-</code></pre>
-<ul>
-<li>Convert TOP_LEVEL node to JSON</li>
-</ul>
-<pre><code>{{toJSON .TOP_LEVEL}}
-</code></pre>
-<h3 id="variables">Variables</h3>
-<p>You can store selected data to <a href="https://pkg.go.dev/text/template#hdr-Variables">template variable</a></p>
-<pre><code>{{$myVar := .TOP_LEVEL}}
-</code></pre>
-<h3 id="actions">Actions</h3>
-<p>Template allows to use <a href="https://pkg.go.dev/text/template#hdr-Actions">actions</a>, for example</p>
-<p>Iterate over lines</p>
-<pre><code>{{range .TOP_LEVEL.DATA_LINE}}{{.val1}}{{end}}
-</code></pre>
-<p>If statement</p>
-<pre><code>{{if gt (int $val1) (int $val2)}}Value1{{else}}Value2{{end}} is greater
-</code></pre>
-<h3 id="functions">Functions</h3>
-<p>In go templates all operations are done by functions where function name is followed by operands</p>
-<p>For example:</p>
-<p>count val1+val2</p>
-<pre><code>{{add $val1 $val2}}
-</code></pre>
-<p>count (val1+val2)/val3</p>
-<pre><code>{{div (add $val1 $val2) $val3}}
-</code></pre>
-<p>This is called <a href="https://en.wikipedia.org/wiki/Polish_notation">Polish notation</a> or "Prefix notation" also used in another languages like <a href="https://en.wikipedia.org/wiki/Lisp_(programming_language)">Lisp</a></p>
-<p>The key benefit of using this notation is that order of operations is clear. For example <strong>6/2*(1+2)</strong> - even diferent calculators may have different opinion on order of operations in this case. With Polish notation order of operations is strictly defined (from inside to outside) <strong>div 6 (mul 2 (add 1 2))</strong> . This brings benefits with increasing number of operations especially in templates where math and non-math operations can be mixed together.</p>
-<p><img src="img/calc.jpg" height="160px"></p>
-<p>For example we have json array of items numbered from <strong>0</strong></p>
-<pre><code class="language-json">{ &quot;items&quot;: [&quot;item-0&quot;, &quot;item-1&quot;, &quot;item-2&quot;, &quot;item-3&quot;] }
-</code></pre>
-<p>We need change items numbering to start with <strong>1</strong>. To achieve this we have to do series of operations: 1. trim prefix "item-" -&gt; 2. convert to int -&gt; 3. add 1 -&gt; 4. convert to string -&gt; 5. append "item-" for all items in range. This can be done in one line</p>
-<pre><code>{{ range .items }}{{ print &quot;item-&quot; (toString (add1 (toInt (trimPrefix . &quot;item-&quot;)))) }} {{ end }}
-</code></pre>
-<p>or alternatively (slightly shorter) print formatted string - examples <a href="https://zetcode.com/golang/string-format/">here</a>, documentation <a href="https://golang.org/pkg/fmt/">here</a></p>
-<pre><code>{{ range .items }}{{ printf &quot;item-%d &quot; (add1 (toInt (trimPrefix . &quot;item-&quot;))) }}{{ end }}
-</code></pre>
-<p>but BaFi also tries automaticaly cast variables so the shortest option is</p>
-<pre><code>{{range .items}}{{print &quot;item-&quot; (add1 (trimPrefix . &quot;item-&quot;))}} {{end}}
-</code></pre>
-<p>Expected result: <strong>item-1 item-2 item-3 item-4</strong></p>
-<p>There are 3 categories of functions</p>
-<h4 id="native-functions">Native functions</h4>
-<p>text/template integrates <a href="https://pkg.go.dev/text/template#hdr-Functions">native functions</a> to work with data</p>
-<h4 id="additional-functions">Additional functions</h4>
-<p>Asside of integated functions bafi contains additional common functions</p>
-<h5 id="math-functions">Math functions</h5>
-<ul>
-<li><strong>add</strong> - {{add .Value1 .Value2}}</li>
-<li><strong>add1</strong> - {{add1 .Value1}} = Value1+1</li>
-<li><strong>sub</strong> - substract</li>
-<li><strong>div</strong> - divide</li>
-<li><strong>mod</strong> - modulo</li>
-<li><strong>mul</strong> - multiply</li>
-<li><strong>randInt</strong> - return random integer {{randInt .Min .Max}} (both bounds inclusive). Not cryptographically secure - fine for sampling or test data, never for tokens, passwords or IDs (use <strong>uuid</strong> for identifiers)</li>
-<li><strong>add1f</strong> - "...f" functions parse float but provide <strong>decimal</strong> operations using <a href="https://github.com/shopspring/decimal">shopspring decimal</a></li>
-<li><strong>addf</strong></li>
-<li><strong>subf</strong></li>
-<li><strong>divf</strong></li>
-<li><strong>mulf</strong></li>
-<li><strong>round</strong> - {{round .Value1 2}} - will round to 2 decimals</li>
-<li><strong>max</strong> - {{round .Value1 .Value2 .Value3 ...}} get Max value from range</li>
-<li><strong>min</strong> - get Min value from range</li>
-<li><strong>maxf</strong></li>
-<li><strong>minf</strong></li>
-</ul>
-<h5 id="date-functions">Date functions</h5>
-<ul>
-<li><strong>dateFormat</strong> - {{dateFormat .Value "oldFormat" "newFormat"}} - <a href="https://programming.guide/go/format-parse-string-time-date-example.html">GO time format</a></li>
-<li>{{dateFormat "2021-08-26T22:14:00" "2006-01-02T15:04:05" "02.01.2006-15:04"}}</li>
-<li><strong>dateFormatTZ</strong> - {{dateFormatTZ .Value "oldFormat" "newFormat" "timeZone"}}</li>
-<li>This fuction is similar to dateFormat but applies timezone offset - <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">Timezones</a></li>
-<li>{{dateFormatTZ "2021-08-26T03:35:00.000+04:00" "2006-01-02T15:04:05.000-07:00" "02.01.2006-15:04" "Europe/Prague"}}</li>
-<li><strong>dateToInt</strong> - {{dateToInt .Value "dateFormat"}} - convert date to integer (unixtime, int64), usefull for comparing dates</li>
-<li><strong>intToDate</strong> - {{intToDate .Value "dateFormat"}} - convert integer (unixtime, int64) to date, usefull for comparing dates</li>
-<li><strong>now</strong> - {{now "02.01.2006"}} - GO format date (see notes below)</li>
-</ul>
-<h5 id="string-functions">String functions</h5>
-<ul>
-<li><strong>addSubstring</strong> - {{addSubstring $myString, "XX", $position}} add substring to $position in string (if $position is 1,2,3 = Adding from right, if -1,-2,-3 = Adding from left)</li>
-<li><strong>atoi</strong> - {{atoi "042"}} - string to int. Result will be 42. atoi must be used especially for convert strings with leading zeroes</li>
-<li><strong>b64enc</strong> - encode to base64</li>
-<li><strong>b64dec</strong> - decode from base64</li>
-<li><strong>b32enc</strong> - oncode to base32</li>
-<li><strong>b32dec</strong> - decode from base32</li>
-<li><strong>contains</strong> - check if string contains substring e.g. {{contains "aaxbb" "xb"}}</li>
-<li><strong>csvSafe</strong> - {{csvSafe .Value}} - protect generated CSV against spreadsheet formula injection: a value starting with <strong>=</strong>, <strong>+</strong>, <strong>-</strong>, <strong>@</strong>, TAB or CR is prefixed with a single quote (<code>'</code>) so Excel/LibreOffice treat it as text, e.g. {{csvSafe "=HYPERLINK(...)"}} -&gt; <code>'=HYPERLINK(...)</code>. Plain numbers such as <code>-5</code> or <code>+3.14</code> are left untouched. See <a href="#security-notes">Security notes</a></li>
-<li><strong>indexOf</strong> - {{indexOf "aaxbb" "xb"}} - returns indexOf first char of substring in string</li>
-<li><strong>isArray</strong> - {{isArray .Value1}} - check if value is array</li>
-<li><strong>isBool</strong> - {{isBool .Value1}} - check if value is bool</li>
-<li><strong>isInt</strong> - {{isInt .Value1}} - check if value is int</li>
-<li><strong>isFloat64</strong> - {{isFloat64 .Value1}} - check if value is float64</li>
-<li><strong>isString</strong> - {{isString .Value1}} - check if value is string</li>
-<li><strong>isMap</strong> - {{isMap .Value1}} - check if value is map</li>
-<li><strong>regexMatch</strong> - {{regexMatch pattern .Value1}} more about go <a href="https://gobyexample.com/regular-expressions">regex</a></li>
-<li><strong>replaceAll</strong> - {{replaceAll "oldValue" "newValue" .Value}} - replace all occurences of "oldValue" with "newValue" e.g. {{replaceAll "x" "Z" "aaxbb"}} -&gt; "aaZbb"</li>
-<li><strong>replaceAllRegex</strong> - {{replaceAllRegex "regex" "newValue" .Value}} - replace all occurences of "regex" with "newValue" e.g. {{replaceAllRegex "[a-d]", "Z" "aaxbb"}} -&gt; "ZZxZZ". An invalid regex aborts the template with <code>error calling replaceAllRegex: ...</code></li>
-<li><strong>lower</strong> - to lowercase</li>
-<li><strong>trim</strong> - remove leading and trailing whitespace</li>
-<li><strong>trimPrefix</strong> - {{trimPrefix "!Hello World!" "!"}} - returns "Hello World!"</li>
-<li><strong>trimSuffix</strong> - {{trimSuffix "!Hello World!" "!"}} - returns "!HelloWorld"</li>
-<li><strong>mapJSON</strong> - convert stringified JSON to map so it can be used as object or translated to other formats (e.g. "toXML"). Check template.tmpl for example</li>
-<li><strong>mustArray</strong> - {{mustArray .Value1}} - convert to array. Useful with XML where single node is not treated as array</li>
-<li><strong>toBool</strong> - {{toBool "true"}} - string to bool</li>
-<li><strong>toDecimal</strong> - {{toDecimal "3.14159"}} - cast to decimal (if error return 0)</li>
-<li><strong>toDecimalString</strong> - {{toDecimalString "3.14159"}} - cast to decimal string (if error return "error message")</li>
-<li><strong>toFloat64</strong> - {{float64 "3.14159"}} - cast to float64</li>
-<li><strong>toInt</strong> - {{int true}} - cast to int. Result will be 1. If you need convert string with leading zeroes use "atoi"</li>
-<li><strong>toInt64</strong> - {{int64 "42"}} - cast to int64. Result will be 42. If you need convert string with leading zeroes use "atoi"</li>
-<li><strong>toString</strong> - {{toString 42}} - int to string</li>
-<li><strong>toJSON</strong> - convert input object to JSON</li>
-<li><strong>toBSON</strong> - convert input object to BSON</li>
-<li><strong>toYAML</strong> - convert input object to YAML</li>
-<li><strong>toXML</strong> - convert input object to XML</li>
-<li><strong>toTOON</strong> - convert input object to TOON (Token Oriented Object Notation)</li>
-<li><strong>trimAll</strong> - {{trimAll "!Hello World!" "!"}} - returns "Hello World"</li>
-<li><strong>upper</strong> - to uppercase</li>
-<li><strong>uuid</strong> - generate UUID</li>
-</ul>
-<h4 id="lua-custom-functions">Lua custom functions</h4>
-<p>You can write your own custom lua functions defined in ./lua/functions.lua file</p>
-<p>Call Lua function in template ("sum" - Lua function name)</p>
-<pre><code>{{lua &quot;sum&quot; .val1 .val2}}
-</code></pre>
-<ul>
-<li>Input is always passed as stringified JSON and should be decoded (json.decode(incomingData))</li>
-<li>Output must be passed as string</li>
-<li>lua table array starts with 1</li>
-<li>Lua <a href="http://www.lua.org/manual/5.1/">documentation</a></li>
-<li><strong>Security note:</strong> <code>./lua/functions.lua</code> is executable code. It is loaded from the current working directory the first time a template calls <code>lua</code>, and runs with the permissions of the bafi process. Only use a <code>lua/</code> directory and templates you trust. Process-level functions are not available (<code>os.execute</code>, <code>os.exit</code>, <code>os.remove</code>, <code>os.rename</code>, <code>os.tmpname</code>, <code>io.popen</code>); the rest of the Lua standard library (<code>os.date</code>, <code>os.time</code>, <code>io.open</code>, <code>require</code>, ...) works normally.</li>
-</ul>
-<p>Minimal functions.lua example</p>
-<pre><code class="language-lua">json = require './lua/json'
-
-function sum(incomingData)
-    dataTable = json.decode(incomingData)
-    return tostring(tonumber(dataTable[1]) + tonumber(dataTable[2]))
-end
-</code></pre>
-<p>Check <a href="examples/">examples</a> and <strong>template.tmpl</strong> and <strong>testdata.xml</strong> for advanced examples</p>
-<h2 id="security-notes">Security notes</h2>
-<p>BaFi is a local formatter: whoever controls the template controls the output. Keep these points in mind when you embed it in automation.</p>
-<ul>
-<li><strong>Templates and <code>./lua/functions.lua</code> are trusted code.</strong> A template can call any built-in function and any Lua function, so never run templates or a <code>lua/</code> directory from an untrusted source. Only input data is treated as data: values from the input can never inject template directives. See the Lua note above for what the Lua sandbox does and does not restrict.</li>
-<li><strong>No output escaping.</strong> BaFi uses Go <code>text/template</code>, which writes values verbatim. If the output is HTML, SQL, shell, XML or JSON, a value containing quotes, <code>&lt;</code> or <code>;</code> goes straight through. Use <strong>toJSON</strong>, <strong>toXML</strong>, <strong>toYAML</strong> or <strong>toTOON</strong> to produce structured output from data instead of building it by string concatenation, and escape values yourself for any other target format.</li>
-<li><strong>CSV formula injection.</strong> Spreadsheet software evaluates cells starting with <code>=</code>, <code>+</code>, <code>-</code>, <code>@</code>, TAB or CR. If your CSV output is opened in Excel/LibreOffice and the input is not under your control, wrap the values with <strong>csvSafe</strong>.</li>
-<li><strong>OpenAI mode sends your data away.</strong> With <code>-gq</code> the query and the <strong>entire parsed input</strong> are sent to OpenAI. Pass the key through the <code>OPENAI_API_KEY</code> environment variable rather than <code>-gk</code>, so it does not show up in process listings and shell history.</li>
-<li><strong>randInt is not a secure random source.</strong> Use <strong>uuid</strong> (backed by <code>crypto/rand</code>) for identifiers; never derive secrets from <code>randInt</code>.</li>
-<li><strong>Error messages are verbose on purpose.</strong> They include file paths and parser details (e.g. the offending YAML snippet) to make debugging easy. Keep that in mind if stderr ends up in shared logs.</li>
-</ul></div>
+</a></p></div>
             </div>
         </div>
 
@@ -595,5 +478,5 @@ end
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-10-12 13:04:07.197721+00:00
+Build Date UTC : 2026-10-12 22:13:26.676677+00:00
 -->

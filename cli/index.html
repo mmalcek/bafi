@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://mmalcek.github.io/bafi/cli/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Command line - BaFi</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/lua.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/powershell.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-GE1PDVJERL"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', "G-GE1PDVJERL");
+        </script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="..">BaFi</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../install/" class="nav-link">Install</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Recipes</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../recipes/" class="dropdown-item">Recipes</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/xml-to-json/" class="dropdown-item">XML to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/json-to-xml/" class="dropdown-item">JSON to XML</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/csv-to-json/" class="dropdown-item">CSV to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/json-to-csv/" class="dropdown-item">JSON to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/xml-to-csv/" class="dropdown-item">XML to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/convert-formats/" class="dropdown-item">JSON, YAML, TOON, BSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/rest-to-soap/" class="dropdown-item">REST to SOAP</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/soap-to-json/" class="dropdown-item">SOAP to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/sql-database/" class="dropdown-item">SQL database to XML/JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/bson-to-csv/" class="dropdown-item">MongoDB dump to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/json-to-html/" class="dropdown-item">HTML report</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/csv-to-sql/" class="dropdown-item">CSV to SQL</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/merge-files/" class="dropdown-item">Merge several files</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/mt940-to-csv/" class="dropdown-item">MT940 to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/lua/" class="dropdown-item">Lua functions</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/openai/" class="dropdown-item">Ask OpenAI</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Guide</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Command line</a>
+</li>
+                                    
+<li>
+    <a href="../templates/" class="dropdown-item">Templates</a>
+</li>
+                                    
+<li>
+    <a href="../functions/" class="dropdown-item">Function reference</a>
+</li>
+                                    
+<li>
+    <a href="../troubleshooting/" class="dropdown-item">Troubleshooting</a>
+</li>
+                                    
+<li>
+    <a href="../security/" class="dropdown-item">Security notes</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../changelog/" class="nav-link">Changelog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../about/" class="nav-link">About</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../recipes/openai/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../templates/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/mmalcek/bafi/edit/master/docs/cli.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#command-line" class="nav-link">Command line</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#flags" class="nav-link">Flags</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#input" class="nav-link">Input</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="3"><a href="#several-input-files" class="nav-link">Several input files</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#templates-on-the-command-line" class="nav-link">Templates on the command line</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#output" class="nav-link">Output</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#errors-warnings-and-exit-codes" class="nav-link">Errors, warnings and exit codes</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="3"><a href="#strict-mode" class="nav-link">Strict mode</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="command-line">Command line</h1>
+<pre><code>bafi -i INPUT -t TEMPLATE [-o OUTPUT]
+COMMAND | bafi -f FORMAT -t TEMPLATE
+</code></pre>
+<p><code>bafi -h</code> prints the same overview with all flags.</p>
+<h2 id="flags">Flags</h2>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-i file</code></td>
+<td>Input file. Without <code>-i</code>, bafi reads standard input (a pipe or <code>&lt; file</code>). <code>-i '?list.yaml'</code> reads <a href="#several-input-files">several files</a>.</td>
+</tr>
+<tr>
+<td><code>-t template</code></td>
+<td>Template file, or an inline template starting with <code>?</code>: <code>-t '?{{toJSON .}}'</code>.</td>
+</tr>
+<tr>
+<td><code>-o file</code></td>
+<td>Output file. Without <code>-o</code>, the result goes to standard output.</td>
+</tr>
+<tr>
+<td><code>-f format</code></td>
+<td>Input format: <code>json</code>, <code>bson</code>, <code>yaml</code>, <code>csv</code>, <code>xml</code>, <code>mt940</code>. Default: from the <code>-i</code> file extension. Required for standard input.</td>
+</tr>
+<tr>
+<td><code>-d delimiter</code></td>
+<td>CSV delimiter: one character (<code>-d ';'</code>) or a hex byte (<code>-d 0x09</code> for TAB). Default <code>,</code>. For MT940, the separator between messages.</td>
+</tr>
+<tr>
+<td><code>-strict</code></td>
+<td>Fail on a key that is missing from the input instead of printing <code>&lt;no value&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>-v</code></td>
+<td>Print the version.</td>
+</tr>
+<tr>
+<td><code>-h</code></td>
+<td>Print help.</td>
+</tr>
+<tr>
+<td><code>-gq question</code></td>
+<td>Ask OpenAI about the input instead of using a template. See <a href="../recipes/openai/">Ask OpenAI</a>.</td>
+</tr>
+<tr>
+<td><code>-gk key</code></td>
+<td>OpenAI API key. Default: the <code>OPENAI_API_KEY</code> environment variable (preferred).</td>
+</tr>
+<tr>
+<td><code>-gm model</code></td>
+<td>OpenAI model: <code>gpt35</code> (default), <code>gpt4</code>, <code>gpt4o</code>, <code>gpt4o-mini</code>, <code>gpt5</code>, <code>gpt5mini</code>, <code>gpt5nano</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Flags must come before any other argument.</p>
+<h2 id="input">Input</h2>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i testdata.xml -t '?{{index .TOP_LEVEL &quot;-description&quot;}}'
+</code></pre>
+<!-- test:output -->
+
+<pre><code>employeeData
+</code></pre>
+<p>The format is taken from the extension: <code>.json</code>, <code>.bson</code>, <code>.yaml</code>/<code>.yml</code>, <code>.csv</code>, <code>.xml</code> (also <code>.cdf</code>,
+<code>.cdf3</code>), <code>.sta</code> (MT940). <code>-f</code> overrides it. Standard input has no name, so <code>-f</code> is required:</p>
+<pre><code class="language-sh">curl -fs https://example.com/api/users | bafi -f json -t users.tmpl
+</code></pre>
+<p>Redirecting a file works the same way:</p>
+<!-- test:file users.json -->
+
+<pre><code class="language-json">{&quot;users&quot;: [{&quot;name&quot;: &quot;Alice&quot;}, {&quot;name&quot;: &quot;Bob&quot;}]}
+</code></pre>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -f json -t '?{{len .users}} users' &lt; users.json
+</code></pre>
+<!-- test:output -->
+
+<pre><code>2 users
+</code></pre>
+<p>A single <code>-</code> after the flags, the usual "read standard input" marker, is accepted and changes nothing.</p>
+<p>A UTF-8 byte order mark at the start of the input is ignored.</p>
+<h3 id="several-input-files">Several input files</h3>
+<p><code>-i '?list.yaml'</code> reads every file named in a YAML list and makes each available under its label (quote it: zsh, the macOS
+default shell, treats an unquoted <code>?</code> as a wildcard):</p>
+<pre><code class="language-yaml">- file: rates.xml
+  label: RATES          # {{ .RATES }}
+- file: orders.json
+  label: ORDERS
+  format: json          # optional; the extension decides when omitted
+</code></pre>
+<p><code>-f</code> is ignored in this mode; <code>-d</code> applies to every CSV file. Full example:
+<a href="../recipes/merge-files/">Merge several files into one output</a>.</p>
+<h2 id="templates-on-the-command-line">Templates on the command line</h2>
+<p>An inline template starts with <code>?</code>. Quote it so the shell passes it as one argument:</p>
+<table>
+<thead>
+<tr>
+<th>Shell</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bash, zsh</td>
+<td><code>bafi -i data.json -t '?{{toXML .}}'</code></td>
+</tr>
+<tr>
+<td>PowerShell</td>
+<td><code>.\bafi.exe -i data.json -t "?{{toXML .}}"</code></td>
+</tr>
+<tr>
+<td>cmd.exe</td>
+<td><code>bafi.exe -i data.json -t "?{{toXML .}}"</code></td>
+</tr>
+</tbody>
+</table>
+<p>Inside single quotes, template strings use double quotes: <code>-t '?{{index . "my-key"}}'</code>. A template
+file avoids quoting issues altogether: <code>-t report.tmpl</code>. The <a href="../templates/">template guide</a> explains the
+syntax.</p>
+<h2 id="output">Output</h2>
+<p>The result goes to standard output unless <code>-o</code> names a file. bafi renders the whole result first: when
+a template fails, standard output stays empty and an existing <code>-o</code> file is left as it was, so a pipe
+never receives half a document and a scheduled job keeps its last good report.</p>
+<p>Append to a file with the shell:</p>
+<pre><code class="language-sh">bafi -i testdata.xml -t template.tmpl &gt;&gt; output.txt
+</code></pre>
+<h2 id="errors-warnings-and-exit-codes">Errors, warnings and exit codes</h2>
+<p>Errors and warnings go to standard error, never into the output. An error names the file and line,
+shows the problem and suggests a fix; see <a href="../troubleshooting/">Troubleshooting</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Exit code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>Success (warnings may have been printed).</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>The input, the template, the output file or the OpenAI request failed.</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>The command line is wrong: missing template or input, unknown flag or format.</td>
+</tr>
+</tbody>
+</table>
+<p>Warnings do not change the output or the exit code:</p>
+<ul>
+<li>the output contains <code>&lt;no value&gt;</code> because the template used a key the input does not have;</li>
+<li>a CSV header ended up as a single column, which usually means the wrong <code>-d</code>.</li>
+</ul>
+<h3 id="strict-mode">Strict mode</h3>
+<p><code>-strict</code> turns a missing key into an error with the key name and the template line, instead of
+printing <code>&lt;no value&gt;</code>:</p>
+<!-- test:cmd -->
+
+<pre><code class="language-sh">bafi -i testdata.xml -strict -t '?{{.TOP_LEVEL.DATA_LINES}}'
+</code></pre>
+<!-- test:stderr -->
+
+<pre><code>bafi: template error in the inline template (line 1, column 3)
+
+  1 | {{.TOP_LEVEL.DATA_LINES}}
+    |   ^
+  map has no entry for key &quot;DATA_LINES&quot; (at &lt;.TOP_LEVEL.DATA_LINES&gt;)
+
+hint: the input has no key &quot;DATA_LINES&quot; here (-strict is on); check spelling and case - XML attributes start with &quot;-&quot; (index . &quot;-id&quot;); for keys that may be absent use {{with index . &quot;DATA_LINES&quot;}}...{{end}}
+docs: https://mmalcek.github.io/bafi/troubleshooting/#missing-keys-and-no-value
+</code></pre>
+<p>Use it while writing a template, and in automation where a missing field must not go unnoticed.
+For keys that may legitimately be absent, use <code>index</code>: <code>{{with index . "nickname"}}{{.}}{{end}}</code>.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

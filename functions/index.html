@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://mmalcek.github.io/bafi/functions/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Function reference - BaFi</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/lua.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/powershell.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script>hljs.highlightAll();</script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-GE1PDVJERL"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', "G-GE1PDVJERL");
+        </script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="..">BaFi</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../install/" class="nav-link">Install</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Recipes</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../recipes/" class="dropdown-item">Recipes</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/xml-to-json/" class="dropdown-item">XML to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/json-to-xml/" class="dropdown-item">JSON to XML</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/csv-to-json/" class="dropdown-item">CSV to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/json-to-csv/" class="dropdown-item">JSON to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/xml-to-csv/" class="dropdown-item">XML to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/convert-formats/" class="dropdown-item">JSON, YAML, TOON, BSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/rest-to-soap/" class="dropdown-item">REST to SOAP</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/soap-to-json/" class="dropdown-item">SOAP to JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/sql-database/" class="dropdown-item">SQL database to XML/JSON</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/bson-to-csv/" class="dropdown-item">MongoDB dump to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/json-to-html/" class="dropdown-item">HTML report</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/csv-to-sql/" class="dropdown-item">CSV to SQL</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/merge-files/" class="dropdown-item">Merge several files</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/mt940-to-csv/" class="dropdown-item">MT940 to CSV</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/lua/" class="dropdown-item">Lua functions</a>
+</li>
+                                    
+<li>
+    <a href="../recipes/openai/" class="dropdown-item">Ask OpenAI</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Guide</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../cli/" class="dropdown-item">Command line</a>
+</li>
+                                    
+<li>
+    <a href="../templates/" class="dropdown-item">Templates</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Function reference</a>
+</li>
+                                    
+<li>
+    <a href="../troubleshooting/" class="dropdown-item">Troubleshooting</a>
+</li>
+                                    
+<li>
+    <a href="../security/" class="dropdown-item">Security notes</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../changelog/" class="nav-link">Changelog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../about/" class="nav-link">About</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../templates/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../troubleshooting/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/mmalcek/bafi/edit/master/docs/functions.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#function-reference" class="nav-link">Function reference</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#math-functions" class="nav-link">Math functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#date-functions" class="nav-link">Date functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#string-functions" class="nav-link">String functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#conversion-and-type-checks" class="nav-link">Conversion and type checks</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#data-formats" class="nav-link">Data formats</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#built-in-template-functions" class="nav-link">Built-in template functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="function-reference">Function reference</h1>
+<p>Templates call functions in prefix notation: the function name comes first, then its arguments.
+<code>{{add 1 2}}</code> adds 1 and 2; nested calls use parentheses: <code>{{upper (trim .name)}}</code>. Values from JSON,
+YAML, XML and CSV are converted automatically where it makes sense, so <code>{{add "1" 2}}</code> works too.</p>
+<p>Every example on this page is executed by the test suite; the result column is what bafi prints.
+Rows marked <code>*</code> change on every run.</p>
+<h2 id="math-functions">Math functions</h2>
+<!-- test:table -->
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>add</strong> - sum of integers</td>
+<td><code>{{add 1 2 "3"}}</code></td>
+<td><code>6</code></td>
+</tr>
+<tr>
+<td><strong>add1</strong> - plus one</td>
+<td><code>{{add1 41}}</code></td>
+<td><code>42</code></td>
+</tr>
+<tr>
+<td><strong>sub</strong> - subtract</td>
+<td><code>{{sub 10 4}}</code></td>
+<td><code>6</code></td>
+</tr>
+<tr>
+<td><strong>mul</strong> - product of integers</td>
+<td><code>{{mul 2 3 4}}</code></td>
+<td><code>24</code></td>
+</tr>
+<tr>
+<td><strong>div</strong> - integer division</td>
+<td><code>{{div 7 2}}</code></td>
+<td><code>3</code></td>
+</tr>
+<tr>
+<td><strong>mod</strong> - remainder</td>
+<td><code>{{mod 7 2}}</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><strong>addf</strong> - exact decimal sum</td>
+<td><code>{{addf 0.1 0.2}}</code></td>
+<td><code>0.3</code></td>
+</tr>
+<tr>
+<td><strong>add1f</strong> - plus one, decimal</td>
+<td><code>{{add1f 1.5}}</code></td>
+<td><code>2.5</code></td>
+</tr>
+<tr>
+<td><strong>subf</strong> - decimal subtract</td>
+<td><code>{{subf 1.5 0.2 0.3}}</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><strong>mulf</strong> - decimal product</td>
+<td><code>{{mulf 1.1 3}}</code></td>
+<td><code>3.3</code></td>
+</tr>
+<tr>
+<td><strong>divf</strong> - decimal division</td>
+<td><code>{{divf 10 4}}</code></td>
+<td><code>2.5</code></td>
+</tr>
+<tr>
+<td><strong>round</strong> - to N decimals</td>
+<td><code>{{round 3.14159 2}}</code></td>
+<td><code>3.14</code></td>
+</tr>
+<tr>
+<td><strong>round</strong> - custom rounding point</td>
+<td><code>{{round 6.35 1 0.4}}</code></td>
+<td><code>6.4</code></td>
+</tr>
+<tr>
+<td><strong>max</strong> - largest integer</td>
+<td><code>{{max 3 9 "5"}}</code></td>
+<td><code>9</code></td>
+</tr>
+<tr>
+<td><strong>min</strong> - smallest integer</td>
+<td><code>{{min 3 9 "5"}}</code></td>
+<td><code>3</code></td>
+</tr>
+<tr>
+<td><strong>maxf</strong> - largest number</td>
+<td><code>{{maxf 1.5 2.25}}</code></td>
+<td><code>2.25</code></td>
+</tr>
+<tr>
+<td><strong>minf</strong> - smallest number</td>
+<td><code>{{minf 1.5 2.25}}</code></td>
+<td><code>1.5</code></td>
+</tr>
+<tr>
+<td><strong>randInt</strong> - random integer, both bounds included</td>
+<td><code>{{randInt 1 6}}</code></td>
+<td>*</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>...f</code> functions calculate with exact decimals (<a href="https://github.com/shopspring/decimal">shopspring/decimal</a>),
+so <code>addf 0.1 0.2</code> is <code>0.3</code>, not <code>0.30000000000000004</code>. <code>randInt</code> is not cryptographically secure; never
+use it for tokens or passwords (use <code>uuid</code> for identifiers).</p>
+<h2 id="date-functions">Date functions</h2>
+<p>Dates use Go's reference layout: write the date <strong>Mon Jan 2 15:04:05 MST 2006</strong> the way your format
+looks. <code>2006-01-02</code> is YYYY-MM-DD, <code>02.01.2006</code> is DD.MM.YYYY, <code>15:04</code> is HH:MM.
+<a href="https://pkg.go.dev/time#pkg-constants">More about the layout</a>.</p>
+<!-- test:table -->
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>dateFormat</strong> - change the format</td>
+<td><code>{{dateFormat "2021-08-26" "2006-01-02" "02.01.2006"}}</code></td>
+<td><code>26.08.2021</code></td>
+</tr>
+<tr>
+<td><strong>dateFormat</strong> - unparsable input is returned unchanged</td>
+<td><code>{{dateFormat "n/a" "2006-01-02" "02.01.2006"}}</code></td>
+<td><code>n/a</code></td>
+</tr>
+<tr>
+<td><strong>dateFormatTZ</strong> - change format and time zone</td>
+<td><code>{{dateFormatTZ "2021-08-26T03:35:00+04:00" "2006-01-02T15:04:05-07:00" "15:04" "Europe/Prague"}}</code></td>
+<td><code>01:35</code></td>
+</tr>
+<tr>
+<td><strong>dateToInt</strong> - date to Unix time</td>
+<td><code>{{dateToInt "2021-03-15" "2006-01-02"}}</code></td>
+<td><code>1615766400</code></td>
+</tr>
+<tr>
+<td><strong>intToDate</strong> - Unix time to date (local time zone)</td>
+<td><code>{{intToDate 1615766400 "2006-01-02"}}</code></td>
+<td>*</td>
+</tr>
+<tr>
+<td><strong>now</strong> - current date and time</td>
+<td><code>{{now "2006-01-02 15:04"}}</code></td>
+<td>*</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">Time zone names</a> for <code>dateFormatTZ</code>.</p>
+<h2 id="string-functions">String functions</h2>
+<!-- test:table -->
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>upper</strong></td>
+<td><code>{{upper "Hello"}}</code></td>
+<td><code>HELLO</code></td>
+</tr>
+<tr>
+<td><strong>lower</strong></td>
+<td><code>{{lower "Hello"}}</code></td>
+<td><code>hello</code></td>
+</tr>
+<tr>
+<td><strong>trim</strong> - remove surrounding whitespace</td>
+<td><code>{{trim "  a b  "}}</code></td>
+<td><code>a b</code></td>
+</tr>
+<tr>
+<td><strong>trimAll</strong> - remove characters from both ends</td>
+<td><code>{{trimAll "!Hello!" "!"}}</code></td>
+<td><code>Hello</code></td>
+</tr>
+<tr>
+<td><strong>trimPrefix</strong></td>
+<td><code>{{trimPrefix "item-42" "item-"}}</code></td>
+<td><code>42</code></td>
+</tr>
+<tr>
+<td><strong>trimSuffix</strong></td>
+<td><code>{{trimSuffix "a, b, " ", "}}</code></td>
+<td><code>a, b</code></td>
+</tr>
+<tr>
+<td><strong>contains</strong></td>
+<td><code>{{contains "invoice-2024" "2024"}}</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><strong>indexOf</strong> - position of a substring (-1 if absent)</td>
+<td><code>{{indexOf "abcd" "cd"}}</code></td>
+<td><code>2</code></td>
+</tr>
+<tr>
+<td><strong>replaceAll</strong> - replace text</td>
+<td><code>{{replaceAll "x" "Z" "aaxbb"}}</code></td>
+<td><code>aaZbb</code></td>
+</tr>
+<tr>
+<td><strong>replaceAllRegex</strong> - replace a regular expression</td>
+<td><code>{{replaceAllRegex "[0-9]+" "#" "a1b22"}}</code></td>
+<td><code>a#b#</code></td>
+</tr>
+<tr>
+<td><strong>regexMatch</strong> - test a regular expression</td>
+<td><code>{{regexMatch "^[0-9]{4}$" "2024"}}</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><strong>addSubstring</strong> - insert, position counted from the right</td>
+<td><code>{{addSubstring "Hello!!!" " World" 3}}</code></td>
+<td><code>Hello World!!!</code></td>
+</tr>
+<tr>
+<td><strong>addSubstring</strong> - negative position counts from the left</td>
+<td><code>{{addSubstring "Hello!!!" " World" -5}}</code></td>
+<td><code>Hello World!!!</code></td>
+</tr>
+<tr>
+<td><strong>csvSafe</strong> - defuse spreadsheet formulas</td>
+<td><code>{{csvSafe "=1+1"}}</code></td>
+<td><code>'=1+1</code></td>
+</tr>
+<tr>
+<td><strong>csvSafe</strong> - plain numbers stay</td>
+<td><code>{{csvSafe "-5"}}</code></td>
+<td><code>-5</code></td>
+</tr>
+<tr>
+<td><strong>b64enc</strong> - Base64 encode</td>
+<td><code>{{b64enc "Hello"}}</code></td>
+<td><code>SGVsbG8=</code></td>
+</tr>
+<tr>
+<td><strong>b64dec</strong> - Base64 decode</td>
+<td><code>{{b64dec "SGVsbG8="}}</code></td>
+<td><code>Hello</code></td>
+</tr>
+<tr>
+<td><strong>b32enc</strong> - Base32 encode</td>
+<td><code>{{b32enc "Hi"}}</code></td>
+<td><code>JBUQ====</code></td>
+</tr>
+<tr>
+<td><strong>b32dec</strong> - Base32 decode</td>
+<td><code>{{b32dec "JBUQ===="}}</code></td>
+<td><code>Hi</code></td>
+</tr>
+<tr>
+<td><strong>uuid</strong> - random UUID v4</td>
+<td><code>{{uuid}}</code></td>
+<td>*</td>
+</tr>
+</tbody>
+</table>
+<p>Regular expressions use <a href="https://pkg.go.dev/regexp/syntax">Go syntax</a>. An invalid expression in
+<code>replaceAllRegex</code> stops the template with an error. <code>addSubstring</code> counts positions in bytes; use it on
+ASCII text.</p>
+<h2 id="conversion-and-type-checks">Conversion and type checks</h2>
+<!-- test:table -->
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>toString</strong></td>
+<td><code>{{toString 42}}</code></td>
+<td><code>42</code></td>
+</tr>
+<tr>
+<td><strong>toInt</strong></td>
+<td><code>{{toInt "42"}}</code></td>
+<td><code>42</code></td>
+</tr>
+<tr>
+<td><strong>toInt64</strong></td>
+<td><code>{{toInt64 "9000000000"}}</code></td>
+<td><code>9000000000</code></td>
+</tr>
+<tr>
+<td><strong>atoi</strong> - text to integer, keeps leading zeros meaningless</td>
+<td><code>{{atoi "042"}}</code></td>
+<td><code>42</code></td>
+</tr>
+<tr>
+<td><strong>toFloat64</strong></td>
+<td><code>{{toFloat64 "3.5"}}</code></td>
+<td><code>3.5</code></td>
+</tr>
+<tr>
+<td><strong>toBool</strong></td>
+<td><code>{{toBool "true"}}</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><strong>toDecimal</strong> - exact decimal (0 if invalid)</td>
+<td><code>{{toDecimal "3.10"}}</code></td>
+<td><code>3.1</code></td>
+</tr>
+<tr>
+<td><strong>toDecimalString</strong> - exact decimal as text (error text if invalid)</td>
+<td><code>{{toDecimalString "3.10"}}</code></td>
+<td><code>3.1</code></td>
+</tr>
+<tr>
+<td><strong>isString</strong></td>
+<td><code>{{isString "x"}}</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><strong>isInt</strong></td>
+<td><code>{{isInt 1}}</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><strong>isFloat64</strong> - JSON numbers are float64</td>
+<td><code>{{isFloat64 1.5}}</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><strong>isBool</strong></td>
+<td><code>{{isBool true}}</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><strong>isMap</strong></td>
+<td><code>{{isMap (mapJSON "{}")}}</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><strong>isArray</strong></td>
+<td><code>{{isArray (mustArray "x")}}</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><strong>mustArray</strong> - single value to a one-item list, lists unchanged</td>
+<td><code>{{len (mustArray "x")}}</code></td>
+<td><code>1</code></td>
+</tr>
+</tbody>
+</table>
+<p>Use <code>atoi</code> for text with leading zeros such as <code>"042"</code>; <code>toInt</code> may read those as octal.</p>
+<h2 id="data-formats">Data formats</h2>
+<!-- test:table -->
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>toJSON</strong> - JSON (escapes text correctly)</td>
+<td><code>{{toJSON "say \"hi\""}}</code></td>
+<td><code>"say \"hi\""</code></td>
+</tr>
+<tr>
+<td><strong>toYAML</strong></td>
+<td><code>{{toYAML (mapJSON "{\"a\":1}")}}</code></td>
+<td><code>a: 1</code></td>
+</tr>
+<tr>
+<td><strong>toTOON</strong> - compact format for LLM prompts</td>
+<td><code>{{toTOON (mapJSON "{\"a\":1}")}}</code></td>
+<td><code>a: 1</code></td>
+</tr>
+<tr>
+<td><strong>toXML</strong> - XML (see <a href="../recipes/json-to-xml/">JSON to XML</a>)</td>
+<td><code>{{toXML (mapJSON "{\"a\":1}")}}</code></td>
+<td>*</td>
+</tr>
+<tr>
+<td><strong>toBSON</strong> - binary BSON (see <a href="../recipes/bson-to-csv/">BSON recipe</a>)</td>
+<td><code>{{toBSON (mapJSON "{\"a\":1}")}}</code></td>
+<td>*</td>
+</tr>
+<tr>
+<td><strong>mapJSON</strong> - parse a JSON string into data</td>
+<td><code>{{(mapJSON "{\"a\":1}").a}}</code></td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><strong>lua</strong> - call a Lua function (see <a href="../recipes/lua/">Lua</a>)</td>
+<td><code>{{lua "sum" 1 2}}</code></td>
+<td>*</td>
+</tr>
+</tbody>
+</table>
+<p><code>toJSON</code>, <code>toYAML</code>, <code>toXML</code> and <code>toTOON</code> work on any value, including the whole input (<code>{{toJSON .}}</code>)
+or one part of it (<code>{{toJSON .users}}</code>).</p>
+<h2 id="built-in-template-functions">Built-in template functions</h2>
+<p>These come with Go's <a href="https://pkg.go.dev/text/template#hdr-Functions">text/template</a>:</p>
+<!-- test:table -->
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>len</strong> - length of text, list or map</td>
+<td><code>{{len "abc"}}</code></td>
+<td><code>3</code></td>
+</tr>
+<tr>
+<td><strong>index</strong> - item of a list or map; keys with <code>-</code> or spaces</td>
+<td><code>{{index (mapJSON "{\"my-key\":7}") "my-key"}}</code></td>
+<td><code>7</code></td>
+</tr>
+<tr>
+<td><strong>slice</strong> - part of text or a list</td>
+<td><code>{{slice "abcdef" 1 3}}</code></td>
+<td><code>bc</code></td>
+</tr>
+<tr>
+<td><strong>printf</strong> - formatted text</td>
+<td><code>{{printf "%05.2f" 3.14159}}</code></td>
+<td><code>03.14</code></td>
+</tr>
+<tr>
+<td><strong>print</strong> - join values</td>
+<td><code>{{print "a" 1}}</code></td>
+<td><code>a1</code></td>
+</tr>
+<tr>
+<td><strong>eq</strong> / <strong>ne</strong> - equal, not equal</td>
+<td><code>{{eq 1 1}}</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><strong>lt</strong> / <strong>le</strong> / <strong>gt</strong> / <strong>ge</strong> - compare</td>
+<td><code>{{gt 5 3}}</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><strong>and</strong> / <strong>or</strong> / <strong>not</strong></td>
+<td><code>{{and true (not false)}}</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><strong>html</strong> - escape for HTML and XML</td>
+<td><code>{{html "&lt;a &amp; b&gt;"}}</code></td>
+<td><code>&amp;lt;a &amp;amp; b&amp;gt;</code></td>
+</tr>
+<tr>
+<td><strong>urlquery</strong> - escape for a URL</td>
+<td><code>{{urlquery "a b&amp;c"}}</code></td>
+<td><code>a+b%26c</code></td>
+</tr>
+<tr>
+<td><strong>js</strong> - escape for JavaScript strings</td>
+<td><code>{{js "it's"}}</code></td>
+<td><code>it\'s</code></td>
+</tr>
+</tbody>
+</table>
+<p>Comparisons need values of the same kind: compare a JSON number with a number (<code>{{gt .total 100}}</code>), and
+text from CSV or XML after converting it (<code>{{gt (toInt .total) 100}}</code>).</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
