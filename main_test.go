@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/base64"
+	"reflect"
 	"strings"
 	"testing"
 
@@ -221,6 +222,52 @@ func TestMapInputData(t *testing.T) {
 	if !strings.Contains(err.Error(), "xml.Decoder.Token() - XML syntax error on line 1") {
 		t.Errorf("result: %v", err.Error())
 	}
+}
+
+func TestParseCSVDelimiters(t *testing.T) {
+	tests := []struct {
+		name      string
+		delimiter string
+		data      string
+	}{
+		{"default", "", "name,surname\nHello,World"},
+		{"comma", ",", "name,surname\nHello,World"},
+		{"semicolon", ";", "name;surname\nHello;World"},
+		{"tab", "\t", "name\tsurname\nHello\tWorld"},
+		{"hex tab", "0x09", "name\tsurname\nHello\tWorld"},
+		{"hex comma", "0x2C", "name,surname\nHello,World"},
+		{"section sign", "§", "name§surname\nHello§World"},
+		{"fullwidth comma", "，", "name，surname\r\nHello，World"},
+		{"supplementary rune", "🦊", "name🦊surname\nHello🦊World"},
+		{"first Unicode rune", "§extra", "name§surname\nHello§World"},
+		{"first ASCII rune", ";extra", "name;surname\nHello;World"},
+	}
+	want := []map[string]interface{}{{"name": "Hello", "surname": "World"}}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := parseCSV([]byte(tt.data), tt.delimiter)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if !reflect.DeepEqual(got, want) {
+				t.Errorf("parseCSV() = %#v, want %#v", got, want)
+			}
+		})
+	}
+
+	t.Run("quoted delimiter and empty field", func(t *testing.T) {
+		got, err := parseCSV([]byte("name§surname\n\"Hello§there\"§World\nHello§"), "§")
+		if err != nil {
+			t.Fatal(err)
+		}
+		want := []map[string]interface{}{
+			{"name": "Hello§there", "surname": "World"},
+			{"name": "Hello", "surname": ""},
+		}
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("parseCSV() = %#v, want %#v", got, want)
+		}
+	})
 }
 
 func TestReadTemplate(t *testing.T) {

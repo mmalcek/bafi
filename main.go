@@ -16,6 +16,7 @@ import (
 	"strings"
 	"text/template"
 	"time"
+	"unicode/utf8"
 
 	"github.com/alpkeskin/gotoon"
 	"github.com/clbanning/mxj/v2"
@@ -316,7 +317,8 @@ func prepareDelimiter(inputString string) rune {
 			}
 			return rune(string(bytes)[0])
 		}
-		return rune(inputString[0])
+		delimiter, _ := utf8.DecodeRuneInString(inputString)
+		return delimiter
 	}
 	return rune(',')
 }
