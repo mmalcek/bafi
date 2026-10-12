@@ -10,7 +10,7 @@ require (
 	github.com/sashabaranov/go-openai v1.41.2
 	github.com/shopspring/decimal v1.4.0
 	github.com/spf13/cast v1.10.0
-	github.com/yuin/gopher-lua v1.1.1
+	github.com/yuin/gopher-lua v1.1.2
 	go.mongodb.org/mongo-driver v1.17.10
 	gopkg.in/yaml.v3 v3.0.1
 )
