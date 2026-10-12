@@ -1,6 +1,6 @@
 module github.com/mmalcek/bafi
 
-go 1.23
+go 1.27.2
 
 require (
 	github.com/alpkeskin/gotoon v0.1.1
@@ -11,6 +11,6 @@ require (
 	github.com/shopspring/decimal v1.4.0
 	github.com/spf13/cast v1.10.0
 	github.com/yuin/gopher-lua v1.1.1
-	go.mongodb.org/mongo-driver v1.17.6
+	go.mongodb.org/mongo-driver v1.17.10
 	gopkg.in/yaml.v3 v3.0.1
 )

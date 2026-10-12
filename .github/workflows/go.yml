@@ -6,14 +6,18 @@ on:
   pull_request:
     branches: [main]
 
+# Build and test only need to read the repository.
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version-file: go.mod
 
@@ -21,8 +25,19 @@ jobs:
         run: go build -v ./...
       - name: Test
         run: go test -v -cover ./...
+
+  # Scans the module graph with the newest stable Go so stdlib findings reflect the current patch level.
+  govulncheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: golang/govulncheck-action@032d45514ae346b1db93c04b0c90b841c370344f # v1.1.0
+        with:
+          go-version-input: stable
+          check-latest: true
+          go-package: ./...
+
   goreportcard:
     runs-on: ubuntu-latest
     steps:
       - name: refresh goreportcard
-        uses: creekorful/goreportcard-action@v1.0
+        uses: creekorful/goreportcard-action@1f35ced8cdac2cba28c9a2f2288a16aacfd507f9 # v1.0

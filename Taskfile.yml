@@ -6,6 +6,8 @@ vars:
   VERSION:
     sh: tr -d '[:space:]' < version.txt
   TAG: v{{.VERSION}}
+  # Files shipped inside every release archive next to the binary (same relative paths).
+  DIST_FILES: docs/README.md docs/examples.md docs/about.md LICENSE testdata.xml template.tmpl lua/json.lua lua/functions.lua
 
 tasks:
   default:
@@ -49,8 +51,50 @@ tasks:
     cmds:
       - mkdocs serve
 
+  # _dist:one stages one platform into build/<os>_<arch>/ (binary + DIST_FILES, original relative
+  # paths) and archives it as bafi_<tag>_<os>_<arch>.tgz (zip on windows) in build/.
+  _dist:one:
+    internal: true
+    requires:
+      vars: [GOOS, GOARCH]
+    vars:
+      STAGE: build/{{.GOOS}}_{{.GOARCH}}
+      NAME: '{{.BINARY}}_{{.TAG}}_{{.GOOS}}_{{.GOARCH}}'
+      EXT: '{{if eq .GOOS "windows"}}.exe{{end}}'
+    cmds:
+      - mkdir -p {{.STAGE}}
+      - CGO_ENABLED=0 GOOS={{.GOOS}} GOARCH={{.GOARCH}} go build -trimpath -ldflags "-s -w" -buildvcs=false -o {{.STAGE}}/{{.BINARY}}{{.EXT}} .
+      - for f in {{.DIST_FILES}}; do mkdir -p "{{.STAGE}}/$(dirname "$f")"; cp "$f" "{{.STAGE}}/$f"; done
+      # Archive the explicit file list (no directory entries), same layout as releases before 1.4.0.
+      # COPYFILE_DISABLE keeps macOS bsdtar from adding ._* AppleDouble entries when run locally.
+      - |
+        cd {{.STAGE}}
+        if [ "{{.GOOS}}" = "windows" ]; then
+          zip -9q ../{{.NAME}}.zip {{.BINARY}}{{.EXT}} {{.DIST_FILES}}
+        else
+          COPYFILE_DISABLE=1 tar czf ../{{.NAME}}.tgz {{.BINARY}}{{.EXT}} {{.DIST_FILES}}
+        fi
+
+  dist:
+    desc: Cross-compile release archives for all platforms into ./build (what CI publishes)
+    deps: [clean]
+    cmds:
+      - task: _dist:one
+        vars: { GOOS: windows, GOARCH: amd64 }
+      - task: _dist:one
+        vars: { GOOS: linux, GOARCH: amd64 }
+      - task: _dist:one
+        vars: { GOOS: linux, GOARCH: "386" }
+      - task: _dist:one
+        vars: { GOOS: linux, GOARCH: arm64 }
+      - task: _dist:one
+        vars: { GOOS: darwin, GOARCH: amd64 }
+      - task: _dist:one
+        vars: { GOOS: darwin, GOARCH: arm64 }
+      - ls -1 build/*.tgz build/*.zip
+
   release:
-    desc: Tag, push and publish a GitHub release from version.txt + CHANGELOG.md (CI builds binaries)
+    desc: Tag and push a release from version.txt; CI builds the archives and publishes the GitHub release with the CHANGELOG section as body
     preconditions:
       - sh: printf "%s" "{{.VERSION}}" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-.+)?$'
         msg: 'version.txt must contain N.N.N or N.N.N-suffix (got "{{.VERSION}}")'
@@ -64,23 +108,17 @@ tasks:
         msg: 'Tag {{.TAG}} already exists on origin — bump version.txt'
       - sh: grep -Eq '^## {{.VERSION}}$' CHANGELOG.md
         msg: 'CHANGELOG.md has no "## {{.VERSION}}" section — write the release notes first'
-      - sh: gh auth status >/dev/null 2>&1
-        msg: 'gh is not logged in — run "gh auth login"'
     cmds:
       - task: check
-      # Release notes = the CHANGELOG section for this version, up to the next "## " heading.
-      - awk -v hdr="## {{.VERSION}}" '$0 == hdr {found=1; next} found && /^## / {exit} found {print}' CHANGELOG.md > .release-notes.md
-      - test -s .release-notes.md
+      # Pushing the tag triggers .github/workflows/release.yml (tests, govulncheck, archives, SHA256SUMS,
+      # GitHub release, mkdocs gh-deploy).
       - git tag {{.TAG}}
       - git push origin HEAD
       - git push origin {{.TAG}}
-      # Publishing the release is what triggers .github/workflows/release.yml (binaries + mkdocs gh-deploy).
-      - gh release create {{.TAG}} --verify-tag --title {{.TAG}} --notes-file .release-notes.md {{if contains "-" .VERSION}}--prerelease{{end}}
-      - rm -f .release-notes.md
-      - 'echo "Published {{.TAG}}. Build: https://github.com/mmalcek/bafi/actions"'
+      - 'echo "Pushed {{.TAG}}. Watch https://github.com/mmalcek/bafi/actions"'
 
   clean:
     desc: Remove build artifacts
     cmds:
       - rm -f {{.BINARY}} {{.BINARY}}.exe .release-notes.md
-      - rm -rf site/
+      - rm -rf site/ build/

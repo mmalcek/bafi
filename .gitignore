@@ -8,6 +8,8 @@ output.*
 temp.txt
 cover.out
 oryxBuildBinary
+.release-notes.md
 
 .DS_Store
 test.json
+build/

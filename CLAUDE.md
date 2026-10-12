@@ -37,7 +37,8 @@ task check        # vet + test + docs build — run before every commit
 task vuln         # govulncheck
 task docs         # mkdocs build -> ./site
 task docs:serve   # live-reload docs
-task release      # tag + push + gh release create (CI builds binaries, deploys docs)
+task dist         # cross-compile release archives into ./build (what CI publishes)
+task release      # tag + push; CI builds archives, publishes the release, deploys docs
 task clean
 ```
 
@@ -56,7 +57,8 @@ the **same change**:
 ## Release
 
 1. Bump `version.txt`, make sure `CHANGELOG.md` has the matching `## X.Y.Z` section, commit.
-2. `task release` on a clean `main`: runs `task check`, tags `vX.Y.Z`, pushes, and creates the GitHub
-   release with the changelog section as body.
-3. The published release triggers `.github/workflows/release.yml`, which builds the per-platform
-   binaries and deploys the docs. Do not create releases by hand in the GitHub UI.
+2. `task release` on a clean `main`: runs `task check`, tags `vX.Y.Z` and pushes.
+3. The pushed tag triggers `.github/workflows/release.yml`: verifies the tag against `version.txt`, runs
+   vet/tests/govulncheck, builds the archives with `task dist`, writes `SHA256SUMS.txt`, creates the
+   GitHub release with the changelog section as body, then deploys the docs. Do not create releases by
+   hand in the GitHub UI. `workflow_dispatch` runs the build without publishing.

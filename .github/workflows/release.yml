@@ -1,83 +1,95 @@
-name: releaseBuild
+name: Release
 
+# `task release` pushes the tag; this workflow does the rest. workflow_dispatch runs the build
+# without publishing, to test the pipeline.
 on:
-  release:
-    types: [published]
+  push:
+    tags: ['v[0-9]+.[0-9]+.[0-9]+*']
+  workflow_dispatch:
+
+# contents: write — publishing the release and pushing the gh-pages branch.
+permissions:
+  contents: write
 
 jobs:
-  update-mkdocs:
-    name: Deploy mkdocs documentation
+  release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+          check-latest: true
+
+      - name: Set up Task
+        run: |
+          curl --retry 5 --retry-delay 3 --retry-all-errors -fsSL https://taskfile.dev/install.sh | sh -s -- -b /usr/local/bin v3.54.0
+          task --version
+
+      - name: Verify tag matches version.txt
+        if: github.event_name == 'push'
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          FILE="$(tr -d '[:space:]' < version.txt)"
+          if [ "$TAG" != "$FILE" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match version.txt ($FILE)"
+            exit 1
+          fi
+
+      - name: gofmt + go vet
+        run: task vet
+
+      - name: Unit tests
+        run: task test
+
+      - name: Vulnerability scan (govulncheck)
+        run: task vuln
+
+      - name: Build release archives
+        run: task dist
+
+      - name: Generate SHA256 checksums
+        run: cd build && sha256sum *.tgz *.zip > SHA256SUMS.txt && cat SHA256SUMS.txt
+
+      - name: Extract release notes from CHANGELOG.md
+        if: github.event_name == 'push'
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          awk -v hdr="## $VERSION" '
+            $0 == hdr { found=1; next }
+            found && /^## / { exit }
+            found { print }
+          ' CHANGELOG.md > build/release-notes.md
+          if [ ! -s build/release-notes.md ]; then
+            echo "::error::CHANGELOG.md has no '## $VERSION' section — refusing to release with empty notes"
+            exit 1
+          fi
+
+      - name: Publish GitHub Release
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
+        with:
+          files: |
+            build/*.tgz
+            build/*.zip
+            build/SHA256SUMS.txt
+          body_path: build/release-notes.md
+          prerelease: ${{ contains(github.ref, '-') }}
+
+  update-mkdocs:
+    name: Deploy mkdocs documentation
+    needs: release
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: 3.x
       - run: pip install mkdocs
       - run: mkdocs gh-deploy --force
-  release-windows-amd64:
-    name: release windows/amd64
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      - name: compile and release
-        uses: mmalcek/go-release.action@v1.0.6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PROJECT_NAME: bafi
-          CGO_ENABLED: 0
-          GOARCH: amd64
-          GOOS: windows
-          CMD_PATH: -buildvcs=false
-          EXTRA_FILES: "docs/README.md docs/examples.md docs/about.md LICENSE testdata.xml template.tmpl lua/json.lua lua/functions.lua"
-  release-linux-amd64:
-    name: release linux/amd64
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      - name: compile and release
-        uses: mmalcek/go-release.action@v1.0.6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PROJECT_NAME: bafi
-          CGO_ENABLED: 0
-          GOARCH: amd64
-          GOOS: linux
-          CMD_PATH: -buildvcs=false
-          EXTRA_FILES: "docs/README.md docs/examples.md docs/about.md LICENSE testdata.xml template.tmpl lua/json.lua lua/functions.lua"
-  release-linux-386:
-    name: release linux/386
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      - name: compile and release
-        uses: mmalcek/go-release.action@v1.0.6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PROJECT_NAME: bafi
-          CGO_ENABLED: 0
-          GOARCH: "386"
-          GOOS: linux
-          CMD_PATH: -buildvcs=false
-          EXTRA_FILES: "docs/README.md docs/examples.md docs/about.md LICENSE testdata.xml template.tmpl lua/json.lua lua/functions.lua"
-  release-darwin-amd64:
-    name: release darwin/amd64
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      - name: compile and release
-        uses: mmalcek/go-release.action@v1.0.6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PROJECT_NAME: bafi
-          CGO_ENABLED: 0
-          GOARCH: amd64
-          GOOS: darwin
-          CMD_PATH: -buildvcs=false
-          EXTRA_FILES: "docs/README.md docs/examples.md docs/about.md LICENSE testdata.xml template.tmpl lua/json.lua lua/functions.lua"

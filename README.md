@@ -40,7 +40,8 @@ curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t "?{{toX
 or
 
 ```
-curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gk myChatGPTToken -gq "What's the current CZK rate?"
+export OPENAI_API_KEY=sk-...   # or pass the key with -gk (visible in ps / shell history)
+curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gq "What's the current CZK rate?"
 ```
 
 More examples and description in [documentation](https://mmalcek.github.io/bafi/)

@@ -20,6 +20,7 @@ Val3: {{$TotalV3}}
 Created at: {{now  "02.01.2006 - 15:04:05"}}
 ------------------------------------------------------------------------------
 JSON formatted data:
+{{- /* Hand-built JSON is only safe for values without quotes/backslashes; for arbitrary data prefer {{toJSON .}} */}}
 {{- $new := "{\"employees\": [" }}
 {{- range .TOP_LEVEL.DATA_LINE}}
 {{- $new = print $new "{\"employeeID\":\"" (index .Employee "-ID") "\", \"val1\":" .val1 "}," }}

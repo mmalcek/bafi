@@ -11,12 +11,10 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"math/rand"
 	"os"
 	"path/filepath"
 	"strings"
 	"text/template"
-	"time"
 	"unicode/utf8"
 
 	"github.com/alpkeskin/gotoon"
@@ -46,9 +44,9 @@ type tParams struct {
 	chatGPTquery   *string
 }
 
-func init() {
-	rand.Seed(time.Now().UTC().UnixNano())
-}
+// openAIKeyEnv is the environment variable consulted for the OpenAI API key when -gk is not given.
+// Preferred over -gk: command-line arguments are visible in process listings and shell history.
+const openAIKeyEnv = "OPENAI_API_KEY"
 
 func main() {
 	params := tParams{
@@ -63,7 +61,7 @@ func main() {
 		inputDelimiter: flag.String("d", "", "input delimiter: CSV only, default is comma -d ';' or -d 0x09"),
 		getVersion:     flag.Bool("v", false, "show version (Project page: https://github.com/mmalcek/bafi)"),
 		getHelp:        flag.Bool("h", false, "show help"),
-		chatGPTkey:     flag.String("gk", "", "OpenAI API key"),
+		chatGPTkey:     flag.String("gk", "", "OpenAI API key (prefer the "+openAIKeyEnv+" environment variable; -gk overrides it)"),
 		chatGPTmodel:   flag.String("gm", "gpt35", "OpenAI GPT-3 model (gpt35, gpt4)"),
 		chatGPTquery:   flag.String("gq", "", "OpenAI query"),
 	}
@@ -87,7 +85,9 @@ func processTemplate(params tParams) error {
 		flag.PrintDefaults()
 		return nil
 	}
-	if *params.textTemplate == "" && *params.chatGPTkey == "" {
+	// OpenAI mode is selected by either OpenAI flag; the key itself may also come from the environment.
+	openAIMode := *params.chatGPTkey != "" || *params.chatGPTquery != ""
+	if *params.textTemplate == "" && !openAIMode {
 		fmt.Println("template file must be defined: -t template.tmpl")
 		return nil
 	}
@@ -97,35 +97,24 @@ func processTemplate(params tParams) error {
 	}
 	// Try identify file format by extension. Input parameter -f has priority
 	if *params.inputFormat == "" {
-		switch strings.ToLower(filepath.Ext(*params.inputFile)) {
-		case ".json":
-			*params.inputFormat = "json"
-		case ".bson":
-			*params.inputFormat = "bson"
-		case ".yaml", ".yml":
-			*params.inputFormat = "yaml"
-		case ".csv":
-			*params.inputFormat = "csv"
-		case ".sta":
-			*params.inputFormat = "mt940"
-		case ".xml", ".cdf", ".cdf3":
-			*params.inputFormat = "xml"
-		default:
-			*params.inputFormat = ""
-		}
+		*params.inputFormat = detectFormat(*params.inputFile)
 	}
 
 	// If list of file map them one by one else map incoming []byte to mapData
 	var mapData interface{}
 	if data == nil && files != nil {
 		filesStruct := make(map[string]interface{})
-		for _, file := range files {
-			data, err := os.ReadFile(file["file"].(string))
+		for i, file := range files {
+			entry, err := parseFileListEntry(i, file)
 			if err != nil {
 				return err
 			}
-			*params.inputFormat = file["format"].(string)
-			if filesStruct[file["label"].(string)], err = mapInputData(data, params); err != nil {
+			data, err := os.ReadFile(entry.file)
+			if err != nil {
+				return err
+			}
+			*params.inputFormat = entry.format
+			if filesStruct[entry.label], err = mapInputData(data, params); err != nil {
 				return err
 			}
 		}
@@ -136,14 +125,24 @@ func processTemplate(params tParams) error {
 		}
 	}
 
-	if *params.chatGPTkey != "" {
+	if openAIMode {
 		if *params.chatGPTquery == "" {
 			fmt.Println("OpenAI query must be defined: -gq \"What is the weather like?\"")
 			return nil
 		}
-		response, err := chatGPTprocess(mapData, params)
+		apiKey := *params.chatGPTkey
+		if apiKey == "" {
+			apiKey = os.Getenv(openAIKeyEnv)
+		}
+		if apiKey == "" {
+			return fmt.Errorf("OpenAI API key must be defined: -gk <key> or environment variable %s", openAIKeyEnv)
+		}
+		response, err := chatGPTprocess(mapData, params, apiKey)
 		if err != nil {
 			return err
+		}
+		if len(response.Choices) == 0 {
+			return fmt.Errorf("OpenAI: empty response (no choices returned)")
 		}
 		if *params.outputFile == "" {
 			fmt.Println(response.Choices[0].Message.Content)
@@ -166,6 +165,72 @@ func processTemplate(params tParams) error {
 		return err
 	}
 	return nil
+}
+
+// detectFormat guesses the input format from the file extension; "" when the extension is unknown.
+func detectFormat(path string) string {
+	switch strings.ToLower(filepath.Ext(path)) {
+	case ".json":
+		return "json"
+	case ".bson":
+		return "bson"
+	case ".yaml", ".yml":
+		return "yaml"
+	case ".csv":
+		return "csv"
+	case ".sta":
+		return "mt940"
+	case ".xml", ".cdf", ".cdf3":
+		return "xml"
+	default:
+		return ""
+	}
+}
+
+// fileListEntry is one validated record of the "-i ?files.yaml" file list.
+type fileListEntry struct {
+	file   string
+	format string
+	label  string
+}
+
+// parseFileListEntry validates one record of the file list. "file" and "label" are required strings;
+// "format" is optional and falls back to the file extension (an unknown extension is reported later by
+// mapInputData, same as for a single input file). A malformed record yields an error naming the record
+// index and key instead of a panic.
+func parseFileListEntry(index int, entry map[string]interface{}) (fileListEntry, error) {
+	getString := func(key string, required bool) (string, error) {
+		raw, ok := entry[key]
+		if !ok || raw == nil {
+			if required {
+				return "", fmt.Errorf("fileList[%d]: missing %q", index, key)
+			}
+			return "", nil
+		}
+		value, ok := raw.(string)
+		if !ok {
+			return "", fmt.Errorf("fileList[%d]: %q must be a string (got %T)", index, key, raw)
+		}
+		if required && value == "" {
+			return "", fmt.Errorf("fileList[%d]: %q must not be empty", index, key)
+		}
+		return value, nil
+	}
+	var result fileListEntry
+	var err error
+	if result.file, err = getString("file", true); err != nil {
+		return result, err
+	}
+	if result.label, err = getString("label", true); err != nil {
+		return result, err
+	}
+	if result.format, err = getString("format", false); err != nil {
+		return result, err
+	}
+	if result.format == "" {
+		result.format = detectFormat(result.file)
+	}
+	return result, nil
 }
 
 // getInputData get the data from stdin/pipe or from file or forward list of multiple input files
@@ -280,7 +345,11 @@ func mapInputData(data []byte, params tParams) (interface{}, error) {
 func parseCSV(data []byte, delimiter string) ([]map[string]interface{}, error) {
 	var mapData []map[string]interface{}
 	r := csv.NewReader(bytes.NewReader(data))
-	r.Comma = prepareDelimiter(delimiter)
+	comma, err := prepareDelimiter(delimiter)
+	if err != nil {
+		return nil, fmt.Errorf("mapCSV: %s", err.Error())
+	}
+	r.Comma = comma
 	lines, err := r.ReadAll()
 	if err != nil {
 		return nil, fmt.Errorf("mapCSV: %s", err.Error())
@@ -301,26 +370,30 @@ func parseCSV(data []byte, delimiter string) ([]map[string]interface{}, error) {
 	return mapData, nil
 }
 
-// Delimiter can be defined as string or as HEX value eg. 0x09
-func prepareDelimiter(inputString string) rune {
+// Delimiter can be defined as string or as HEX value eg. 0x09.
+// An invalid hex value is returned as an error so the caller can report it like any other input error.
+func prepareDelimiter(inputString string) (rune, error) {
 	if inputString != "" {
 		if len(inputString) == 4 && inputString[0:2] == "0x" {
 			bytes, err := hex.DecodeString(inputString[2:4])
 			if err != nil {
-				log.Fatalf("error CSV delimiter: %s", err.Error())
+				return 0, fmt.Errorf("invalid delimiter %q: %s", inputString, err.Error())
 			}
-			return rune(string(bytes)[0])
+			return rune(string(bytes)[0]), nil
 		}
 		delimiter, _ := utf8.DecodeRuneInString(inputString)
-		return delimiter
+		return delimiter, nil
 	}
-	return rune(',')
+	return rune(','), nil
 }
 
 // readTemplate get template from file or from input
 func readTemplate(textTemplate string) ([]byte, error) {
 	var templateFile []byte
 	var err error
+	if textTemplate == "" {
+		return nil, fmt.Errorf("readTemplate: template must be defined: -t template.tmpl")
+	}
 	if textTemplate[:1] == "?" {
 		templateFile = []byte(textTemplate[1:])
 	} else {
@@ -358,7 +431,9 @@ func writeOutputData(mapData interface{}, outputFile *string, templateFile []byt
 	return nil
 }
 
-func chatGPTprocess(mapData interface{}, params tParams) (response openai.ChatCompletionResponse, err error) {
+// chatGPTprocess sends the query and the whole parsed input (TOON encoded) to OpenAI.
+// apiKey is already resolved by the caller (-gk flag or OPENAI_API_KEY environment variable).
+func chatGPTprocess(mapData interface{}, params tParams, apiKey string) (response openai.ChatCompletionResponse, err error) {
 	jsonData, err := gotoon.Encode(mapData)
 	if err != nil {
 		return response, fmt.Errorf("jsonMarshal: %s", err.Error())
@@ -383,7 +458,7 @@ func chatGPTprocess(mapData interface{}, params tParams) (response openai.ChatCo
 		model = openai.GPT3Dot5Turbo
 	}
 
-	client := openai.NewClient(*params.chatGPTkey)
+	client := openai.NewClient(apiKey)
 	return client.CreateChatCompletion(
 		context.Background(),
 		openai.ChatCompletionRequest{

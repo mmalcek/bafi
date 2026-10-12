@@ -2,6 +2,8 @@ package main
 
 import (
 	"encoding/base64"
+	"os"
+	"path/filepath"
 	"reflect"
 	"regexp"
 	"strings"
@@ -9,6 +11,32 @@ import (
 
 	"github.com/clbanning/mxj/v2"
 )
+
+// newTestParams returns a tParams with every pointer set, so tests can tweak single fields.
+func newTestParams() tParams {
+	return tParams{
+		inputFile:      new(string),
+		outputFile:     new(string),
+		textTemplate:   new(string),
+		inputFormat:    new(string),
+		inputDelimiter: new(string),
+		getVersion:     new(bool),
+		getHelp:        new(bool),
+		chatGPTkey:     new(string),
+		chatGPTmodel:   new(string),
+		chatGPTquery:   new(string),
+	}
+}
+
+// writeTempFile writes content to a file inside t.TempDir() and returns its path.
+func writeTempFile(t *testing.T, name, content string) string {
+	t.Helper()
+	path := filepath.Join(t.TempDir(), name)
+	if err := os.WriteFile(path, []byte(content), 0o600); err != nil {
+		t.Fatalf("write %s: %v", name, err)
+	}
+	return path
+}
 
 const bsonDump = `JgAAAAdfaWQAYQAVOXB0lMEH42tuAm5hbWUABgAAAEhlbGxvAAAmAAAAB19pZABhCmAZAkO5o4cVWbsCbmFtZQAGAAAAV29ybGQAAA==`
 
@@ -94,6 +122,119 @@ func TestProcessTemplate(t *testing.T) {
 	err = processTemplate(params)
 	if err != nil {
 		t.Errorf("result: %v", err.Error())
+	}
+}
+
+// TestFileListValidation covers the "-i ?files.yaml" path: malformed records must produce a
+// descriptive error (they used to panic) and "format" may be omitted when the extension is known.
+func TestFileListValidation(t *testing.T) {
+	testdata, err := filepath.Abs("testdata.xml")
+	if err != nil {
+		t.Fatal(err)
+	}
+	cases := []struct {
+		name    string
+		yaml    string
+		wantErr string // substring of the expected error, "" for success
+	}{
+		{"valid explicit format", "- file: " + testdata + "\n  format: xml\n  label: x\n", ""},
+		{"format omitted, detected from extension", "- file: " + testdata + "\n  label: x\n", ""},
+		{"format empty string, detected from extension", "- file: " + testdata + "\n  format: \"\"\n  label: x\n", ""},
+		{"file is int", "- file: 123\n  format: xml\n  label: x\n", `fileList[0]: "file" must be a string (got int)`},
+		{"label missing", "- file: " + testdata + "\n  format: xml\n", `fileList[0]: missing "label"`},
+		{"format is list", "- file: " + testdata + "\n  format: [xml]\n  label: x\n", `fileList[0]: "format" must be a string`},
+		{"second record broken", "- file: " + testdata + "\n  label: a\n- file: {}\n  label: b\n", `fileList[1]: "file" must be a string`},
+		{"unknown extension without format", "- file: " + testdata + ".unknown\n  label: x\n", "unknown input format"},
+		{"empty label", "- file: " + testdata + "\n  label: \"\"\n", `fileList[0]: "label" must not be empty`},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			if tc.name == "unknown extension without format" {
+				// The file must exist so the error comes from the format detection, not from ReadFile.
+				if err := os.WriteFile(testdata+".unknown", []byte("<a/>"), 0o600); err != nil {
+					t.Fatal(err)
+				}
+				defer os.Remove(testdata + ".unknown")
+			}
+			params := newTestParams()
+			*params.inputFile = "?" + writeTempFile(t, "files.yaml", tc.yaml)
+			*params.textTemplate = `?{{index .x.TOP_LEVEL "-description"}}`
+			err := processTemplate(params)
+			switch {
+			case tc.wantErr == "" && err != nil:
+				t.Errorf("unexpected error: %v", err)
+			case tc.wantErr != "" && (err == nil || !strings.Contains(err.Error(), tc.wantErr)):
+				t.Errorf("want error containing %q, got %v", tc.wantErr, err)
+			}
+		})
+	}
+}
+
+func TestDetectFormat(t *testing.T) {
+	cases := map[string]string{
+		"a.json": "json", "a.JSON": "json", "a.bson": "bson", "a.yaml": "yaml", "a.yml": "yaml",
+		"a.csv": "csv", "a.sta": "mt940", "a.xml": "xml", "a.cdf": "xml", "a.cdf3": "xml",
+		"a.txt": "", "a": "", "": "",
+	}
+	for path, want := range cases {
+		if got := detectFormat(path); got != want {
+			t.Errorf("detectFormat(%q) = %q, want %q", path, got, want)
+		}
+	}
+}
+
+// TestOpenAIMode checks the mode switch and key resolution without reaching the network:
+// the resolved key is validated before any request, and a dummy key must fail inside the OpenAI
+// client (not in the template guard).
+func TestOpenAIMode(t *testing.T) {
+	t.Setenv(openAIKeyEnv, "")
+	params := newTestParams()
+	*params.inputFile = "testdata.xml"
+	*params.chatGPTquery = "hello"
+	err := processTemplate(params)
+	if err == nil || !strings.Contains(err.Error(), "OpenAI API key must be defined") {
+		t.Errorf("-gq without any key: want key error, got %v", err)
+	}
+
+	// Key from the environment: the request is attempted (and fails on the dummy key / network).
+	t.Setenv(openAIKeyEnv, "dummy-key")
+	err = processTemplate(params)
+	if err == nil {
+		t.Fatal("dummy key must not succeed")
+	}
+	for _, forbidden := range []string{"OpenAI API key must be defined", "template file must be defined", "readTemplate"} {
+		if strings.Contains(err.Error(), forbidden) {
+			t.Errorf("env key not picked up, got %v", err)
+		}
+	}
+
+	// -gk alone still asks for a query (unchanged behaviour), and -t alone still runs the template
+	// even if the environment holds a key.
+	*params.chatGPTquery = ""
+	*params.chatGPTkey = "flag-key"
+	if err := processTemplate(params); err != nil {
+		t.Errorf("-gk without -gq: want nil (prints usage hint), got %v", err)
+	}
+	*params.chatGPTkey = ""
+	*params.textTemplate = `?{{index .TOP_LEVEL "-description"}}`
+	if err := processTemplate(params); err != nil {
+		t.Errorf("template mode with OPENAI_API_KEY exported: want nil, got %v", err)
+	}
+}
+
+func TestPrepareDelimiter(t *testing.T) {
+	for input, want := range map[string]rune{"": ',', ";": ';', "0x09": '\t', "0x2C": ',', "§x": '§'} {
+		got, err := prepareDelimiter(input)
+		if err != nil || got != want {
+			t.Errorf("prepareDelimiter(%q) = %q, %v; want %q", input, got, err, want)
+		}
+	}
+	if _, err := prepareDelimiter("0xZZ"); err == nil || !strings.Contains(err.Error(), "invalid delimiter") {
+		t.Errorf("want invalid delimiter error, got %v", err)
+	}
+	// Reaches the caller as a regular input error instead of log.Fatalf.
+	if _, err := parseCSV([]byte("a,b\n1,2"), "0xZZ"); err == nil || !strings.Contains(err.Error(), "mapCSV: invalid delimiter") {
+		t.Errorf("want mapCSV error, got %v", err)
 	}
 }
 
@@ -298,6 +439,10 @@ func TestReadTemplate(t *testing.T) {
 	// Test nonExisting file
 	_, err = readTemplate("hello.tmpl")
 	if !strings.Contains(err.Error(), "readFile: open hello.tmpl:") {
+		t.Errorf("err: %v", err)
+	}
+	// Empty template name must be an error, not a slice-bounds panic
+	if _, err = readTemplate(""); err == nil || !strings.Contains(err.Error(), "template must be defined") {
 		t.Errorf("err: %v", err)
 	}
 }

@@ -3,7 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"math/rand"
+	"math"
 	"regexp"
 	"strings"
 	"testing"
@@ -112,11 +112,18 @@ func TestMulf(t *testing.T) {
 }
 
 func TestRandInt(t *testing.T) {
-	rand.Seed(1)
+	seen := make(map[int]bool)
 	for i := 0; i < 1000; i++ {
 		result := randInt(50, 55)
 		if result < 50 || result > 55 {
 			t.Errorf("result: %v", result)
+		}
+		seen[result] = true
+	}
+	// Both bounds are inclusive; 1000 draws over 6 values must hit each of them.
+	for v := 50; v <= 55; v++ {
+		if !seen[v] {
+			t.Errorf("value %d never produced in 1000 draws", v)
 		}
 	}
 	if randInt(5, 5) != 5 {
@@ -124,6 +131,15 @@ func TestRandInt(t *testing.T) {
 	}
 	if randInt(10, 5) != 10 {
 		t.Errorf("expected 10, got: %v", randInt(10, 5))
+	}
+	// Extreme ranges used to overflow max-min+1 and panic.
+	for _, bounds := range [][2]int{{0, math.MaxInt}, {math.MinInt, math.MaxInt}, {math.MinInt, 0}, {-1, math.MaxInt}} {
+		for i := 0; i < 100; i++ {
+			result := randInt(bounds[0], bounds[1])
+			if result < bounds[0] || result > bounds[1] {
+				t.Errorf("randInt(%d, %d) = %d out of range", bounds[0], bounds[1], result)
+			}
+		}
 	}
 }
 
@@ -254,8 +270,47 @@ func TestReplaceAll(t *testing.T) {
 }
 
 func TestReplaceAllRegex(t *testing.T) {
-	if replaceAllRegex("[a-d]", "Z", "aaxbb") != "ZZxZZ" {
-		t.Errorf("result: %v", replaceAllRegex("aaxbb", `[a-d]`, "Z"))
+	result, err := replaceAllRegex("[a-d]", "Z", "aaxbb")
+	if err != nil || result != "ZZxZZ" {
+		t.Errorf("result: %v, err: %v", result, err)
+	}
+	if _, err := replaceAllRegex("[a-d", "Z", "aaxbb"); err == nil {
+		t.Error("expected error for invalid regex")
+	}
+	// Inside a template an invalid pattern aborts execution with a readable error instead of a panic.
+	err = runt(`{{replaceAllRegex "[a-d" "Z" "aaxbb"}}`, "")
+	if err == nil || !strings.Contains(err.Error(), "error calling replaceAllRegex") || !strings.Contains(err.Error(), "error parsing regexp") {
+		t.Errorf("expected template error about invalid regex, got: %v", err)
+	}
+	if err := runt(`{{replaceAllRegex "[a-d]" "Z" "aaxbb"}}`, "ZZxZZ"); err != nil {
+		t.Errorf("templateError: %v", err)
+	}
+}
+
+func TestCsvSafe(t *testing.T) {
+	cases := map[string]string{
+		"":              "",
+		"hello":         "hello",
+		"=1+1":          "'=1+1",
+		"+1+1":          "'+1+1",
+		"-2+3":          "'-2+3",
+		"@SUM(A1)":      "'@SUM(A1)",
+		"\tcmd":         "'\tcmd",
+		"\rcmd":         "'\rcmd",
+		"-5":            "-5",
+		"+3.14":         "+3.14",
+		"-1e3":          "-1e3",
+		"-":             "'-",
+		"= not formula": "'= not formula",
+		"a=b":           "a=b",
+	}
+	for input, want := range cases {
+		if got := csvSafe(input); got != want {
+			t.Errorf("csvSafe(%q) = %q, want %q", input, got, want)
+		}
+	}
+	if err := runt(`{{csvSafe "=HYPERLINK(1)"}}`, "'=HYPERLINK(1)"); err != nil {
+		t.Errorf("templateError: %v", err)
 	}
 }
 
@@ -451,7 +506,15 @@ func TestToXML(t *testing.T) {
 	if !strings.Contains(result, "<Hello>World</Hello>") {
 		t.Errorf("result: %v", result)
 	}
-
+	// []interface{} (what mustArray and nested JSON arrays produce) used to panic on a type assertion.
+	testData3 := []interface{}{map[string]interface{}{"Hello": "World"}, map[string]interface{}{"Hello": "Again"}}
+	result = toXML(testData3)
+	if !strings.Contains(result, "<Hello>World</Hello>") || !strings.Contains(result, "<Hello>Again</Hello>") || strings.HasPrefix(result, "err:") {
+		t.Errorf("result: %v", result)
+	}
+	if err := runtv(`{{toXML .a}}`, "", map[string]interface{}{"a": []interface{}{map[string]interface{}{"b": 1}}}); err == nil || !strings.Contains(err.Error(), "Expected ''") {
+		t.Errorf("toXML on []interface{} inside a template must not error: %v", err)
+	}
 }
 
 func TestToTOON(t *testing.T) {

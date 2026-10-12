@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"io/fs"
 	"math"
-	"math/rand"
+	"math/rand/v2"
 	"reflect"
 	"regexp"
 	"strconv"
@@ -61,6 +61,7 @@ func templateFunctions() template.FuncMap {
 		"replaceAllRegex": replaceAllRegex,
 		"regexMatch":      regexMatch,
 		"contains":        contains,
+		"csvSafe":         csvSafe,
 		"upper":           upper,
 		"lower":           lower,
 		"addSubstring":    addSubstring,
@@ -149,12 +150,18 @@ func mulf(a interface{}, v ...interface{}) float64 {
 	return execDecimalOp(a, v, func(d1, d2 decimal.Decimal) decimal.Decimal { return d1.Mul(d2) })
 }
 
-// randInt returns random integer in defined range {{randInt min max}} e.g. {{randInt 1 10}}
+// randInt returns random integer in defined range (both bounds inclusive) {{randInt min max}} e.g. {{randInt 1 10}}
+// Uses math/rand/v2 (auto-seeded, NOT cryptographically secure - do not use for tokens or secrets).
+// The span is computed in uint64 so extreme bounds (e.g. {{randInt 0 9223372036854775807}}) cannot overflow.
 func randInt(min, max int) int {
 	if max <= min {
 		return min
 	}
-	return rand.Intn(max-min+1) + min
+	span := uint64(max) - uint64(min) // number of values minus one, never overflows as unsigned
+	if span == math.MaxUint64 {
+		return min + int(rand.Uint64())
+	}
+	return min + int(rand.Uint64N(span+1))
 }
 
 // round float {{round .val 2}} -> 2 decimals or {{round .val 1 0.4}} 0.4 round point
@@ -298,9 +305,14 @@ func replaceAll(old, new, src string) string {
 	return strings.Replace(src, old, new, -1)
 }
 
-func replaceAllRegex(regex, new, src string) string {
-	r := regexp.MustCompile(regex)
-	return r.ReplaceAllString(src, new)
+// replaceAllRegex replaces all matches of regex in src. An invalid pattern is returned as an error,
+// which text/template turns into "error calling replaceAllRegex: ..." and aborts the run.
+func replaceAllRegex(regex, new, src string) (string, error) {
+	r, err := regexp.Compile(regex)
+	if err != nil {
+		return "", err
+	}
+	return r.ReplaceAllString(src, new), nil
 }
 
 // regexMatch check regex e.g. {{regexMatch "a.b", "aaxbb"}}
@@ -312,6 +324,26 @@ func regexMatch(regex string, s string) bool {
 // contains check if string contains substring e.g. {{contains "aaxbb" "xb"}}
 func contains(str string, substr string) bool {
 	return strings.Contains(str, substr)
+}
+
+// csvSafe neutralises spreadsheet formula injection: a value starting with = + - @ TAB or CR is
+// prefixed with a single quote so spreadsheet software treats it as text. Plain numbers such as
+// "-5" or "+3.14" are left untouched so numeric columns keep working. {{csvSafe .Value}}
+func csvSafe(s string) string {
+	if s == "" {
+		return s
+	}
+	switch s[0] {
+	case '=', '@', '\t', '\r':
+		return "'" + s
+	case '+', '-':
+		if _, err := strconv.ParseFloat(s, 64); err == nil {
+			return s
+		}
+		return "'" + s
+	default:
+		return s
+	}
 }
 
 // upper string to uppercase
@@ -436,23 +468,22 @@ func toYAML(data interface{}) string {
 func toXML(data interface{}) string {
 	var err error
 	out := []byte("<doc>\r\n")
-	if reflect.TypeOf(data).Kind() == reflect.Slice {
-		if reflect.TypeOf(data).Kind() == reflect.Slice {
-			for i := 0; i < reflect.ValueOf(data).Len(); i++ {
-				x, err := mxj.AnyXmlIndent(data.([]map[string]interface{})[i], "", "  ", "record")
-				if err != nil {
-					return fmt.Sprintf("err: %s", err.Error())
-				}
-				out = append(out, string(x)+"\r\n"...)
-			}
-			out = append(out, string("</doc>\r\n")...)
-			out, err = mxj.BeautifyXml(out, "", "  ")
+	// Any slice ([]map[string]interface{} from JSON/CSV/BSON arrays, []interface{} from mustArray or
+	// nested arrays) is rendered as a list of <record> elements.
+	if value := reflect.ValueOf(data); value.Kind() == reflect.Slice {
+		for i := 0; i < value.Len(); i++ {
+			x, err := mxj.AnyXmlIndent(value.Index(i).Interface(), "", "  ", "record")
 			if err != nil {
 				return fmt.Sprintf("err: %s", err.Error())
 			}
-			return string(out)
+			out = append(out, string(x)+"\r\n"...)
 		}
-
+		out = append(out, string("</doc>\r\n")...)
+		out, err = mxj.BeautifyXml(out, "", "  ")
+		if err != nil {
+			return fmt.Sprintf("err: %s", err.Error())
+		}
+		return string(out)
 	}
 	out, err = mxj.AnyXmlIndent(data, "", "  ", "doc")
 	if err != nil {

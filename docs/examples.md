@@ -273,6 +273,16 @@ curl.exe -s https://api.predic8.de/shop/customers/ | bafi.exe -f json -t "?{{toY
 
 ### ChatGPT query
 
+The API key can come from the **OPENAI_API_KEY** environment variable (recommended, keeps the key out of `ps` output and shell history) or from `-gk`. The query and the whole parsed input are sent to OpenAI.
+
+```sh
+export OPENAI_API_KEY=sk-...
+curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gq "What's the current CZK rate?"
+./bafi -i invoice.json -gq "create XML UBL format invoice" -o invoice.xml
+```
+
+or with the key on the command line:
+
 ```sh
 curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gk myChatGPTToken -gq "What's the current CZK rate?"
 curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gk myChatGPTToken -gq "format rates to html" -gm gpt4
@@ -298,13 +308,14 @@ curl -s https://goweather.herokuapp.com/weather/prague > pragueWeather.json
 - Files description **myFiles.yaml**
 
 ```yaml
-- file: ./ecbRates.xml # file path
-  format: xml # File format
-  label: RATES # Label which will be used in the template {{ .RATES }}
+- file: ./ecbRates.xml # file path (required)
+  format: xml # File format (optional - detected from the file extension when omitted)
+  label: RATES # Label which will be used in the template {{ .RATES }} (required)
 - file: ./pragueWeather.json
-  format: json
-  label: WEATHER
+  label: WEATHER # format omitted -> "json" from the .json extension
 ```
+
+A record with a missing or wrongly typed key (e.g. `file: 123`) is reported as `fileList[<index>]: ...` instead of aborting with a stack trace.
 
 - Template file **myTemplate.tmpl** which will generate simple HTML page with data
 

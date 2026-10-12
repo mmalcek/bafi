@@ -183,9 +183,14 @@ Your favourite colors are:
     - For Multiple messages in one file (e.g. Multicash). Can be defined as string e.g. -d "-\}\r\n" or "\r\n$" . If delimiter is set BaFi will return array of mt940 messages
 - **-v** Show current verion
 - **-h** list available command line arguments
-- **-gk myChatGPTToken** - ChatGPT token
-- **-gq "What's the current CZK rate?"** - ChatGPT query
-- **-gm gpt35** - ChatGPT model. Currently supportsed options "gpt35"(default), "gpt4", "gpt4o", "gpt4o-mini, gpt5, gpt5mini, gpt5nano"
+- **-gk myChatGPTToken** - OpenAI API key. Prefer the environment variable **OPENAI_API_KEY** instead: command-line arguments are visible to other local users (`ps`) and end up in shell history. `-gk` overrides the environment variable when both are set.
+- **-gq "What's the current CZK rate?"** - OpenAI query. Enables OpenAI mode (no template needed). The query **and the whole parsed input** are sent to OpenAI, so do not use it with data that must not leave your machine. Fails with an error when no key is available from `-gk` or `OPENAI_API_KEY`.
+- **-gm gpt35** - OpenAI model. Currently supportsed options "gpt35"(default), "gpt4", "gpt4o", "gpt4o-mini, gpt5, gpt5mini, gpt5nano"
+
+```sh
+export OPENAI_API_KEY=sk-...
+curl -s https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml | ./bafi -f xml -gq "What's the current CZK rate?"
+```
 
 ```sh
 bafi.exe -i testdata.xml -t template.tmpl -o output.txt
@@ -334,7 +339,7 @@ Asside of integated functions bafi contains additional common functions
 - **div** - divide
 - **mod** - modulo
 - **mul** - multiply
-- **randInt** - return random integer {{randInt .Min .Max}}
+- **randInt** - return random integer {{randInt .Min .Max}} (both bounds inclusive). Not cryptographically secure - fine for sampling or test data, never for tokens, passwords or IDs (use **uuid** for identifiers)
 - **add1f** - "...f" functions parse float but provide **decimal** operations using [shopspring decimal](https://github.com/shopspring/decimal)
 - **addf**
 - **subf**
@@ -366,6 +371,7 @@ Asside of integated functions bafi contains additional common functions
 - **b32enc** - oncode to base32
 - **b32dec** - decode from base32
 - **contains** - check if string contains substring e.g. {{contains "aaxbb" "xb"}}
+- **csvSafe** - {{csvSafe .Value}} - protect generated CSV against spreadsheet formula injection: a value starting with **=**, **+**, **-**, **@**, TAB or CR is prefixed with a single quote (`'`) so Excel/LibreOffice treat it as text, e.g. {{csvSafe "=HYPERLINK(...)"}} -> `'=HYPERLINK(...)`. Plain numbers such as `-5` or `+3.14` are left untouched. See [Security notes](#security-notes)
 - **indexOf** - {{indexOf "aaxbb" "xb"}} - returns indexOf first char of substring in string
 - **isArray** - {{isArray .Value1}} - check if value is array
 - **isBool** - {{isBool .Value1}} - check if value is bool
@@ -375,7 +381,7 @@ Asside of integated functions bafi contains additional common functions
 - **isMap** - {{isMap .Value1}} - check if value is map
 - **regexMatch** - {{regexMatch pattern .Value1}} more about go [regex](https://gobyexample.com/regular-expressions)
 - **replaceAll** - {{replaceAll "oldValue" "newValue" .Value}} - replace all occurences of "oldValue" with "newValue" e.g. {{replaceAll "x" "Z" "aaxbb"}} -> "aaZbb"
-- **replaceAllRegex** - {{replaceAllRegex "regex" "newValue" .Value}} - replace all occurences of "regex" with "newValue" e.g. {{replaceAllRegex "[a-d]", "Z" "aaxbb"}} -> "ZZxZZ"
+- **replaceAllRegex** - {{replaceAllRegex "regex" "newValue" .Value}} - replace all occurences of "regex" with "newValue" e.g. {{replaceAllRegex "[a-d]", "Z" "aaxbb"}} -> "ZZxZZ". An invalid regex aborts the template with `error calling replaceAllRegex: ...`
 - **lower** - to lowercase
 - **trim** - remove leading and trailing whitespace
 - **trimPrefix** - {{trimPrefix "!Hello World!" "!"}} - returns "Hello World!"
@@ -426,3 +432,14 @@ end
 ```
 
 Check [examples](examples/) and **template.tmpl** and **testdata.xml** for advanced examples
+
+## Security notes
+
+BaFi is a local formatter: whoever controls the template controls the output. Keep these points in mind when you embed it in automation.
+
+- **Templates and `./lua/functions.lua` are trusted code.** A template can call any built-in function and any Lua function, so never run templates or a `lua/` directory from an untrusted source. Only input data is treated as data: values from the input can never inject template directives. See the Lua note above for what the Lua sandbox does and does not restrict.
+- **No output escaping.** BaFi uses Go `text/template`, which writes values verbatim. If the output is HTML, SQL, shell, XML or JSON, a value containing quotes, `<` or `;` goes straight through. Use **toJSON**, **toXML**, **toYAML** or **toTOON** to produce structured output from data instead of building it by string concatenation, and escape values yourself for any other target format.
+- **CSV formula injection.** Spreadsheet software evaluates cells starting with `=`, `+`, `-`, `@`, TAB or CR. If your CSV output is opened in Excel/LibreOffice and the input is not under your control, wrap the values with **csvSafe**.
+- **OpenAI mode sends your data away.** With `-gq` the query and the **entire parsed input** are sent to OpenAI. Pass the key through the `OPENAI_API_KEY` environment variable rather than `-gk`, so it does not show up in process listings and shell history.
+- **randInt is not a secure random source.** Use **uuid** (backed by `crypto/rand`) for identifiers; never derive secrets from `randInt`.
+- **Error messages are verbose on purpose.** They include file paths and parser details (e.g. the offending YAML snippet) to make debugging easy. Keep that in mind if stderr ends up in shared logs.
