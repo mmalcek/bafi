@@ -464,6 +464,11 @@ func toYAML(data interface{}) string {
 	return string(out)
 }
 
+// mxj writes values verbatim unless escaping is switched on, which produced invalid XML for text
+// containing & or < (and made toXML of a list fail in BeautifyXml). It only affects encoding, and
+// toXML is bafi's only XML encoder.
+func init() { mxj.XMLEscapeChars(true) }
+
 // toXML convert to XML
 func toXML(data interface{}) string {
 	var err error
@@ -563,6 +568,9 @@ func mapJSON(input string) map[string]interface{} {
 // The Lua state is loaded lazily on the first call (see lua.go); every failure is reported inline
 // as a string so a broken or missing functions.lua never aborts the whole template.
 func luaF(i ...interface{}) string {
+	if luaUnavailable != "" {
+		return "luaError: " + luaUnavailable
+	}
 	L, err := luaState()
 	if err != nil {
 		if errors.Is(err, fs.ErrNotExist) {

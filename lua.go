@@ -17,6 +17,9 @@ var (
 	luaData     *lua.LState
 	luaLoadOnce sync.Once
 	luaLoadErr  error
+	// luaUnavailable, when set, is reported by {{lua}} instead of loading functions.lua. The browser
+	// demo sets it: there is no file system there, and the syscall error would only confuse.
+	luaUnavailable string
 )
 
 // luaRestrictedFunctions lists Lua standard-library functions that are removed from the

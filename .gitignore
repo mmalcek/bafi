@@ -13,3 +13,7 @@ oryxBuildBinary
 .DS_Store
 test.json
 build/
+# Built by `task wasm` (CI builds them before deploying the docs)
+docs/js/bafi.wasm
+docs/js/wasm_exec.js
+.task/

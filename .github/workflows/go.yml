@@ -23,8 +23,10 @@ jobs:
 
       - name: Build
         run: go build -v ./...
-      - name: Test
+      - name: Test (includes the examples in docs/)
         run: go test -v -cover ./...
+      - name: Build the online demo (WASM)
+        run: GOOS=js GOARCH=wasm go build -o /dev/null .
 
   # Scans the module graph with the newest stable Go so stdlib findings reflect the current patch level.
   govulncheck:

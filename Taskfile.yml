@@ -7,7 +7,8 @@ vars:
     sh: tr -d '[:space:]' < version.txt
   TAG: v{{.VERSION}}
   # Files shipped inside every release archive next to the binary (same relative paths).
-  DIST_FILES: docs/README.md docs/examples.md docs/about.md LICENSE testdata.xml template.tmpl lua/json.lua lua/functions.lua
+  # Globs are expanded by the shell, both when copying and when archiving.
+  DIST_FILES: README.md LICENSE docs/*.md docs/recipes/*.md testdata.xml template.tmpl lua/json.lua lua/functions.lua
 
 tasks:
   default:
@@ -42,14 +43,26 @@ tasks:
       - go run golang.org/x/vuln/cmd/govulncheck@latest ./...
 
   docs:
-    desc: Build the mkdocs site into ./site (ignored by git)
+    desc: Build the mkdocs site into ./site (ignored by git); broken links fail the build
+    deps: [wasm]
     cmds:
-      - mkdocs build -q
+      - mkdocs build --strict -q
 
   docs:serve:
     desc: Serve docs locally with live reload
+    deps: [wasm]
     cmds:
       - mkdocs serve
+
+  wasm:
+    desc: Build the online demo for the docs home page (docs/js/bafi.wasm + the matching wasm_exec.js)
+    sources: ["*.go", go.mod, go.sum, version.txt]
+    generates: [docs/js/bafi.wasm, docs/js/wasm_exec.js]
+    cmds:
+      - mkdir -p docs/js
+      - GOOS=js GOARCH=wasm CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o docs/js/bafi.wasm .
+      # wasm_exec.js must come from the same Go version that built the .wasm.
+      - cp "$(go env GOROOT)/lib/wasm/wasm_exec.js" docs/js/wasm_exec.js
 
   # _dist:one stages one platform into build/<os>_<arch>/ (binary + DIST_FILES, original relative
   # paths) and archives it as bafi_<tag>_<os>_<arch>.tgz (zip on windows) in build/.

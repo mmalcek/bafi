@@ -1,16 +1,49 @@
 site_name: BaFi
 site_url: https://mmalcek.github.io/bafi
+site_description: >-
+  bafi converts JSON, XML, CSV, YAML, BSON and MT940 into any text format with Go templates:
+  XML to JSON, JSON to CSV, REST to SOAP, HTML reports, SQL statements. Free command line tool for
+  Windows, macOS and Linux.
+repo_url: https://github.com/mmalcek/bafi
 nav:
-  - Application: README.md
-  - Examples: examples.md
+  - Home: README.md
+  - Install: install.md
+  - Recipes:
+      - recipes/index.md
+      - XML to JSON: recipes/xml-to-json.md
+      - JSON to XML: recipes/json-to-xml.md
+      - CSV to JSON: recipes/csv-to-json.md
+      - JSON to CSV: recipes/json-to-csv.md
+      - XML to CSV: recipes/xml-to-csv.md
+      - JSON, YAML, TOON, BSON: recipes/convert-formats.md
+      - REST to SOAP: recipes/rest-to-soap.md
+      - SOAP to JSON: recipes/soap-to-json.md
+      - SQL database to XML/JSON: recipes/sql-database.md
+      - MongoDB dump to CSV: recipes/bson-to-csv.md
+      - HTML report: recipes/json-to-html.md
+      - CSV to SQL: recipes/csv-to-sql.md
+      - Merge several files: recipes/merge-files.md
+      - MT940 to CSV: recipes/mt940-to-csv.md
+      - Lua functions: recipes/lua.md
+      - Ask OpenAI: recipes/openai.md
+  - Guide:
+      - Command line: cli.md
+      - Templates: templates.md
+      - Function reference: functions.md
+      - Troubleshooting: troubleshooting.md
+      - Security notes: security.md
   - Changelog: changelog.md
   - About: about.md
+# Old example page, kept so existing links keep working.
+not_in_nav: |
+  /examples.md
 theme:
   name: mkdocs
   highlightjs: true
   hljs_languages:
     - lua
     - powershell
+    - yaml
   navigation_depth: 4
   nav_style: light
   plugins:

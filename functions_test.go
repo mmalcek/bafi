@@ -207,8 +207,11 @@ func TestDateToInt(t *testing.T) {
 }
 
 func TestIntToDate(t *testing.T) {
-	if intToDate(1615766400, "02.01.2006") != "15.03.2021" {
-		t.Errorf("result: %v", intToDate(1615766400, "02.01.2006"))
+	// intToDate formats in the local time zone, so derive the expectation the same way; a fixed
+	// "15.03.2021" failed west of UTC.
+	want := time.Unix(1615766400, 0).Format("02.01.2006")
+	if got := intToDate(1615766400, "02.01.2006"); got != want {
+		t.Errorf("result: %v, want %v", got, want)
 	}
 }
 
@@ -514,6 +517,14 @@ func TestToXML(t *testing.T) {
 	}
 	if err := runtv(`{{toXML .a}}`, "", map[string]interface{}{"a": []interface{}{map[string]interface{}{"b": 1}}}); err == nil || !strings.Contains(err.Error(), "Expected ''") {
 		t.Errorf("toXML on []interface{} inside a template must not error: %v", err)
+	}
+	// Special characters must be escaped, otherwise the output is not XML (and lists failed outright).
+	special := map[string]interface{}{"name": `Tom & Jerry <"x">`}
+	if result = toXML(special); !strings.Contains(result, "<name>Tom &amp; Jerry &lt;&quot;x&quot;&gt;</name>") {
+		t.Errorf("toXML must escape: %v", result)
+	}
+	if result = toXML([]map[string]interface{}{special}); !strings.Contains(result, "Tom &amp; Jerry") || strings.HasPrefix(result, "err:") {
+		t.Errorf("toXML of a list must escape: %v", result)
 	}
 }
 

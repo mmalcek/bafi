@@ -4,6 +4,56 @@ Release notes for bafi. Each release is a level-2 heading (`## X.Y.Z`) matching
 `version.txt`. `task release` extracts the matching section as the GitHub release
 body and refuses to tag if the section is missing. Newest release first.
 
+## 1.5.0
+
+### Added
+
+- **Helpful error messages.** Errors name the input or template and, where the
+  parser reports it, the line and column; they show the offending line with a
+  caret, explain the likely cause and link to the matching section of the new
+  troubleshooting page. Covers JSON, YAML, XML and CSV input (with location),
+  BSON and MT940 input, template syntax and execution errors, files and flags.
+  Unknown functions and input formats get a "did you mean" suggestion.
+- `-strict` flag: a key missing from the input stops the run with an error that
+  names the key and the template line, instead of printing `<no value>`.
+- Warnings on standard error (output unchanged): when the output contains
+  `<no value>`, and when a CSV header ends up as a single column because of a
+  wrong `-d`.
+- Task-oriented documentation: 16 recipes (XML to JSON, JSON to CSV, REST to
+  SOAP, HTML reports, SQL from CSV, MT940, ...), install, command line, template
+  guide, function reference, troubleshooting and security pages. The sample
+  commands, the function tables and the error examples in the documentation are
+  executed by the test suite.
+- The online demo is built from this repository on every release and loads
+  only when used. It shows the same error messages as the CLI.
+
+### Changed
+
+- Errors are printed without a timestamp and without internal function names.
+- Usage mistakes (no template, no input, unknown flag or `-f` value, `-gk`
+  without `-gq`, a stray argument such as an unquoted inline template) print to
+  standard error and exit with code **2**. Before, some printed to standard
+  output and exited with 0. Runtime errors still exit with 1. A single trailing
+  `-` (read standard input) is still accepted.
+- With `-o`, bafi renders the whole result before writing the file: a failing
+  template leaves an existing output file untouched. Before, an error during
+  execution left it half-written.
+- `bafi -h` shows usage examples and a link to the documentation.
+- Standard input redirected from a file (`bafi -f json ... < data.json`) is
+  accepted; before, only pipes were.
+- The docs build runs in strict mode, so broken internal links fail it.
+
+### Fixed
+
+- `toXML` wrote `&`, `<`, `>` and quotes unescaped, producing invalid XML; for
+  lists it failed with an `err:` text instead.
+- Files listed in `-i '?files.yaml'` now have a UTF-8 byte order mark removed,
+  like a single `-i` file.
+- Some malformed BSON input crashed bafi with a Go stack trace; it is now
+  reported as an input error.
+- Several documentation examples were wrong or depended on APIs that no longer
+  exist.
+
 ## 1.4.0
 
 ### Security

@@ -88,8 +88,19 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+          check-latest: true
+      - name: Set up Task
+        run: |
+          curl --retry 5 --retry-delay 3 --retry-all-errors -fsSL https://taskfile.dev/install.sh | sh -s -- -b /usr/local/bin v3.54.0
+          task --version
+      - name: Build the online demo (WASM)
+        run: task wasm
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: 3.x
-      - run: pip install mkdocs
-      - run: mkdocs gh-deploy --force
+      # Pinned: the docs are verified with this version (task docs runs the same strict build).
+      - run: pip install "mkdocs==1.6.1"
+      - run: mkdocs gh-deploy --force --strict

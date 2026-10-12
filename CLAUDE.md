@@ -9,12 +9,19 @@ Module `github.com/mmalcek/bafi`. Single `main` package, no internal packages.
 
 ## Layout
 
-- `main.go` - flags, input parsing per format, template execution, output.
+- `main.go` - the CLI (`run()`): flags, reading files/stdin/file lists, output, OpenAI. Excluded from the
+  js/wasm build.
+- `input.go` - parsing per input format (`mapInputData`); shared with the WASM demo.
+- `render.go` - template execution (`render`), `<no value>` counting, `renderString` for the demo.
+- `errors.go` - `bafiError`, the pretty error formatter, hints and troubleshooting anchors.
+- `wasm.go` - js/wasm entry point of the online demo (`task wasm` -> `docs/js/bafi.wasm`).
 - `functions.go` - the template `FuncMap` (math, dates, encoding, regex, `toJSON`/`toXML`/`toTOON`, `lua`).
 - `lua.go` - lazy, restricted Lua state. `luaRestrictedFunctions` is the list of removed stdlib functions.
 - `lua/` - shipped example `functions.lua` and `json.lua`; also what release artifacts bundle.
-- `docs/` - mkdocs guide (`README.md`, `examples.md`, `about.md`, `changelog.md` -> symlink to `../CHANGELOG.md`).
-  Deployed to GitHub Pages by the release workflow.
+- `docs/` - mkdocs site: home (`README.md`), `install`, `recipes/`, `cli`, `templates`, `functions`,
+  `troubleshooting`, `security`, `changelog.md` (symlink to `../CHANGELOG.md`). `examples.md` only keeps
+  old links alive. Deployed to GitHub Pages by the release workflow.
+- `docs_test.go` - runs every example marked in `docs/` (see "Executable docs" below).
 - `version.txt` - the one version. Embedded into the binary (`bafi -v`) and read by `Taskfile.yml`.
 - `CHANGELOG.md` - release notes, one `## X.Y.Z` section per release.
 - `Taskfile.yml` - build, test, docs and release tasks (go-task).
@@ -35,12 +42,28 @@ task test         # go test ./...
 task vet          # gofmt check + go vet
 task check        # vet + test + docs build — run before every commit
 task vuln         # govulncheck
-task docs         # mkdocs build -> ./site
+task docs         # task wasm + mkdocs build --strict -> ./site
+task wasm         # online demo: docs/js/bafi.wasm + wasm_exec.js (git-ignored)
 task docs:serve   # live-reload docs
 task dist         # cross-compile release archives into ./build (what CI publishes)
 task release      # tag + push; CI builds archives, publishes the release, deploys docs
 task clean
 ```
+
+## Errors (MUST)
+
+Every user-facing failure is a `*bafiError` with a summary, location, hint and troubleshooting anchor.
+Usage mistakes use `stageUsage` (exit 2), everything else exits 1. A new anchor needs a matching heading
+in `docs/troubleshooting.md` (`TestTroubleshootingAnchors` enforces it). Pin new hints in
+`errors_test.go`: parser messages change between Go versions.
+
+## Executable docs (MUST)
+
+Examples in `docs/**/*.md` are tested by `docs_test.go` through HTML-comment markers before fenced blocks:
+`<!-- test:file NAME [crlf] -->`, `<!-- test:cmd [quiet] -->`, `<!-- test:output -->`,
+`<!-- test:stderr exit=N -->`, and `<!-- test:table -->` before a Function | Example | Result table.
+Every recipe page needs at least one tested example. After changing behaviour or docs, refresh expected
+blocks with `BAFI_DOCS_UPDATE=1 go test -run TestDocs ./...` and review the diff before keeping it.
 
 ## Keep docs and changelog in sync (MUST)
 
