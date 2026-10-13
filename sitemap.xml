@@ -2,110 +2,110 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://mmalcek.github.io/bafi/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/about/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/changelog/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/cli/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/examples/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/functions/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/install/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/security/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/templates/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/troubleshooting/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/recipes/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/recipes/bson-to-csv/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/recipes/convert-formats/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/recipes/csv-to-json/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/recipes/csv-to-sql/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/recipes/json-to-csv/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/recipes/json-to-html/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/recipes/json-to-xml/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/recipes/lua/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/recipes/merge-files/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/recipes/mt940-to-csv/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/recipes/openai/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/recipes/rest-to-soap/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/recipes/soap-to-json/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/recipes/sql-database/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/recipes/xml-to-csv/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
     <url>
          <loc>https://mmalcek.github.io/bafi/recipes/xml-to-json/</loc>
-         <lastmod>2026-10-12</lastmod>
+         <lastmod>2026-10-13</lastmod>
     </url>
 </urlset>

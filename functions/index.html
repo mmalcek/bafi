@@ -334,9 +334,21 @@ Rows marked <code>*</code> change on every run.</p>
 <td><code>{{randInt 1 6}}</code></td>
 <td>*</td>
 </tr>
+<tr>
+<td><strong>mul</strong> on a decimal value - the decimals are dropped</td>
+<td><code>{{mul "12.50" 2}}</code></td>
+<td><code>24</code></td>
+</tr>
+<tr>
+<td><strong>mulf</strong> on the same value</td>
+<td><code>{{mulf "12.50" 2}}</code></td>
+<td><code>25</code></td>
+</tr>
 </tbody>
 </table>
-<p>The <code>...f</code> functions calculate with exact decimals (<a href="https://github.com/shopspring/decimal">shopspring/decimal</a>),
+<p><code>add</code>, <code>add1</code>, <code>sub</code>, <code>mul</code>, <code>div</code>, <code>mod</code>, <code>max</code> and <code>min</code> work with whole numbers and silently drop
+decimals, as the <code>mul</code> row shows; use them for counts and IDs. For prices, rates and anything else with
+decimals use the <code>...f</code> functions. The <code>...f</code> functions calculate with exact decimals (<a href="https://github.com/shopspring/decimal">shopspring/decimal</a>),
 so <code>addf 0.1 0.2</code> is <code>0.3</code>, not <code>0.30000000000000004</code>. <code>randInt</code> is not cryptographically secure; never
 use it for tokens or passwords (use <code>uuid</code> for identifiers).</p>
 <h2 id="date-functions">Date functions</h2>
