@@ -265,6 +265,8 @@ is the first one (Lua lists start at 1).</p>
 <p>Problems inside Lua do not stop the template; the function's place in the output shows the message
 instead, for example <code>luaError: ... attempt to call a non-function object</code> for a misspelled function
 name. Search the output for <code>luaError</code> when something looks wrong.</p>
+<p>Library calls that report failure through their return value, such as <code>io.open</code> and <code>file:read</code>, give
+back <code>nil</code> and a message as in standard Lua and produce no <code>luaError</code>; check what they return.</p>
 <h2 id="security">Security</h2>
 <p><code>./lua/functions.lua</code> is code, and it runs with your permissions. Only use a <code>lua/</code> directory you
 trust. bafi removes the functions that start programs or delete files (<code>os.execute</code>, <code>io.popen</code>,

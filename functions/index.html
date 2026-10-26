@@ -603,6 +603,8 @@ ASCII text.</p>
 </tbody>
 </table>
 <p>Use <code>atoi</code> for text with leading zeros such as <code>"042"</code>; <code>toInt</code> may read those as octal.</p>
+<p><code>toDecimal</code> and <code>toDecimalString</code> also read scientific notation (<code>"1.5e3"</code> is <code>1500</code>). An exponent
+above 10,000 counts as invalid, so a value such as <code>"1e99999999"</code> in the input cannot tie up bafi.</p>
 <h2 id="data-formats">Data formats</h2>
 <!-- test:table -->
 <table>
