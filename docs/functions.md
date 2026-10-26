@@ -110,6 +110,9 @@ ASCII text.
 
 Use `atoi` for text with leading zeros such as `"042"`; `toInt` may read those as octal.
 
+`toDecimal` and `toDecimalString` also read scientific notation (`"1.5e3"` is `1500`). An exponent
+above 10,000 counts as invalid, so a value such as `"1e99999999"` in the input cannot tie up bafi.
+
 ## Data formats
 
 <!-- test:table -->

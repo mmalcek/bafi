@@ -4,6 +4,37 @@ Release notes for bafi. Each release is a level-2 heading (`## X.Y.Z`) matching
 `version.txt`. `task release` extracts the matching section as the GitHub release
 body and refuses to tag if the section is missing. Newest release first.
 
+## 1.5.2
+
+### Security
+
+- `toDecimal` and `toDecimalString` reject a number whose exponent is above
+  10,000, such as `"1e99999999"`, immediately: `toDecimal` returns `0`,
+  `toDecimalString` returns `err: ... exceeds MaxDecodeExponent (10000)`. Before,
+  one such value in the input could keep bafi busy for minutes while its memory
+  use kept growing. (`shopspring/decimal` 1.4.0 → 1.6.0)
+- Minimum Go raised to 1.27.3 (`go.mod`), the release that fixes the stdlib
+  advisory GO-2026-6809 (`crypto/x509`: distrust compromised intermediate
+  certificates; used by the HTTPS connection of `-gq`). Release binaries are
+  built with the same version.
+
+### Changed
+
+- Lua: `file:read` on a file that cannot be read, such as a directory, returns
+  `nil, message, 1` like standard Lua instead of raising an error. Before, the
+  error ended the Lua function and its place in the output showed `luaError:`;
+  now the function carries on, so check what `read` returns.
+  (`yuin/gopher-lua` 1.1.1 → 1.1.2, which also fixes invalid code generated for
+  some consecutive `nil` assignments and limits recursion in pattern matching.)
+- Updated `sashabaranov/go-openai` to 1.43.0, and in CI `actions/setup-python`
+  to 7.1.0 and `github/codeql-action` to 4.39.1.
+
+### Fixed
+
+- `toDecimal` and `toDecimalString` accept the Unicode minus sign (`"−5"` is
+  `-5`; before it was invalid) and reject a sign after a leading decimal point
+  (`".-5"` was read as a number).
+
 ## 1.5.1
 
 ### Fixed

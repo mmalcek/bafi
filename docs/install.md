@@ -64,7 +64,7 @@ choose **More info**, then **Run anyway**.
 
 ## With Go
 
-If you have Go 1.27.2 or newer:
+If you have Go 1.27.3 or newer:
 
 ```sh
 go install github.com/mmalcek/bafi@latest

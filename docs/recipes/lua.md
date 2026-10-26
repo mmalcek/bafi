@@ -57,6 +57,9 @@ Problems inside Lua do not stop the template; the function's place in the output
 instead, for example `luaError: ... attempt to call a non-function object` for a misspelled function
 name. Search the output for `luaError` when something looks wrong.
 
+Library calls that report failure through their return value, such as `io.open` and `file:read`, give
+back `nil` and a message as in standard Lua and produce no `luaError`; check what they return.
+
 ## Security
 
 `./lua/functions.lua` is code, and it runs with your permissions. Only use a `lua/` directory you
